@@ -1,0 +1,59 @@
+---
+title: "FaaS (Fund as a Service) Automation"
+description: "A B2B backend platform automating the lifecycle of alternative investment funds, from investor onboarding to capital drawdowns."
+techStack: ["TypeScript", "Express", "Bun", "PostgreSQL", "Drizzle ORM", "Puppeteer"]
+order: 5
+---
+
+> Bypassing severe digital bottlenecks: taking the capital call process from three manual days down to five automated minutes.
+
+## The Challenge
+
+Alternative investment firms were spending days manually calculating complex capital calls and manually populating individual PDF distribution notices for hundreds of unique investors. The manual intervention was remarkably slow, astronomically expensive, and carried immense legal liability if spreadsheet calculation errors occurred.
+
+The firm required an automated engine to manage the entire alternative fund lifecycle, capable of reliably generating legally-bound documents at scale without locking up the Node.js event pool.
+
+## The Execution
+
+I architected a comprehensive **Backend Platform** entirely dedicated to tracking and strictly orchestrating the flow of investor capital down to the cent.
+
+```typescript
+// The PDF Generation Cluster abstraction
+import puppeteer from "puppeteer";
+import { uploadToS3 } from "@cloud/s3";
+
+export async function generateLegalNotices(investors: Investor[]) {
+  const browser = await puppeteer.launch({ headless: "new" });
+  const promises = investors.map(async (investor) => {
+    const page = await browser.newPage();
+    const html = await buildLegalTemplate(investor);
+
+    await page.setContent(html);
+    // Buffer bypasses standard Disk I/O, writing straight to memory
+    const pdfBuffer = await page.pdf({ format: "A4" });
+
+    await uploadToS3(`notices/${investor.id}/Q3.pdf`, pdfBuffer);
+    await page.close();
+  });
+
+  // Parallelize the heavy lifting across headless instances
+  await Promise.all(promises);
+  await browser.close();
+}
+```
+
+### 1. Zero-Discrepancy Ledgers
+
+An immaculate, strictly-typed **Drizzle ORM** schema mapped definitively against immutable **PostgreSQL** tables. This allowed us to execute highly complex aggregation logic to trace uncalled capital commitments across hundreds of mixed asset classes safely.
+
+### 2. The PDF Clustered Pipeline
+
+The true bottleneck—document generation—was handled by integrating a clustered `Puppeteer` pipeline. Instead of writing PDFs sequentially to disk (which causes heavy I/O latency), the architecture renders the DOM of the legal notice concurrently in memory via headless browser instances.
+
+These generated binaries are then streamed directly via buffered sockets into **AWS S3** storage, completely bypassing the local file system constraints.
+
+## The Impact
+
+- **Accuracy:** Replaced fragile, error-prone spreadsheet math aggregations with a rigorously tested database normalization schema utilizing raw relational speed.
+- **Unrivaled Velocity:** Reduced the total capital call execution window from **3 entire business days to under 5 total minutes**.
+- **Compute Scale:** Effectively leveraged clustered headless browser engines to parallelize generating thousands of personalized legal PDFs concurrently without impacting the core express HTTP loops.

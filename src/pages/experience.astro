@@ -1,0 +1,148 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Experience | Joydip Dutta">
+  <section class="animate-in fade-in slide-in-from-bottom-4 mb-24 max-w-2xl duration-700 ease-out">
+    <h1 class="text-foreground mb-4 text-4xl font-black tracking-tighter md:text-5xl">
+      Experience_Log
+    </h1>
+    <p class="text-muted inline-block rounded-lg border border-zinc-800 bg-zinc-950 p-4 font-mono">
+      <span class="text-accent">~ $ grep "Software Development Engineer" system.log</span>
+    </p>
+  </section>
+
+  <section class="relative ml-3 border-l border-zinc-800 pb-12 md:ml-4">
+    <!-- Timeline Item 1 -->
+    <div class="relative mb-16 pl-8 md:pl-10">
+      <span
+        class="bg-accent ring-background absolute top-1.5 -left-1.25 h-2.5 w-2.5 rounded-full ring-4"
+      ></span>
+
+      <div class="mb-4 flex flex-col md:flex-row md:items-baseline md:justify-between">
+        <h3 class="text-foreground text-xl font-bold">Software Development Engineer</h3>
+        <span class="mt-2 font-mono text-sm text-zinc-500 md:mt-0">Jan 2026 – Present</span>
+      </div>
+
+      <h4 class="text-accent mb-6 flex items-center gap-2 font-mono text-sm">
+        @ Gunpowder Innovations
+        <span class="text-zinc-600">| London, UK - Remote</span>
+      </h4>
+
+      <ul class="max-w-2xl space-y-4 font-mono text-sm leading-relaxed text-zinc-300">
+        <li class="flex items-start">
+          <span class="text-accent mt-0.5 mr-3">»</span>
+          <span
+            ><strong>Zero-Trust Data Security:</strong> Architected a robust Row-Level Security (ACL)
+            system across 61 Prisma models for a multi-tenant platform, utilizing Redis-backed caching
+            and specific handlers to enforce strict data isolation.</span
+          >
+        </li>
+        <li class="flex items-start">
+          <span class="text-accent mt-0.5 mr-3">»</span>
+          <span
+            ><strong>Financial Orchestration:</strong> Integrated external financial APIs (WealthKernel
+            and Plaid) and managed a reliable, event-driven webhook pipeline that processes 31 different
+            event types via BullMQ with secure signature verification.</span
+          >
+        </li>
+        <li class="flex items-start">
+          <span class="text-accent mt-0.5 mr-3">»</span>
+          <span
+            ><strong>Banking-Grade Encryption:</strong> Implemented AES-256-GCM field-level encryption
+            with zero-downtime key rotation to protect sensitive user data, ensuring strict financial
+            compliance while maintaining exceptionally low query latency.</span
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Timeline Item 2 -->
+    <div class="relative mb-16 pl-8 md:pl-10">
+      <span
+        class="ring-background absolute top-1.5 -left-1.25 h-2.5 w-2.5 rounded-full bg-zinc-600 ring-4"
+      ></span>
+
+      <div class="mb-4 flex flex-col md:flex-row md:items-baseline md:justify-between">
+        <h3 class="text-foreground text-xl font-bold">Software Development Engineer</h3>
+        <span class="mt-2 font-mono text-sm text-zinc-500 md:mt-0">Jan 2023 – Dec 2025</span>
+      </div>
+
+      <h4 class="mb-6 flex items-center gap-2 font-mono text-sm text-zinc-400">
+        @ The Internet Folks
+        <span class="text-zinc-600">| Bhopal, MP - Remote</span>
+      </h4>
+
+      <ul class="max-w-2xl space-y-4 font-mono text-sm leading-relaxed text-zinc-400">
+        <li class="flex items-start">
+          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span
+            ><strong>High-Scale Architecture:</strong> Maintained highly reliable backend services for
+            over 30,000 users, utilizing dynamic database partitioning in MongoDB to manage millions of
+            records safely.</span
+          >
+        </li>
+        <li class="flex items-start">
+          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span
+            ><strong>Polyglot Microservices:</strong> Architected a flexible, multi-language backend system
+            using TypeScript and Go, smartly directing heavy tracking data to ClickHouse and core relational
+            data to PostgreSQL for maximum performance.</span
+          >
+        </li>
+        <li class="flex items-start">
+          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span
+            ><strong>Enterprise AI Integration:</strong> Developed a hybrid AI system combining semantic
+            search (pgvector) with multi-LLM generation (OpenAI, Gemini), allowing enterprise clients
+            to securely plug in their own AI keys (BYOK).</span
+          >
+        </li>
+        <li class="flex items-start">
+          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span
+            ><strong>Automated Financial Ledgers (FaaS):</strong> Created a multi-tenant "Fund as a Service"
+            platform using PostgreSQL and Drizzle ORM, designing a strict financial ledger that accurately
+            tracks capital flows and fees.</span
+          >
+        </li>
+        <li class="flex items-start">
+          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span
+            ><strong>Digital Agriculture (AgriEasy):</strong> Built a digital agriculture platform featuring
+            a real-time negotiation engine, enabling farmers to agree on contracts and automatically generating
+            personalized, day-by-day crop care schedules.</span
+          >
+        </li>
+      </ul>
+    </div>
+
+    <!-- Timeline Item 3 -->
+    <div class="relative pl-8 md:pl-10">
+      <span
+        class="ring-background absolute top-1.5 -left-1.25 h-2.5 w-2.5 rounded-full bg-zinc-600 ring-4"
+      ></span>
+
+      <div class="mb-4 flex flex-col md:flex-row md:items-baseline md:justify-between">
+        <h3 class="text-foreground text-xl font-bold">Software Development Intern</h3>
+        <span class="mt-2 font-mono text-sm text-zinc-500 md:mt-0">June 2022 – Aug 2022</span>
+      </div>
+
+      <h4 class="mb-6 flex items-center gap-2 font-mono text-sm text-zinc-400">
+        @ AUM Capital Market Private Limited
+        <span class="text-zinc-600">| Kolkata, WB</span>
+      </h4>
+
+      <ul class="max-w-2xl space-y-4 font-mono text-sm leading-relaxed text-zinc-400">
+        <li class="flex items-start">
+          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span
+            ><strong>Process Automation:</strong> Developed a React and Node.js solution to automate government
+            bond calculations and payment reminders, cutting down manual administrative work by approximately
+            80%.</span
+          >
+        </li>
+      </ul>
+    </div>
+  </section>
+</Layout>

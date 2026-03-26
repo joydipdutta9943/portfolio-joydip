@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const projects = await getCollection("projects");
+const sortedProjects = projects.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+---
+
+<Layout title="Case Studies | Joydip Dutta">
+  <section class="animate-in fade-in slide-in-from-bottom-4 mb-16 max-w-2xl duration-700 ease-out">
+    <h1 class="text-foreground mb-4 text-4xl font-black tracking-tighter md:text-5xl">
+      Project_Log
+    </h1>
+    <p class="text-muted inline-block rounded-lg border border-zinc-800 bg-zinc-950 p-4 font-mono">
+      <span class="text-accent">~ $ ls -la /var/log/case-studies</span>
+    </p>
+  </section>
+
+  <section class="grid grid-cols-1 gap-6 pb-24">
+    {
+      sortedProjects.map((project) => (
+        <a
+          href={`/projects/${project.id}`}
+          class="group relative block overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 p-6 transition-all hover:border-zinc-600 hover:bg-zinc-900 md:p-8"
+        >
+          <div class="group-hover:bg-accent absolute inset-y-0 left-0 w-1 bg-transparent transition-colors" />
+
+          <h2 class="text-foreground mb-4 flex items-center justify-between text-2xl font-bold">
+            {project.data.title}
+            <span class="text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <>
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </>
+              </svg>
+            </span>
+          </h2>
+
+          <p class="text-muted mb-6 max-w-3xl font-mono text-sm leading-relaxed md:text-base">
+            {project.data.description}
+          </p>
+
+          <div class="flex flex-wrap gap-2">
+            {project.data.techStack.map((tech) => (
+              <span class="rounded-sm border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 font-mono text-xs text-zinc-400 transition-colors group-hover:border-zinc-700">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </a>
+      ))
+    }
+  </section>
+</Layout>

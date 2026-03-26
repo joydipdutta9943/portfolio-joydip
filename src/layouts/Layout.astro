@@ -1,0 +1,69 @@
+---
+import { ClientRouter } from "astro:transitions";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Architecting high-performance, polyglot microservices and enterprise-grade SaaS platforms.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body class="bg-dot-pattern">
+    <div
+      class="via-background/80 to-background pointer-events-none fixed inset-0 min-h-screen flex-shrink-0 bg-gradient-to-b from-transparent"
+    >
+    </div>
+    <div class="relative z-10 mx-auto w-full max-w-4xl px-6 py-12 lg:py-24">
+      <header
+        class="mb-20 flex flex-col items-baseline justify-between gap-4 border-b border-zinc-800/50 pb-6 md:flex-row"
+      >
+        <a
+          href="/"
+          class="text-foreground hover:text-accent font-mono font-sans text-xl font-bold tracking-tight transition-colors"
+        >
+          jd.init()<span class="text-accent animate-pulse">_</span>
+        </a>
+        <nav class="flex gap-6 font-mono text-sm">
+          <a href="/" class="hover:text-accent focus-visible:text-accent transition-colors">~ /</a>
+          <a
+            href="/experience"
+            class="hover:text-accent focus-visible:text-accent transition-colors">~ /experience</a
+          >
+          <a href="/projects" class="hover:text-accent focus-visible:text-accent transition-colors"
+            >~ /projects</a
+          >
+        </nav>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer
+        class="mt-32 flex items-center justify-between border-t border-zinc-800 pt-8 font-mono text-xs text-zinc-500"
+      >
+        <span>© {new Date().getFullYear()} Joydip Dutta. All rights reserved.</span>
+        <span class="flex items-center gap-2">
+          <span class="bg-accent h-2 w-2 animate-pulse rounded-full"></span>
+          System.Status: ONLINE
+        </span>
+      </footer>
+    </div>
+  </body>
+</html>

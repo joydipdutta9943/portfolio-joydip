@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+  --color-muted: #a1a1aa;
+  --color-accent: #4ade80;
+
+  --font-sans: "Inter", "Geist", "Helvetica Neue", sans-serif;
+  --font-mono: "JetBrains Mono", "Geist Mono", "Fira Code", monospace;
+
+  /* Custom Background Utility */
+  --bg-dot-pattern: radial-gradient(circle, #27272a 1px, transparent 1px);
+}
+
+@utility bg-dot-pattern {
+  background-image: var(--bg-dot-pattern);
+  background-size: 24px 24px;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-muted selection:bg-accent selection:text-background min-h-screen font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-foreground font-sans font-bold tracking-tight;
+  }
+
+  code,
+  pre {
+    @apply font-mono text-sm;
+  }
+
+  a {
+    @apply focus-visible:ring-accent focus-visible:ring-offset-background transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  /* Custom Markdown/MDX Styling */
+  .prose-content {
+    @apply max-w-[70ch] leading-8 text-zinc-300;
+  }
+
+  .prose-content h2 {
+    @apply text-foreground mt-16 mb-6 text-2xl font-bold tracking-tight md:text-3xl;
+  }
+
+  .prose-content h3 {
+    @apply text-foreground mt-12 mb-4 text-xl font-bold tracking-tight md:text-2xl;
+  }
+
+  .prose-content p {
+    @apply mb-6;
+  }
+
+  .prose-content strong {
+    @apply font-semibold text-zinc-100;
+  }
+
+  .prose-content ul {
+    @apply mb-8 ml-6 list-outside list-disc space-y-2;
+  }
+
+  .prose-content li::marker {
+    @apply text-accent;
+  }
+
+  .prose-content pre {
+    @apply my-8 overflow-x-auto rounded-lg border border-zinc-800/80 bg-zinc-950 p-4 font-mono text-xs md:p-6 md:text-sm;
+  }
+
+  .prose-content code {
+    @apply rounded bg-zinc-800/50 px-1.5 py-0.5 font-mono text-sm text-zinc-300;
+  }
+
+  .prose-content pre code {
+    @apply bg-transparent px-0 text-inherit;
+  }
+
+  .prose-content blockquote {
+    @apply border-accent bg-accent/5 my-8 rounded-r-lg border-l-4 p-4 py-1 pl-6 font-mono text-zinc-400 italic;
+  }
+}
+
+/* Custom Scrollbar for Terminal aesthetic */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-800 transition-colors hover:bg-zinc-700;
+}

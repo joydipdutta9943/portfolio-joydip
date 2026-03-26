@@ -1,17 +1,265 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Joydip Dutta | Software Development Engineer">
+  <section class="animate-in fade-in slide-in-from-bottom-4 mb-24 max-w-2xl duration-700 ease-out">
+    <div class="mb-6 flex items-center gap-3">
+      <span class="relative flex h-3 w-3">
+        <span
+          class="bg-accent absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+        ></span>
+        <span class="bg-accent relative inline-flex h-3 w-3 rounded-full"></span>
+      </span>
+      <span
+        class="text-accent border-accent/20 bg-accent/5 rounded-full border px-2 py-0.5 font-mono text-sm font-semibold tracking-wider"
+        >STATUS: AVAILABLE_FOR_DEPLOYMENT</span
+      >
+    </div>
+
+    <h1
+      class="text-foreground mb-6 text-4xl leading-[1.1] font-black tracking-tighter md:text-5xl lg:text-7xl"
+    >
+      Joydip Dutta <br />
+      <span class="mt-2 block text-2xl font-bold tracking-tight text-zinc-500 md:text-3xl"
+        >Software Development Engineer</span
+      >
+    </h1>
+
+    <h2 class="mb-10 text-xl leading-snug font-medium text-zinc-300 md:text-2xl">
+      Architecting high-performance, polyglot microservices, enterprise SaaS platforms, and
+      intelligent AI systems.
+    </h2>
+
+    <div
+      class="group relative overflow-hidden rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 font-mono text-sm leading-relaxed text-zinc-400 shadow-2xl md:p-8 md:text-base"
+    >
+      <div
+        class="from-accent/5 absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+      >
+      </div>
+      <p class="relative z-10">
+        <span class="text-accent select-none">~ $ cat </span>about.txt
+        <br /><br />
+        I am a Software Development Engineer specializing in building scalable backend infrastructure
+        and secure, multi-tenant platforms. With deep expertise in <strong
+          class="font-semibold text-zinc-200">TypeScript, Node.js, Bun, and Go (Fiber)</strong
+        >, I engineer systems that handle massive data loads with <strong
+          class="text-accent font-semibold">99.9% uptime</strong
+        >.<br /><br />My recent work focuses on banking-grade fintech security (enforcing row-level
+        security and field-level encryption), polyglot architectures utilizing ClickHouse and
+        PostgreSQL, and integrating advanced Multi-Modal AI (RAG) capabilities into enterprise
+        applications.
+      </p>
+    </div>
+  </section>
+
+  <section class="mb-32">
+    <h3
+      class="mb-8 flex items-center border-b border-zinc-800 pb-4 font-mono text-sm tracking-widest text-zinc-500 uppercase"
+    >
+      <span class="text-accent mr-3">>&nbsp;</span>[01] // Technical_Arsenal
+    </h3>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div
+        class="rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-zinc-700"
+      >
+        <h4
+          class="text-foreground mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase"
+        >
+          <span class="bg-accent h-1.5 w-1.5 rounded-sm"></span> Languages & Frameworks
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          {
+            [
+              "TypeScript",
+              "Go (Fiber)",
+              "Bun",
+              "Python",
+              "Node.js",
+              "GraphQL",
+              "React",
+              "Next.js",
+              "Astro",
+            ].map((tech) => (
+              <span class="hover:text-accent hover:border-accent/50 cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors">
+                {tech}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class="rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-zinc-700"
+      >
+        <h4
+          class="text-foreground mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase"
+        >
+          <span class="bg-accent h-1.5 w-1.5 rounded-sm"></span> Databases & Storage
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          {
+            [
+              "PostgreSQL",
+              "MongoDB",
+              "ClickHouse",
+              "Redis",
+              "DynamoDB",
+              "Prisma",
+              "Drizzle",
+              "AWS S3",
+            ].map((tech) => (
+              <span class="hover:text-accent hover:border-accent/50 cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors">
+                {tech}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class="rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-zinc-700"
+      >
+        <h4
+          class="text-foreground mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase"
+        >
+          <span class="bg-accent h-1.5 w-1.5 rounded-sm"></span> Infrastructure & Security
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          {
+            [
+              "Docker",
+              "Kubernetes",
+              "BullMQ",
+              "AWS (SQS, SES)",
+              "AES-256-GCM",
+              "HMAC",
+              "Ngrok",
+            ].map((tech) => (
+              <span class="hover:text-accent hover:border-accent/50 cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors">
+                {tech}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class="rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-zinc-700"
+      >
+        <h4
+          class="text-foreground mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase"
+        >
+          <span class="bg-accent h-1.5 w-1.5 rounded-sm"></span> AI & Search
+        </h4>
+        <div class="flex flex-wrap gap-2">
+          {
+            [
+              "LangChain",
+              "Google Gemini",
+              "OpenAI",
+              "Vector Search (pgvector, Atlas)",
+              "RAG Architecture",
+            ].map((tech) => (
+              <span class="hover:text-accent hover:border-accent/50 cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors">
+                {tech}
+              </span>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <h3
+      class="mb-8 flex items-center border-b border-zinc-800 pb-4 font-mono text-sm tracking-widest text-zinc-500 uppercase"
+    >
+      <span class="text-accent mr-3">>&nbsp;</span>[02] // Featured_Operations
+    </h3>
+
+    <div class="grid grid-cols-1 gap-4">
+      <a
+        href="/projects/unified-ai-agent"
+        class="group relative block rounded-lg border border-zinc-800 bg-zinc-950 p-6 transition-all hover:border-zinc-600 hover:bg-zinc-900"
+      >
+        <h4 class="text-foreground mb-3 flex items-center justify-between text-xl font-bold">
+          Unified Multi-Modal AI Agent (RAG System)
+          <span class="group-hover:text-accent font-mono text-xs text-zinc-600 transition-colors"
+            >[Case Study]</span
+          >
+        </h4>
+        <p class="text-muted mb-5 font-mono text-sm leading-relaxed">
+          Production-ready AI system capable of handling complex natural language questions about
+          unstructured data.
+        </p>
+        <div class="flex gap-2">
+          <span
+            class="text-accent bg-accent/10 border-accent/20 rounded-sm border px-2 py-1 font-mono text-xs"
+            >LangChain</span
+          >
+          <span
+            class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
+            >Gemini</span
+          >
+          <span
+            class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
+            >Vector Search</span
+          >
+        </div>
+      </a>
+
+      <a
+        href="/projects/gunpowder-fintech-backend"
+        class="group relative block rounded-lg border border-zinc-800 bg-zinc-950 p-6 transition-all hover:border-zinc-600 hover:bg-zinc-900"
+      >
+        <h4 class="text-foreground mb-3 flex items-center justify-between text-xl font-bold">
+          Gunpowder Fintech Backend
+          <span class="group-hover:text-accent font-mono text-xs text-zinc-600 transition-colors"
+            >[Case Study]</span
+          >
+        </h4>
+        <p class="text-muted mb-5 font-mono text-sm leading-relaxed">
+          Enterprise-grade wealth management platform orchestrating investment accounts, KYC, and
+          direct debits.
+        </p>
+        <div class="flex gap-2">
+          <span
+            class="text-accent bg-accent/10 border-accent/20 rounded-sm border px-2 py-1 font-mono text-xs"
+            >TypeScript</span
+          >
+          <span
+            class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
+            >Prisma</span
+          >
+          <span
+            class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
+            >BullMQ</span
+          >
+        </div>
+      </a>
+
+      <div class="mt-6 flex justify-end">
+        <a
+          href="/projects"
+          class="hover:text-foreground group inline-flex items-center font-mono text-sm text-zinc-400 transition-colors"
+        >
+          Execute /projects/list.sh
+          <svg
+            class="group-hover:text-accent ml-2 transition-transform group-hover:translate-x-1"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg
+          >
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

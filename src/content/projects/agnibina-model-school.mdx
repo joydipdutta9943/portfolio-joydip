@@ -1,0 +1,38 @@
+---
+title: "AGNIBINA MODEL SCHOOL Platform"
+description: "A high-performance, SEO-optimized educational portal designed to streamline parent communication and ensure strict CBSE regulatory compliance."
+techStack: ["Astro v5", "React 19", "Tailwind CSS v4", "TypeScript"]
+order: 2
+---
+
+> Building for the intersection of zero-latency public communication and rigorous, data-heavy compliance reporting.
+
+## The Architecture of Speed
+
+Educational institutions face a unique digital hurdle: they require highly accessible, lightning-fast public portals to broadcast information to parents, while simultaneously needing robust interfaces to handle deep, structurally rigid regulatory data.
+
+The previous monolithic setup was slow, bloated with unused JavaScript, and failed to meet Modern Lighthouse metrics.
+
+```html
+<!-- Example: Astro's Islands Architecture in Practice -->
+<Layout title="AGNIBINA MODEL SCHOOL">
+  <!-- 1. Zero-JS Static Site Generation (SSG) for Hero -->
+  <HeroSection announcements="{latestNotices}" />
+
+  <!-- 2. React Island: Only hydrates on visibility -->
+  <ComplexComplianceDataGrid client:visible cbseData="{fetchRegulatoryStats()}" />
+</Layout>
+```
+
+## The Execution
+
+I architected a complete frontend overhaul utilizing **Astro v5** and **React 19**.
+
+1. **The Islands Architecture:** By leveraging Astro's partial hydration capabilities (`client:visible` / `client:idle`), we stripped hundreds of kilobytes of unused JavaScript from the main thread.
+2. **Design Tokens:** Engineered a bespoke, accessible design system using **Tailwind CSS v4**, guaranteeing responsive geometric layouts across all screen topologies.
+3. **Data-Driven Disclosures:** The most critical component was the mandatory _CBSE Disclosure Module_. I built a React pipeline that ingests messy, raw statistical data (enrollments, financial audits, staff metrics) and autonomously formats them into the specific visual tables and structured formats required by government auditors.
+
+### The Impact
+
+- **Ultimate Performance:** Attained pristine **100/100 Lighthouse** scores across Performance, Accessibility, Best Practices, and SEO. The aggressive Static Site Generation (SSG) methodology ensured near-instant Time to Interactive (TTI).
+- **Automated Compliance:** The standalone React module successfully abstracted away weeks of manual data-entry and formatting, automating the school's entire digital compliance workflow.
