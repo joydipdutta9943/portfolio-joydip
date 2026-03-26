@@ -1,0 +1,52 @@
+---
+title: "Levo API (Polyglot Microservices Platform)"
+description: "A high-performance, polyglot backend platform orchestrating user analytics, content management, and workflows."
+techStack: ["TypeScript (Bun)", "Go (Fiber)", "PostgreSQL", "MongoDB", "ClickHouse", "AWS SQS"]
+order: 6
+---
+
+> Building for hyper-scale by routing specific workload taxonomies to their native optimal runtime environments.
+
+## The Challenge
+
+A monolithic Node.js backend executing ACID-compliant state mutations (user signups, payments) cannot safely ingest and aggregate millions of raw analytic events simultaneously without dragging down the global event loop.
+
+## The Solution
+
+I designed a **Polyglot Monorepo architecture** that intelligently distributes varying computational loads structurally across distinct binaries and databases.
+
+### 1. Hybrid Persistence Layer
+
+- **High-Volume Telemetry:** Routed through a blistering-fast Go (Fiber) layer directly streaming into **ClickHouse** distributed tables.
+- **Variable Data:** Handled by abstract schemas in **MongoDB**.
+- **Core Business Logic:** Strictly typed relational networks operating on TypeScript (Bun) over **PostgreSQL**.
+
+### 2. Dynamic Query Builder in Go
+
+I built a specialized Go translation engine capable of converting deeply nested, dynamic frontend JSON filters (used by operators for complex telemetry reporting) into highly optimized ClickHouse SQL strings on the fly.
+
+```go
+// Conceptual Go Dynamic Query Builder Pattern
+func BuildClickHouseQuery(filters []FilterNode) (string, []interface{}) {
+    query := squirrel.Select("user_id, count(*) as triggers").From("events_local")
+
+    for _, f := range filters {
+        if f.Operator == "in" {
+            query = query.Where(squirrel.Eq{f.Field: f.Values})
+        } else if f.Operator == "gt" {
+            query = query.Where(squirrel.Gt{f.Field: f.Value})
+        }
+    }
+
+    return query.ToSql()
+}
+```
+
+### 3. Centralized Worker Pattern
+
+To manage workflow orchestrations, I aggregated background job consumers from all the distinct Go and TS services into a single, scalable **AWS SQS** deployment. This isolated failure domains and provided highly observable dead-letter queues.
+
+## The Impact
+
+- **Complete Decoupling:** Successfully isolated the analytic ingestion pipelines from standard REST API traffic, maintaining a pristine user experience even under massive data ingestion.
+- **Microsecond Latency:** Translating dynamic frontend requests into optimized ClickHouse dialects executed in native Go yielded near real-time aggregate reporting for enterprise customers.

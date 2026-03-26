@@ -1,0 +1,48 @@
+---
+title: "Touchbase Service"
+description: "A backend platform for construction project management, unifying meeting coordination and hierarchical resource planning."
+techStack: ["Node.js", "Apollo Server (GraphQL)", "Prisma", "MongoDB", "Microsoft Graph API"]
+order: 10
+---
+
+> Structurally parsing complex GraphQL AST logic and syncing multi-tiered dynamic recurrences to Microsoft infrastructure.
+
+## The Challenge
+
+Construction project management involves massively hierarchical data: Parent Entities (Companies), Portfolios, specific Sites, and localized sub-contractors. Serving all this through an API requires a strictly enforced multi-tiered permission structure. Additionally, synchronizing deeply complex recurring project meetings natively to Microsoft Outlook is highly unstable using standard REST polling.
+
+## The Execution
+
+I engineered the backend platform with **Apollo Server** linking to dual databases via **Prisma** and **MongoDB**.
+
+### 1. GraphQL AST Parsing
+
+I heavily optimized overall database extraction times by directly parsing the client’s incoming GraphQL `AST` (Abstract Syntax Tree). Instead of performing an inefficient `SELECT *` payload, the resolver intercepts the actual schema nodes requested dynamically inside `info.fieldNodes`. It then precisely builds and maps exact Prisma `select: { ... }` clauses to dramatically reduce network payload sizes.
+
+```javascript
+// Conceptual AST Parser for Prisma
+function parseGraphQLToPrismaSelect(info) {
+  const selections = info.fieldNodes[0].selectionSet.selections;
+  const prismaSelect = {};
+
+  for (const field of selections) {
+    // Dynamically pull only requested relational scalars
+    prismaSelect[field.name.value] = true;
+  }
+
+  return prismaSelect;
+}
+```
+
+### 2. Hierarchical RBAC
+
+I engineered middleware that natively evaluates the request's multi-tiered contextual scope based on company-level or project-level boundaries dynamically, securing every single resolver graph.
+
+### 3. Complex Recurrence Engine
+
+Rather than creating internal calendar management logic handling infinite potential meeting dates, I synchronized dynamic meeting recurrence patterns directly natively to the external **Microsoft Graph API**. This allowed seamless bi-directional integration directly inside user's existing Outlook systems.
+
+## The Impact
+
+- **GraphQL Efficiency:** The AST intersection pattern reduced complex query speeds by nearly **60%**, eliminating over-fetching entirely.
+- **Enterprise Microsoft Sync:** Connecting directly to Graph allowed the platform's meetings to behave completely natively alongside the enterprise's pre-existing active directories and scheduling limits.

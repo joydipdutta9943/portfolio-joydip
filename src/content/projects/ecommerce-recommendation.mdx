@@ -1,0 +1,51 @@
+---
+title: "E-Commerce Product Recommendation Engine"
+description: "A scalable predictive engine driving sales via personalized and collaborative product filtering."
+techStack: ["Python", "FastAPI", "PostgreSQL", "Redis", "Celery", "Scikit-learn", "NumPy"]
+order: 11
+---
+
+> Driving statistical relevance out of noise via hybrid matrix factorizations and high-speed in-memory caches.
+
+## The Challenge
+
+Providing real-time product recommendations as a user browses dynamically is computationally expensive. As the user's history grows alongside thousands of distinct catalog items, calculating `O(N^2)` collaborative similarity metrics simply cannot operate within a synchronous HTTP REST window. Furthermore, totally new users experience the 'Cold Start' problem, staring at irrelevant blank feeds.
+
+## The Execution
+
+I engineered the machine learning pipeline and the serving backend using **Python** and **FastAPI**, backed by heavy statistical abstraction in `scikit-learn`.
+
+### 1. Asynchronous Matrix Computation
+
+Because evaluating user-item recommendation vectors mathematically is slow, I offloaded all heavy computations to distributed **Celery** background workers. These workers process raw event streams (clicks, cart-adds) out of PostgreSQL, synthesize them via `scikit-learn` Cosine Similarity grids, and serialize the optimized resulting scores natively into **Redis**.
+
+```python
+# Conceptual Hybrid Fallback FastAPI Route
+@app.get("/recommendations/{user_id}")
+async def get_curated_feed(user_id: str):
+    # 1. High Velocity lookup for active personalized data
+    cached_vectors = await redis_pool.get(f"user:{user_id}:recs")
+
+    if cached_vectors:
+        return json.loads(cached_vectors)
+
+    # 2. 'Cold Start' Fallback to global aggregations
+    trending = await db.fetch("SELECT id FROM global_trending LIMIT 20")
+    return {"results": trending}
+```
+
+### 2. Hybrid Fallback Logic
+
+I instituted a strict fallback protocol resolving the typical "Cold Start" problem.
+
+- **Active Users:** Receive personalized collaborative filtering (Item-Item / User-User grids) calculated in the background.
+- **New Users:** Instantly default to the cached "Trending" engine, ensuring no screen real-estate is ever wasted.
+
+### 3. Multi-Tiered Caching
+
+The system heavily optimized concurrent read paths. Because the `Celery` workers strictly hydrate the resulting statistical lists back into Redis every hour, the actual **FastAPI** layer operates exclusively via microsecond key-value queries, providing phenomenal request speeds.
+
+## The Impact
+
+- **Lightning Return Time:** Disconnecting the calculation from the HTTP context enabled the recommendation endpoint to return highly-relevant data in under 15ms.
+- **Increased Conversions:** The hybrid 'Cold Start' fallback engine drastically improved interaction metrics for first-time site visitors by substituting missing vector data with real-time broad momentum trends.

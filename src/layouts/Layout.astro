@@ -11,6 +11,10 @@ const {
   title,
   description = "Architecting high-performance, polyglot microservices and enterprise-grade SaaS platforms.",
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteTitle = "Joydip Dutta — Software Engineer";
+const ogTitle = title === siteTitle ? title : `${title} | Joydip Dutta`;
 ---
 
 <!doctype html>
@@ -22,6 +26,43 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="Joydip Dutta" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Additional SEO -->
+    <meta name="author" content="Joydip Dutta" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- JSON-LD Structured Data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: "Joydip Dutta",
+        url: "https://sannin-coder.info",
+        jobTitle: "Software Engineer",
+        sameAs: [
+          "https://github.com/joydipdutta9943",
+          "https://www.linkedin.com/in/joydip-dutta-569428141/",
+        ],
+      })}
+    />
+
     <ClientRouter />
   </head>
   <body class="bg-dot-pattern">
@@ -61,9 +102,22 @@ const {
         <div class="flex flex-col items-center gap-4 md:flex-row md:gap-6">
           <span>© {new Date().getFullYear()} Joydip Dutta. All rights reserved.</span>
           <div class="flex gap-4">
-            <a href="https://github.com/joydipdutta9943" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">GitHub</a>
-            <a href="https://www.linkedin.com/in/joydip-dutta-569428141/" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">LinkedIn</a>
-            <a href="mailto:joydip.dutta9943@gmail.com" class="hover:text-zinc-300 transition-colors">Email</a>
+            <a
+              href="https://github.com/joydipdutta9943"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-colors hover:text-zinc-300">GitHub</a
+            >
+            <a
+              href="https://www.linkedin.com/in/joydip-dutta-569428141/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="transition-colors hover:text-zinc-300">LinkedIn</a
+            >
+            <a
+              href="mailto:joydip.dutta9943@gmail.com"
+              class="transition-colors hover:text-zinc-300">Email</a
+            >
           </div>
         </div>
         <span class="flex items-center gap-2">

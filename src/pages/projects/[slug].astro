@@ -48,6 +48,19 @@ const { Content } = await render(project);
       }
     </div>
 
+    {
+      project.data.image && (
+        <div class="relative mb-12 h-64 w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-2xl md:h-96">
+          <div class="absolute inset-0 z-10 bg-zinc-950/20" />
+          <img
+            src={project.data.image}
+            alt="Architecture Schematic"
+            class="h-full w-full object-cover"
+          />
+        </div>
+      )
+    }
+
     <div class="mb-12 h-px w-full bg-zinc-800/80"></div>
   </div>
 

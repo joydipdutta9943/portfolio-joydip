@@ -1,59 +1,48 @@
 ---
-title: "Gunpowder Fintech Backend"
-description: "An enterprise-grade wealth management platform that orchestrates investment accounts, KYC verification, and direct debit payments."
-techStack: ["TypeScript", "Bun", "PostgreSQL", "Prisma", "BullMQ", "Redis"]
-order: 3
+title: "Gunpowder Fintech Backend (Zugo)"
+description: "An enterprise-grade, multi-tenant wealth management platform orchestrating investment accounts, KYC verification, direct debit payments, and AI-driven financial recommendations."
+techStack:
+  ["TypeScript", "Bun", "Express.js", "PostgreSQL", "Neon serverless", "Prisma", "Redis", "BullMQ"]
+order: 1
+image: "/images/gunpowder-fintech-backend.png"
 ---
 
-> Architecting the critical point of convergence between asynchronous financial pipelines, stringent regulatory boundaries, and real-time ledger consistency.
+> An enterprise-grade, multi-tenant wealth management platform orchestrating investment accounts, KYC verification, and AI-driven recommendations via a RESTful API serving 47+ controllers across 5 business domains.
 
-## The Challenge
+## Key Architecture & Engineering
 
-Building an enterprise financial platform capable of reliably orchestrating highly asynchronous money movement. Handling complex API integrations for KYC and continuous direct debit mandates via `WealthKernel` and `Plaid` requires absolute event consistency; dropping a webhook or misordering a transaction leads to permanent ledger breakdown.
+### Two-Layer Access Control (ACL)
 
-A multi-tenant system executing financial trades cannot rely on standard foreign key associations alone. Data bleed between wealth portfolios is mathematically catastrophic.
+Combines API-level middleware with a strict row-level security system across all 61 data models. It uses six role-specific handlers and **Redis caching** to accurately compute accessible records for different users.
 
-## The Execution
+### Post-Commit Callback Pattern
 
-I designed and architected the entire core backend utilizing **TypeScript, Bun, and PostgreSQL**, heavily secured by **Prisma**.
+Ensures that external operations (like sending emails or triggering _WealthKernel_ API calls) only execute after the database transaction **safely commits**, preventing inconsistent data states if a rollback occurs.
 
-### 1. The Zero-Trust Models
+### Event-Driven Webhook Pipeline
 
-I architected a completely isolated **Two-Layer Access Control (ACL) System** utilizing Redis-backed caching for 61 complex Prisma models.
+Manages 31 different _WealthKernel_ webhook event types routed through **BullMQ** queues. It uses `HMAC-SHA256` signature verification and idempotency guards to prevent duplicate transaction processing.
 
 ```typescript
-// Conceptual Row-Level Interceptor (Prisma Middleware)
-prisma.$use(async (params, next) => {
-  if (params.model && isTenantBound(params.model)) {
-    const acl = await redis.get(`tenant:${ctx.tenantId}:acl`);
+// Conceptual BullMQ Webhook Pipeline
+const webhookQueue = new Queue("wealthkernel_events", { connection: redis });
 
-    // Inject strict where-clauses aggressively preventing
-    // vertical privilege escalation natively at the ORM phase.
-    params.args.where = {
-      ...params.args.where,
-      tenantId: acl.tenantId, // Hard-wall isolation
-    };
-  }
-  return next(params);
+webhookQueue.process(async (job) => {
+  // 1. Verify HMAC-SHA256 Signature
+  verifySignature(job.data.payload, job.data.signature);
+
+  // 2. Check Idempotency Key in Redis
+  if (await redis.exists(`processed:${job.data.eventId}`)) return;
+
+  // 3. Post-Commit Callback Execution
+  await db.transaction(async (tx) => {
+    await routeEventLogic(tx, job.data.payload);
+  });
+
+  await redis.set(`processed:${job.data.eventId}`, "true");
 });
 ```
 
-### 2. Cryptographic Defense
+### Field-Level Encryption
 
-To strictly comply with ISO 27001 data isolation parameters, I implemented `AES-256-GCM` field-level encryption for all Personally Identifiable Information (PII) before it ever committed to the PostgreSQL WAL. This utilized a robust methodology providing zero-downtime key rotation.
-
-### 3. Asynchronous Durability
-
-Financial webhooks execute asynchronously. To handle the scale, I engineered continuous message queue topologies using **BullMQ** running securely over Redis.
-
-When WealthKernel fires a `Transaction Settled` webhook, the pipeline:
-
-1. Performs `HMAC-SHA256` signature validation.
-2. Defers processing to a specific BullMQ Job based on priority.
-3. Resolves the complex eventual consistency issues between financial API providers and local databases via a strict **Post-Commit Callback Transaction Pattern**.
-
-## The Impact
-
-- **Event Scalability:** Successfully ingested and managed over 31 discrete asynchronous financial event types securely, guaranteeing a `99.9%` ingestion uptime without a single dropped or misfired ledger update.
-- **Microsecond ACL Checks:** Offloading the primary verification layer to Redis successfully protected massive tables containing millions of rows with minimal database degradation.
-- **Banking-Grade Integrity:** The zero-trust ACL and encryption posture firmly cemented the platform as an enterprise-grade utility capable of handling immense institutional capital.
+Uses `AES-256-GCM` encryption with zero-downtime key rotation to protect sensitive Personally Identifiable Information (PII), achieving **ISO 27001 compliance** while maintaining extremely fast query latency.

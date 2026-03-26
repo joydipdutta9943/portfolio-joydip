@@ -21,41 +21,54 @@ const sortedProjects = projects.sort((a, b) => (a.data.order || 99) - (b.data.or
       sortedProjects.map((project) => (
         <a
           href={`/projects/${project.id}`}
-          class="group relative block overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 p-6 transition-all hover:border-zinc-600 hover:bg-zinc-900 md:p-8"
+          class="group relative block flex h-full flex-col overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 transition-all hover:border-zinc-600 hover:bg-zinc-900"
         >
-          <div class="group-hover:bg-accent absolute inset-y-0 left-0 w-1 bg-transparent transition-colors" />
+          <div class="group-hover:bg-accent absolute inset-y-0 left-0 z-20 w-1 bg-transparent transition-colors" />
 
-          <h2 class="text-foreground mb-4 flex items-center justify-between text-2xl font-bold">
-            {project.data.title}
-            <span class="text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <>
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </>
-              </svg>
-            </span>
-          </h2>
+          {project.data.image && (
+            <div class="relative h-48 w-full shrink-0 overflow-hidden border-b border-zinc-800 bg-zinc-900">
+              <div class="absolute inset-0 z-10 bg-zinc-950/20 transition-colors duration-500 group-hover:bg-transparent" />
+              <img
+                src={project.data.image}
+                alt={project.data.title}
+                class="h-full w-full object-cover opacity-80 transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
+              />
+            </div>
+          )}
 
-          <p class="text-muted mb-6 max-w-3xl font-mono text-sm leading-relaxed md:text-base">
-            {project.data.description}
-          </p>
-
-          <div class="flex flex-wrap gap-2">
-            {project.data.techStack.map((tech) => (
-              <span class="rounded-sm border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 font-mono text-xs text-zinc-400 transition-colors group-hover:border-zinc-700">
-                {tech}
+          <div class="flex flex-1 flex-col p-6 md:p-8">
+            <h2 class="text-foreground mb-4 flex items-center justify-between text-2xl font-bold">
+              {project.data.title}
+              <span class="text-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <>
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </>
+                </svg>
               </span>
-            ))}
+            </h2>
+
+            <p class="text-muted mb-6 max-w-3xl flex-1 font-mono text-sm leading-relaxed md:text-base">
+              {project.data.description}
+            </p>
+
+            <div class="mt-auto flex flex-wrap gap-2">
+              {project.data.techStack.map((tech) => (
+                <span class="rounded-sm border border-zinc-800 bg-zinc-900 px-2.5 py-1.5 font-mono text-xs text-zinc-400 transition-colors group-hover:border-zinc-700">
+                  {tech}
+                </span>
+              ))}
+            </div>
           </div>
         </a>
       ))

@@ -1,59 +1,43 @@
 ---
-title: "FaaS (Fund as a Service) Automation"
-description: "A B2B backend platform automating the lifecycle of alternative investment funds, from investor onboarding to capital drawdowns."
-techStack: ["TypeScript", "Express", "Bun", "PostgreSQL", "Drizzle ORM", "Puppeteer"]
-order: 5
+title: "FaaS (Fund as a Service)"
+description: "A comprehensive B2B SaaS platform automating the lifecycle of alternative investment funds, from investor onboarding to capital calls (drawdowns) and portfolio reporting."
+techStack: ["TypeScript", "Bun", "Express.js", "PostgreSQL", "Drizzle ORM", "Puppeteer", "AWS S3"]
+order: 4
+image: "/images/faas-automation.png"
 ---
 
-> Bypassing severe digital bottlenecks: taking the capital call process from three manual days down to five automated minutes.
+> Automating the deeply complex lifecycle of alternative investment funds via headless reporting engines and mathematically perfect relational flow structures.
 
-## The Challenge
+## Key Architecture & Engineering
 
-Alternative investment firms were spending days manually calculating complex capital calls and manually populating individual PDF distribution notices for hundreds of unique investors. The manual intervention was remarkably slow, astronomically expensive, and carried immense legal liability if spreadsheet calculation errors occurred.
+### Automated Document Pipeline
 
-The firm required an automated engine to manage the entire alternative fund lifecycle, capable of reliably generating legally-bound documents at scale without locking up the Node.js event pool.
-
-## The Execution
-
-I architected a comprehensive **Backend Platform** entirely dedicated to tracking and strictly orchestrating the flow of investor capital down to the cent.
+Replaced days of manual calculations by building an in-memory generation pipeline using headless **Puppeteer**. It hydrates HTML templates with complex financial data to render thousands of personalized PDF notices, streaming them directly to **AWS S3** to completely bypass slow disk I/O limitations.
 
 ```typescript
-// The PDF Generation Cluster abstraction
-import puppeteer from "puppeteer";
-import { uploadToS3 } from "@cloud/s3";
-
-export async function generateLegalNotices(investors: Investor[]) {
+// The PDF Clustered Generation logic
+export async function streamNoticesToS3(investors: Investor[]) {
   const browser = await puppeteer.launch({ headless: "new" });
   const promises = investors.map(async (investor) => {
     const page = await browser.newPage();
-    const html = await buildLegalTemplate(investor);
+    await page.setContent(buildLegalTemplate(investor));
 
-    await page.setContent(html);
-    // Buffer bypasses standard Disk I/O, writing straight to memory
-    const pdfBuffer = await page.pdf({ format: "A4" });
+    // In-memory buffer bypasses rigid standard I/O
+    const pdfBuffer = await page.pdf();
+    await uploadToAWS(`funds/drawdown/${investor.id}.pdf`, pdfBuffer);
 
-    await uploadToS3(`notices/${investor.id}/Q3.pdf`, pdfBuffer);
     await page.close();
   });
 
-  // Parallelize the heavy lifting across headless instances
   await Promise.all(promises);
   await browser.close();
 }
 ```
 
-### 1. Zero-Discrepancy Ledgers
+### Complex Financial Modeling
 
-An immaculate, strictly-typed **Drizzle ORM** schema mapped definitively against immutable **PostgreSQL** tables. This allowed us to execute highly complex aggregation logic to trace uncalled capital commitments across hundreds of mixed asset classes safely.
+Designed a rigorous relational ledger schema using **Drizzle ORM** to accurately track multi-layered capital flows (`Fund` → `Scheme` → `Investor` → `Commitment` → `Drawdown`) down to the exact cent.
 
-### 2. The PDF Clustered Pipeline
+### Strict Multi-Tenancy
 
-The true bottleneck—document generation—was handled by integrating a clustered `Puppeteer` pipeline. Instead of writing PDFs sequentially to disk (which causes heavy I/O latency), the architecture renders the DOM of the legal notice concurrently in memory via headless browser instances.
-
-These generated binaries are then streamed directly via buffered sockets into **AWS S3** storage, completely bypassing the local file system constraints.
-
-## The Impact
-
-- **Accuracy:** Replaced fragile, error-prone spreadsheet math aggregations with a rigorously tested database normalization schema utilizing raw relational speed.
-- **Unrivaled Velocity:** Reduced the total capital call execution window from **3 entire business days to under 5 total minutes**.
-- **Compute Scale:** Effectively leveraged clustered headless browser engines to parallelize generating thousands of personalized legal PDFs concurrently without impacting the core express HTTP loops.
+Enforced absolute operational data isolation via a custom `ContextService` middleware that automatically scopes every database query to the specific organization's ID, fully preventing cross-tenant data bleed.

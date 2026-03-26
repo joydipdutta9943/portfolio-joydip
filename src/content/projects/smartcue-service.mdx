@@ -1,0 +1,53 @@
+---
+title: "SmartCue Service"
+description: "An enterprise SaaS platform automating interactive product demos using Generative AI and DOM-based capturing."
+techStack:
+  ["Node.js (Bun)", "PostgreSQL (pgvector)", "ClickHouse", "Vercel AI SDK", "Puppeteer", "FFmpeg"]
+order: 7
+---
+
+> Building a highly parallelized generative AI pipeline capable of orchestrating full-screen DOM rendering into native media artifacts.
+
+## The Challenge
+
+SaaS companies need to generate highly interactive product demonstrations rapidly. While manually recording screens is possible, the ability to automatically capture, edit, and transcribe dynamic web DOM elements into intelligent video and interactive PDF assets required a massive step forward in orchestrated backend automation.
+
+## The Solution
+
+I architected a complex hybrid AI generating service specifically mapped to browser automation.
+
+### 1. Hybrid AI Architecture
+
+The platform merges `pgvector` semantic search with multi-LLM generation (via OpenAI & Google Gemini APIs). To support the enterprise security requirements of our clients, I structured a strict "Bring Your Own Key" (BYOK) paradigm.
+
+- A resilient Token Ledger logs all LLM inferences natively against role-based access control lists (RBAC).
+
+### 2. The Headless Media Pipeline
+
+I built a native background queue converting fully interactive React/DOM scenes into raw media.
+
+```typescript
+// Background Worker processing the DOM to Media workflow
+export async function convertDOMToMedia(session: DOMSession) {
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  await page.setContent(session.htmlSnapshot);
+
+  // 1. Begin synchronous recording stream using Puppeteer Native
+  const recordingStream = await page.createPDFStream();
+
+  // 2. Offload raw buffer to FFmpeg child process
+  const converter = spawn("ffmpeg", ["-i", "pipe:0", "-c:v", "libx264", "/outputs/demo.mp4"]);
+  recordingStream.pipe(converter.stdin);
+
+  // 3. Finalize
+  await s3.upload(converter.stdout);
+  return { status: "SUCCESS" };
+}
+```
+
+## The Impact
+
+- **DOM to Video in Seconds:** The decoupled Puppeteer and `FFmpeg` background workers reliably capture heavy graphics animations without starving the main thread's compute.
+- **Enterprise Ready:** The BYOK integrations correctly billed AI credit usage per organization, avoiding devastating rate-limits for the platform natively.

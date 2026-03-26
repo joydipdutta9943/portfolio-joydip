@@ -1,49 +1,50 @@
 ---
-title: "Unified Multi-Modal AI Agent (RAG System)"
-description: "A production-ready AI system capable of handling complex natural language questions about unstructured data, including PDFs and images."
-techStack: ["LangChain", "Gemini Pro Vision", "MongoDB Atlas Vector Search", "Redis", "TypeScript"]
-order: 1
+title: "Unified Multi-Modal AI (RAG System)"
+description: "A production-grade multi-modal AI agent that intelligently processes unstructured data—including complex PDFs, text, and images—to provide context-aware answers to user queries."
+techStack:
+  [
+    "Node.js",
+    "TypeScript",
+    "Bun",
+    "LangChain",
+    "Gemini Vision",
+    "MongoDB Atlas Vector Search",
+    "Next.js 14",
+  ]
+order: 2
+image: "/images/unified-ai-agent.png"
 ---
 
-> Building a deterministic search experience over highly non-deterministic, multi-modal enterprise data.
+> A production-grade multi-modal agent processing complex PDFs, text, and unstructured visual data to synthesize hyper-accurate contextual answers.
 
-## The Architecture of Ambiguity
+## Key Architecture & Engineering
 
-Enterprise businesses are drowning in Dark Data—unstructured PDFs, embedded charts, and scanned documents that traditional indexing simply cannot parse. Relying on keyword matching (`Elasticsearch` or `Solr`) falls apart when users ask semantic, context-heavy questions.
+### Intelligent AI Orchestration
 
-The goal was to build a highly accurate **Retrieval-Augmented Generation (RAG)** pipeline that didn't just hallucinate answers, but could actually "read" and cite complex multi-modal documents.
+Utilizes **LangChain** to act as a central "brain," dynamically selecting the correct tool (e.g., _vector search_, _vision analysis_, or _summarization_) based on the user's natural language intent.
+
+### Multi-Modal Ingestion Pipeline
+
+Uses `pdf-parse` for text, `sharp` for image manipulation, and **Tesseract OCR** with **Gemini Vision** for advanced scene understanding (like extracting chart data). It successfully generates 768-dimensional embeddings using Google's `text-embedding-004`.
 
 ```typescript
-// Core Vector Ingestion Pipeline Concept
-async function ingestMultiModalDocument(asset: FileBuffer) {
-  // 1. OCR & Layout analysis via Gemini Vision
-  const structuredText = await geminiVision.extractLayout(asset);
+// Conceptual Vector Ingestion Pipeline
+async function indexMultiModal(documentPath) {
+  // Extract intelligent vision semantics via Gemini
+  const visualContext = await geminiVision.analyze(documentPath);
 
-  // 2. Semantic Chunking (preserving paragraph boundaries)
-  const chunks = await textSplitter.split(structuredText, { overlap: 200 });
+  // Generate 768-dimensional arrays via text-embedding-004
+  const vector = await embeddingModel.embed(visualContext);
 
-  // 3. 768-Dimensional Embedding Generation
-  const embeddings = await embedder.generate(chunks);
-
-  // 4. Persistence in Atlas Vector Search
-  await mongoVectorStore.insertMany(embeddings, { enforceSchema: true });
+  // Store semantic coordinates in Atlas Vector Search
+  await atlasVectorStore.addDocuments([{ embedding: vector, metadata: { source: documentPath } }]);
 }
 ```
 
-## The Execution
+### Hybrid Vector Search
 
-I designed a robust orchestration layer using **LangChain** in TypeScript. When a user queries the system, the pipeline operates in three distinct phases:
+Leverages **MongoDB Atlas Vector Search** to combine semantic cosine similarity with keyword filtering, utilizing **Redis** to cache frequent queries and exponentially speed up retrieval.
 
-1. **Query Reformulation:** The raw user input is processed by an LLM to generate a dense, semantic search vector.
-2. **K-Nearest Neighbor (k-NN) Retrieval:** `MongoDB Atlas Vector Search` executes a high-speed cosine similarity search across millions of 768-dimensional document embeddings.
-3. **Multi-Modal Synthesis:** The retrieved chunks—alongside raw image buffers if necessary—are injected into the **Google Gemini Pro** context window to synthesize a definitive, cited response.
+### Frontend Resilience & Optimistic UI
 
-### Taming Latency
-
-Vector math is computationally expensive. To prevent the API from timing out during heavy enterprise usage, I implemented an intelligent `Redis` caching layer mapping exact semantic query hashes to pre-generated responses, effectively bypassing the pipeline for frequently asked data.
-
-## The Impact
-
-- **85% Accuracy Target:** Achieved sustained factual accuracy across multi-modal queries for over 1,000 active users, practically eliminating hallucinations via strict context-bounding.
-- **Microsecond Retrieval:** Reduced P99 API latency by **45%** utilizing Redis caching alongside Atlas Vector indexes.
-- **Enterprise Security:** Built a strict **"Bring Your Own Key" (BYOK)** tenant model, cryptographically securing client API keys ensuring no cross-contamination of proprietary LLM environments.
+Features a custom API client with a **40-second timeout** to safely handle long-running LLM inferences. It utilizes "optimistic updates" to instantly display user messages before server confirmation, effortlessly masking heavy computational latency.

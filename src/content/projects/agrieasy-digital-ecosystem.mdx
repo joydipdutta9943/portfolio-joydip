@@ -1,47 +1,38 @@
 ---
-title: "AgriEasy Digital Ecosystem"
-description: "A comprehensive SaaS platform connecting farmers and businesses to facilitate transparent contract farming."
-techStack: ["TypeScript", "GraphQL (Apollo)", "Bun", "Prisma", "MongoDB"]
-order: 4
+title: "AgriEasy Service"
+description: "A modular monolithic digital agriculture ecosystem connecting farmers, businesses, and administrators to facilitate transparent contract farming and crop lifecycle management."
+techStack:
+  ["TypeScript", "Node.js/Bun", "GraphQL (Apollo)", "MongoDB", "Prisma", "Docker", "Kubernetes"]
+order: 5
+image: "/images/agrieasy-digital-ecosystem.png"
 ---
 
-> A robust, multi-tenant digital agriculture ecosystem resolving legacy trust issues in physical contract farming.
+> A digital agriculture ecosystem physically validating digital contract signatures against dynamic geospatial boundaries.
 
-## The Challenge
+## Key Architecture & Engineering
 
-Contract farming deals historically failed due to a severe lack of transparency regarding physical land availability, delayed corporate payments, and poor progress tracking throughout the crop lifecycle. A scalable, real-time negotiation engine was urgently required—one that mapped natively against spatial farm geometries to physically validate biological limitations.
+### Real-Time Negotiation Engine
 
-## The Architecture of Trust
+Built a transactional event engine that aggressively handles price and quantity bidding. It natively validates proposed crop quantities against the farmer's physical geospatial land availability (`area_in_use`) and locks resources dynamically upon acceptance, ensuring **100% conflict-free contracts**.
 
-I developed a modular monolithic backend designed specifically to fuse highly relational negotiation logic with deeply dynamic schemaless data (like variable soil health grids). By utilizing modern **TypeScript** and **Bun**, I paired **Prisma (PostgreSQL)** for the core relational contracts with **MongoDB** for flexible agronomy datasets.
+### Automated Agricultural Scheduler
+
+Once a contract is mathematically verified and signed, a recurring task engine automatically clones a master blueprint into a personalized, day-by-day crop care schedule (sowing, watering, fertilizing) for the farmer's specific topology constraint.
 
 ```typescript
-// Resolver: Validating Corporate Quotations against Geospatial Limits
-@Mutation()
-async function negotiateCropContract(
-  @Arg("quotationInput") input: ContractInput,
-  @Ctx() ctx: Context
-) {
-  // 1. Fetch exact polygon area of farmer's geospatial record
-  const spatialData = await mongoDB.Farms.find({ id: input.farmId });
-  const maxYieldCapacity = calculateBiologicalLimit(spatialData.area, input.cropType);
+// Conceptual Geospatial Resolution
+async function negotiateContract(bid) {
+  const farmerTopology = await mongoDB.Farms.findOne({ id: bid.farmerId });
+  const maxCapacity = calculateBiologicalLimit(farmerTopology.area_in_use);
 
-  if (input.proposedTonnage > maxYieldCapacity) {
-    throw new GraphQLError("Quotation exceeds physical spatial constraints.");
+  if (bid.tonnage > maxCapacity) {
+    throw new Error("Bid mathematically violates geospatial boundary limits.");
   }
 
-  // 2. Initiate Real-Time Bid via GraphQL Subscriptions
-  return pubsub.publish(`CONTRACT_BID_${input.farmerId}`, input);
+  return lockAgriculturalContract(bid);
 }
 ```
 
-## The Execution
+### Unified Multi-Tenant API
 
-1. **GraphQL (Apollo) Ecosystem:** Built an expansive graph resolving complex real-time mutations with Subscriptions. This enabled farmers to watch live corporate contract bids pop up on their devices instantly.
-2. **Instant Negotiation Engine:** Engineered a secure WebSocket layer that validates proposed corporate crop quantities against a farmer's _actual_ geospatial farm area capacity. Corporate entities cannot over-order from smallholder farms mathematically.
-3. **Task Automation:** Delivered a zero-conflict digital digital contract engine utilizing specialized cron jobs.
-
-### The Impact
-
-- **Transparency:** By blocking mathematically impossible contract negotiations, the platform restored trust between multinational corporations and regional farmers.
-- **Workflow Automation:** Upon signature of a deal, the backend autonomously scheduled and emitted personalized, recurring daily task updates (e.g., _Fertilization Day 12_, _Pesticide Application_) for the entire biological life cycle of the crop directly to the farmer's mobile app. This abstracted away months of manual agronomy management.
+Designed a singular Express server cluster that exposes distinct, logically separated **GraphQL schemas** for three different user personas (`api/admin`, `api/business_app`, `api/farmer_app`) to maximize rigorous security and maintainability within a highly streamlined monolithic repository.

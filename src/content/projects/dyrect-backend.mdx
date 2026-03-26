@@ -1,0 +1,42 @@
+---
+title: "Dyrect Backend"
+description: "A multi-tenant B2B SaaS platform for post-sales product registration via QR codes and warranty management."
+techStack: ["Node.js (TypeScript)", "MongoDB", "RabbitMQ", "Redis"]
+order: 8
+---
+
+> Dynamically sharding physical IoT interaction data at scale.
+
+## The Challenge
+
+Providing post-sales transparency and instantaneous warranty registration via physical QR codes generates extremely unpredictable, bursty traffic. As multiple international brands rely on the infrastructure to index serialized products, standard database structuring quickly hit read/write limits.
+
+## The Architecture of Scale
+
+To prevent bottlenecking during massive product scan spikes, I implemented a custom dynamic data partitioning system securely atop **MongoDB** and **RabbitMQ** pipelines.
+
+### 1. Dynamic Collection Sharding
+
+Instead of indexing tens of millions of distinct short-URLs into a monolithic collection (which results in massive B-Tree degradation), I engineered a dynamic MongoDB sharding mechanism that routes telemetry into brand-specific domain subsets on a shared-nothing paradigm.
+
+```javascript
+// Dynamic Partition Router concept
+async function logProductScan(domainHost, telemetryPayload) {
+  // 1. Resolve partitioned tenant collection dynamically
+  const collectionName = `scans_${domainHost.replace(/\./g, "_")}`;
+
+  const PartitionedCollection = mongoose.model(collectionName, TelemetrySchema, collectionName);
+
+  // 2. Safely commit
+  await PartitionedCollection.create(telemetryPayload);
+}
+```
+
+### 2. Isolated VPN Tunnels
+
+Certain enterprise tenants required raw access to specific sub-ledgers. Rather than expose multi-tenant APIs, I built secure infrastructure pipelines resolving via highly programmatic **SSH tunneling** directly to private Virtual Private Cloud (VPC) resources.
+
+## The Impact
+
+- **Infinite Scalability:** Traffic bursts from QR-code ad campaigns were naturally absorbed via isolated RabbitMQ queueing.
+- **Microsecond Database Lookup:** Sharding the short-URLs structurally eliminated index bloat. Time to resolve a physical product URL to a warranty profile remained practically instantaneous regardless of platform scale.

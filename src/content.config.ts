@@ -8,6 +8,7 @@ const projects = defineCollection({
     description: z.string(),
     techStack: z.array(z.string()),
     order: z.number().optional(),
+    image: z.string().optional(),
   }),
 });
 

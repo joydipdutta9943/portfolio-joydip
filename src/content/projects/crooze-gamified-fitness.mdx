@@ -1,0 +1,41 @@
+---
+title: "Crooze Service (Gamified Fitness Backend)"
+description: "A backend ecosystem for a gamified fitness platform that converts physical activity into digital currency, social competition, and real-world rewards."
+techStack: ["Node.js", "TypeScript", "Express", "GraphQL (Apollo)", "MongoDB", "Prisma", "Redis"]
+order: 3
+image: "/images/crooze-gamified-fitness.png"
+---
+
+> A backend ecosystem converting physical activity into digital currency, managing thousands of concurrent telemetry signals to ensure fraud-resistant social fitness competition.
+
+## Key Architecture & Engineering
+
+### Fraud-Resistant Activity De-duplication
+
+The `processActivities` pipeline detects time-overlapping fitness activities from third-party APIs (like **Strava**). It automatically compares conflicting physical entries and aggressively retains the one with the highest data fidelity to prevent leaderboard cheating.
+
+### Event-Driven Gamification
+
+Decouples heavy point calculations and leaderboard updates from the main API HTTP thread using custom **Emitters** and **Subscribers** running silently in the background.
+
+```javascript
+// Conceptual Economy Ledger Allocation
+async function syncStravaActivity(userId, activity) {
+  const overlap = await detectActivityOverlap(userId, activity.timestamp);
+
+  if (overlap && overlap.fidelity > activity.fidelity) {
+    return; // Discard fraudulent or low-fidelity overlapping attempt
+  }
+
+  // Emit isolated event to calculate points and shift leaderboards
+  gamificationEmitter.emit("activity_verified", { userId, activity });
+}
+```
+
+### Virtual Economy Ledger
+
+Manages a strict "Coins" system using **MongoDB aggregations** to maintain a dual-entry record (ledger history + user balance), ensuring banking-grade transactional integrity without double-spending.
+
+### Dynamic Challenge Engine
+
+Tracks real-time challenge progress and features a retrospective mode that automatically scans and historically backfills past eligible activities whenever a user joins a campaign mid-way.
