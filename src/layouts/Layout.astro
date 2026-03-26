@@ -56,9 +56,16 @@ const {
       </main>
 
       <footer
-        class="mt-32 flex items-center justify-between border-t border-zinc-800 pt-8 font-mono text-xs text-zinc-500"
+        class="mt-32 flex flex-col items-center justify-between gap-6 border-t border-zinc-800 pt-8 font-mono text-xs text-zinc-500 md:flex-row md:gap-4"
       >
-        <span>© {new Date().getFullYear()} Joydip Dutta. All rights reserved.</span>
+        <div class="flex flex-col items-center gap-4 md:flex-row md:gap-6">
+          <span>© {new Date().getFullYear()} Joydip Dutta. All rights reserved.</span>
+          <div class="flex gap-4">
+            <a href="https://github.com/joydipdutta9943" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">GitHub</a>
+            <a href="https://www.linkedin.com/in/joydip-dutta-569428141/" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition-colors">LinkedIn</a>
+            <a href="mailto:joydip.dutta9943@gmail.com" class="hover:text-zinc-300 transition-colors">Email</a>
+          </div>
+        </div>
         <span class="flex items-center gap-2">
           <span class="bg-accent h-2 w-2 animate-pulse rounded-full"></span>
           System.Status: ONLINE
