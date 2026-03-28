@@ -15,36 +15,41 @@ order: 2
 image: "/images/unified-ai-agent.png"
 ---
 
-> A production-grade multi-modal agent processing complex PDFs, text, and unstructured visual data to synthesize hyper-accurate contextual answers.
+> Ask a question about any PDF, image, or document — get an accurate, sourced answer in seconds.
 
-## Key Architecture & Engineering
+## The Challenge
 
-### Intelligent AI Orchestration
+Enterprise users needed to query large collections of unstructured data — scanned PDFs, charts, images with embedded text — using natural language. A simple keyword search won't work when the answer lives inside a pie chart on page 47 of a PDF.
 
-Utilizes **LangChain** to act as a central "brain," dynamically selecting the correct tool (e.g., _vector search_, _vision analysis_, or _summarization_) based on the user's natural language intent.
+## Key Engineering Decisions
 
-### Multi-Modal Ingestion Pipeline
+### LangChain Orchestration
 
-Uses `pdf-parse` for text, `sharp` for image manipulation, and **Tesseract OCR** with **Gemini Vision** for advanced scene understanding (like extracting chart data). It successfully generates 768-dimensional embeddings using Google's `text-embedding-004`.
+LangChain acts as the routing layer, dynamically selecting the right tool (vector search, vision analysis, or summarization) based on the user's query intent. No hardcoded if/else chains.
+
+### Multi-Modal Ingestion
+
+PDFs parsed via `pdf-parse`, images processed through `sharp` and **Tesseract OCR**, complex visuals interpreted by **Gemini Vision**. Everything gets converted to 768-dimensional embeddings via Google's `text-embedding-004`.
 
 ```typescript
-// Conceptual Vector Ingestion Pipeline
 async function indexMultiModal(documentPath) {
-  // Extract intelligent vision semantics via Gemini
   const visualContext = await geminiVision.analyze(documentPath);
-
-  // Generate 768-dimensional arrays via text-embedding-004
   const vector = await embeddingModel.embed(visualContext);
 
-  // Store semantic coordinates in Atlas Vector Search
   await atlasVectorStore.addDocuments([{ embedding: vector, metadata: { source: documentPath } }]);
 }
 ```
 
 ### Hybrid Vector Search
 
-Leverages **MongoDB Atlas Vector Search** to combine semantic cosine similarity with keyword filtering, utilizing **Redis** to cache frequent queries and exponentially speed up retrieval.
+**MongoDB Atlas Vector Search** combines semantic cosine similarity with keyword filtering. **Redis** caches frequent queries to avoid redundant embedding computations.
 
-### Frontend Resilience & Optimistic UI
+### Resilient Frontend
 
-Features a custom API client with a **40-second timeout** to safely handle long-running LLM inferences. It utilizes "optimistic updates" to instantly display user messages before server confirmation, effortlessly masking heavy computational latency.
+Custom API client with a **40-second timeout** for long-running LLM inferences. Optimistic UI updates display user messages instantly while the model processes in the background.
+
+## Impact
+
+- **Multi-format support** — PDFs, images, charts, and raw text all queryable through a single interface
+- **Sub-second cached retrieval** — Redis caching on frequent queries eliminates redundant LLM calls
+- **Seamless UX** — Optimistic updates mask inference latency, keeping the interface responsive

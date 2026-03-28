@@ -5,34 +5,38 @@ techStack: ["Astro v5", "React 19", "Tailwind CSS v4", "TypeScript"]
 order: 12
 ---
 
-> Building for the intersection of zero-latency public communication and rigorous, data-heavy compliance reporting.
+> 100/100 Lighthouse scores across all categories. A school portal that's fast for parents and compliant for regulators.
 
-## The Architecture of Speed
+## The Challenge
 
-Educational institutions face a unique digital hurdle: they require highly accessible, lightning-fast public portals to broadcast information to parents, while simultaneously needing robust interfaces to handle deep, structurally rigid regulatory data.
+The school needed two things from one website: a lightning-fast public portal for parents to check announcements and notices, and a robust interface for managing structured CBSE compliance data (enrollments, financial audits, staff metrics). The previous site was a bloated monolith that failed modern Lighthouse benchmarks.
 
-The previous monolithic setup was slow, bloated with unused JavaScript, and failed to meet Modern Lighthouse metrics.
+## Key Engineering Decisions
+
+### Islands Architecture
+
+**Astro v5** partial hydration (`client:visible` / `client:idle`) strips unused JavaScript from the main thread. Static content ships as pure HTML; React components only hydrate when needed.
 
 ```html
-<!-- Example: Astro's Islands Architecture in Practice -->
 <Layout title="AGNIBINA MODEL SCHOOL">
-  <!-- 1. Zero-JS Static Site Generation (SSG) for Hero -->
+  <!-- Zero-JS static rendering for the hero -->
   <HeroSection announcements="{latestNotices}" />
 
-  <!-- 2. React Island: Only hydrates on visibility -->
+  <!-- React island: hydrates only when scrolled into view -->
   <ComplexComplianceDataGrid client:visible cbseData="{fetchRegulatoryStats()}" />
 </Layout>
 ```
 
-## The Execution
+### Design System
 
-I architected a complete frontend overhaul utilizing **Astro v5** and **React 19**.
+A custom **Tailwind CSS v4** design system ensuring responsive layouts and accessibility compliance across all screen sizes.
 
-1. **The Islands Architecture:** By leveraging Astro's partial hydration capabilities (`client:visible` / `client:idle`), we stripped hundreds of kilobytes of unused JavaScript from the main thread.
-2. **Design Tokens:** Engineered a bespoke, accessible design system using **Tailwind CSS v4**, guaranteeing responsive geometric layouts across all screen topologies.
-3. **Data-Driven Disclosures:** The most critical component was the mandatory _CBSE Disclosure Module_. I built a React pipeline that ingests messy, raw statistical data (enrollments, financial audits, staff metrics) and autonomously formats them into the specific visual tables and structured formats required by government auditors.
+### Automated CBSE Compliance Module
 
-### The Impact
+A React pipeline that ingests raw statistical data (enrollments, financial audits, staff metrics) and formats it into the specific tables and structures required by government auditors. Replaced weeks of manual data entry.
 
-- **Ultimate Performance:** Attained pristine **100/100 Lighthouse** scores across Performance, Accessibility, Best Practices, and SEO. The aggressive Static Site Generation (SSG) methodology ensured near-instant Time to Interactive (TTI).
-- **Automated Compliance:** The standalone React module successfully abstracted away weeks of manual data-entry and formatting, automating the school's entire digital compliance workflow.
+## Impact
+
+- **100/100 Lighthouse** — Perfect scores across Performance, Accessibility, Best Practices, and SEO
+- **Near-instant load times** — SSG + partial hydration delivers sub-second Time to Interactive
+- **Automated compliance** — CBSE disclosure module eliminated weeks of manual formatting per audit cycle

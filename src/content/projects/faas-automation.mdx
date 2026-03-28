@@ -6,26 +6,27 @@ order: 4
 image: "/images/faas-automation.png"
 ---
 
-> Automating the deeply complex lifecycle of alternative investment funds via headless reporting engines and mathematically perfect relational flow structures.
+> From investor onboarding to capital calls — automating the entire lifecycle of alternative investment funds.
 
-## Key Architecture & Engineering
+## The Challenge
+
+Fund managers spend days manually calculating capital calls, generating PDF notices for each investor, and tracking multi-layered capital flows. One miscalculation on a drawdown notice means legal exposure. The process needed full automation with cent-level accuracy.
+
+## Key Engineering Decisions
 
 ### Automated Document Pipeline
 
-Replaced days of manual calculations by building an in-memory generation pipeline using headless **Puppeteer**. It hydrates HTML templates with complex financial data to render thousands of personalized PDF notices, streaming them directly to **AWS S3** to completely bypass slow disk I/O limitations.
+Headless **Puppeteer** hydrates HTML templates with financial data and renders personalized PDF notices per investor. Buffers stream directly to **AWS S3**, bypassing disk I/O entirely.
 
 ```typescript
-// The PDF Clustered Generation logic
 export async function streamNoticesToS3(investors: Investor[]) {
   const browser = await puppeteer.launch({ headless: "new" });
+
   const promises = investors.map(async (investor) => {
     const page = await browser.newPage();
     await page.setContent(buildLegalTemplate(investor));
-
-    // In-memory buffer bypasses rigid standard I/O
     const pdfBuffer = await page.pdf();
     await uploadToAWS(`funds/drawdown/${investor.id}.pdf`, pdfBuffer);
-
     await page.close();
   });
 
@@ -34,10 +35,16 @@ export async function streamNoticesToS3(investors: Investor[]) {
 }
 ```
 
-### Complex Financial Modeling
+### Relational Financial Ledger
 
-Designed a rigorous relational ledger schema using **Drizzle ORM** to accurately track multi-layered capital flows (`Fund` → `Scheme` → `Investor` → `Commitment` → `Drawdown`) down to the exact cent.
+A strict schema via **Drizzle ORM** tracks multi-layered capital flows: `Fund → Scheme → Investor → Commitment → Drawdown`. Every cent is accounted for at each level of the hierarchy.
 
-### Strict Multi-Tenancy
+### Tenant Isolation
 
-Enforced absolute operational data isolation via a custom `ContextService` middleware that automatically scopes every database query to the specific organization's ID, fully preventing cross-tenant data bleed.
+A custom `ContextService` middleware automatically scopes every database query to the requesting organization's ID. No query ever runs without a tenant boundary.
+
+## Impact
+
+- **Days → minutes** — Automated PDF generation replaced manual calculation and document assembly
+- **Cent-level accuracy** — Relational ledger schema eliminates rounding errors across complex fund hierarchies
+- **Complete tenant isolation** — Every query scoped by organization, zero cross-tenant data exposure

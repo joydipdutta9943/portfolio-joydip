@@ -50,15 +50,15 @@
   }
   /* Custom Markdown/MDX Styling */
   .prose-content {
-    @apply max-w-[70ch] leading-8 text-zinc-300;
+    @apply max-w-[70ch] leading-8 text-zinc-400;
   }
 
   .prose-content h2 {
-    @apply text-foreground mt-16 mb-6 text-2xl font-bold tracking-tight md:text-3xl;
+    @apply text-foreground border-accent mt-16 mb-6 border-l-2 pl-4 text-2xl font-bold tracking-tight md:text-3xl;
   }
 
   .prose-content h3 {
-    @apply text-foreground mt-12 mb-4 text-xl font-bold tracking-tight md:text-2xl;
+    @apply mt-10 mb-4 text-xl font-bold tracking-tight text-zinc-200 md:text-2xl;
   }
 
   .prose-content p {
@@ -66,15 +66,19 @@
   }
 
   .prose-content strong {
-    @apply font-semibold text-zinc-100;
+    @apply text-foreground font-semibold;
   }
 
   .prose-content ul {
-    @apply mb-8 ml-6 list-outside list-disc space-y-2;
+    @apply mb-8 ml-6 list-outside list-disc space-y-3 text-zinc-300;
   }
 
   .prose-content li::marker {
     @apply text-accent;
+  }
+
+  .prose-content li strong {
+    @apply text-foreground;
   }
 
   .prose-content pre {
@@ -82,7 +86,7 @@
   }
 
   .prose-content code {
-    @apply rounded bg-zinc-800/50 px-1.5 py-0.5 font-mono text-sm text-zinc-300;
+    @apply text-accent/80 rounded bg-zinc-800/50 px-1.5 py-0.5 font-mono text-sm;
   }
 
   .prose-content pre code {
@@ -90,7 +94,31 @@
   }
 
   .prose-content blockquote {
-    @apply border-accent bg-accent/5 my-8 rounded-r-lg border-l-4 p-4 py-1 pl-6 font-mono text-zinc-400 italic;
+    @apply border-accent bg-accent/5 my-8 rounded-r-lg border-l-4 p-5 pl-6 font-mono text-sm leading-relaxed text-zinc-300 not-italic;
+  }
+
+  .prose-content blockquote p {
+    @apply mb-0;
+  }
+
+  .prose-content table {
+    @apply my-8 w-full border-collapse overflow-hidden rounded-lg text-sm;
+  }
+
+  .prose-content thead {
+    @apply border-b border-zinc-700 bg-zinc-900;
+  }
+
+  .prose-content th {
+    @apply text-accent px-4 py-3 text-left font-mono text-xs font-semibold tracking-wider uppercase;
+  }
+
+  .prose-content td {
+    @apply border-b border-zinc-800/50 px-4 py-3 text-zinc-300;
+  }
+
+  .prose-content tbody tr {
+    @apply transition-colors hover:bg-zinc-900/50;
   }
 }
 

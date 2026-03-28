@@ -5,28 +5,24 @@ techStack: ["Node.js", "Apollo Server (GraphQL)", "Prisma", "MongoDB", "Microsof
 order: 10
 ---
 
-> Structurally parsing complex GraphQL AST logic and syncing multi-tiered dynamic recurrences to Microsoft infrastructure.
+> Construction project management with hierarchical permissions, optimized GraphQL, and native Microsoft Outlook sync.
 
 ## The Challenge
 
-Construction project management involves massively hierarchical data: Parent Entities (Companies), Portfolios, specific Sites, and localized sub-contractors. Serving all this through an API requires a strictly enforced multi-tiered permission structure. Additionally, synchronizing deeply complex recurring project meetings natively to Microsoft Outlook is highly unstable using standard REST polling.
+Construction projects have deeply nested hierarchies: companies → portfolios → sites → sub-contractors. Every API query must respect multi-tiered permissions, and recurring project meetings need to sync seamlessly with Microsoft Outlook — not as a separate calendar, but inside the user's existing workflow.
 
-## The Execution
+## Key Engineering Decisions
 
-I engineered the backend platform with **Apollo Server** linking to dual databases via **Prisma** and **MongoDB**.
+### GraphQL AST Optimization
 
-### 1. GraphQL AST Parsing
-
-I heavily optimized overall database extraction times by directly parsing the client’s incoming GraphQL `AST` (Abstract Syntax Tree). Instead of performing an inefficient `SELECT *` payload, the resolver intercepts the actual schema nodes requested dynamically inside `info.fieldNodes`. It then precisely builds and maps exact Prisma `select: { ... }` clauses to dramatically reduce network payload sizes.
+Instead of `SELECT *`, resolvers parse the incoming GraphQL AST to extract only the requested fields. These map directly to Prisma `select` clauses, cutting network payload and query time significantly.
 
 ```javascript
-// Conceptual AST Parser for Prisma
 function parseGraphQLToPrismaSelect(info) {
   const selections = info.fieldNodes[0].selectionSet.selections;
   const prismaSelect = {};
 
   for (const field of selections) {
-    // Dynamically pull only requested relational scalars
     prismaSelect[field.name.value] = true;
   }
 
@@ -34,15 +30,16 @@ function parseGraphQLToPrismaSelect(info) {
 }
 ```
 
-### 2. Hierarchical RBAC
+### Hierarchical RBAC
 
-I engineered middleware that natively evaluates the request's multi-tiered contextual scope based on company-level or project-level boundaries dynamically, securing every single resolver graph.
+Middleware evaluates each request's scope — company-level or project-level — and enforces boundaries on every GraphQL resolver. No resolver runs without a permission check.
 
-### 3. Complex Recurrence Engine
+### Microsoft Graph Calendar Sync
 
-Rather than creating internal calendar management logic handling infinite potential meeting dates, I synchronized dynamic meeting recurrence patterns directly natively to the external **Microsoft Graph API**. This allowed seamless bi-directional integration directly inside user's existing Outlook systems.
+Meeting recurrence patterns sync bi-directionally with **Microsoft Graph API**, placing project meetings directly in users' existing Outlook calendars rather than maintaining a separate internal calendar.
 
-## The Impact
+## Impact
 
-- **GraphQL Efficiency:** The AST intersection pattern reduced complex query speeds by nearly **60%**, eliminating over-fetching entirely.
-- **Enterprise Microsoft Sync:** Connecting directly to Graph allowed the platform's meetings to behave completely natively alongside the enterprise's pre-existing active directories and scheduling limits.
+- **~60% faster queries** — AST-based field selection eliminates over-fetching across all resolvers
+- **Native Outlook integration** — Meetings appear in users' existing calendars with full recurrence support
+- **Strict hierarchy enforcement** — Every resolver scoped to the correct company/project permission boundary

@@ -5,30 +5,30 @@ techStack: ["TypeScript (Bun)", "Go (Fiber)", "PostgreSQL", "MongoDB", "ClickHou
 order: 6
 ---
 
-> Building for hyper-scale by routing specific workload taxonomies to their native optimal runtime environments.
+> TypeScript for business logic, Go for analytics ingestion, ClickHouse for aggregation — each workload on its optimal runtime.
 
 ## The Challenge
 
-A monolithic Node.js backend executing ACID-compliant state mutations (user signups, payments) cannot safely ingest and aggregate millions of raw analytic events simultaneously without dragging down the global event loop.
+A monolithic Node.js backend can't safely ingest millions of raw analytic events while handling ACID-compliant mutations (user signups, payments) on the same event loop. The system needed to separate these workloads without fragmenting the developer experience.
 
-## The Solution
+## Key Engineering Decisions
 
-I designed a **Polyglot Monorepo architecture** that intelligently distributes varying computational loads structurally across distinct binaries and databases.
+### Hybrid Persistence Layer
 
-### 1. Hybrid Persistence Layer
+Each data type routes to the database built for it:
 
-- **High-Volume Telemetry:** Routed through a blistering-fast Go (Fiber) layer directly streaming into **ClickHouse** distributed tables.
-- **Variable Data:** Handled by abstract schemas in **MongoDB**.
-- **Core Business Logic:** Strictly typed relational networks operating on TypeScript (Bun) over **PostgreSQL**.
+- **High-volume telemetry** → Go (Fiber) service streaming into **ClickHouse** distributed tables
+- **Variable/unstructured data** → **MongoDB** with flexible schemas
+- **Core business logic** → TypeScript (Bun) over **PostgreSQL** with strict typing
 
-### 2. Dynamic Query Builder in Go
+### Dynamic Query Builder in Go
 
-I built a specialized Go translation engine capable of converting deeply nested, dynamic frontend JSON filters (used by operators for complex telemetry reporting) into highly optimized ClickHouse SQL strings on the fly.
+A translation engine that converts deeply nested JSON filters from the frontend into optimized ClickHouse SQL on the fly. Enterprise operators use this for complex telemetry reporting.
 
 ```go
-// Conceptual Go Dynamic Query Builder Pattern
 func BuildClickHouseQuery(filters []FilterNode) (string, []interface{}) {
-    query := squirrel.Select("user_id, count(*) as triggers").From("events_local")
+    query := squirrel.Select("user_id, count(*) as triggers").
+        From("events_local")
 
     for _, f := range filters {
         if f.Operator == "in" {
@@ -42,11 +42,12 @@ func BuildClickHouseQuery(filters []FilterNode) (string, []interface{}) {
 }
 ```
 
-### 3. Centralized Worker Pattern
+### Centralized Worker Pattern
 
-To manage workflow orchestrations, I aggregated background job consumers from all the distinct Go and TS services into a single, scalable **AWS SQS** deployment. This isolated failure domains and provided highly observable dead-letter queues.
+Background job consumers from all Go and TypeScript services consolidated into a single **AWS SQS** deployment. Isolated failure domains with observable dead-letter queues.
 
-## The Impact
+## Impact
 
-- **Complete Decoupling:** Successfully isolated the analytic ingestion pipelines from standard REST API traffic, maintaining a pristine user experience even under massive data ingestion.
-- **Microsecond Latency:** Translating dynamic frontend requests into optimized ClickHouse dialects executed in native Go yielded near real-time aggregate reporting for enterprise customers.
+- **Complete workload isolation** — Analytics ingestion never impacts REST API latency
+- **Near real-time reporting** — Dynamic Go query builder delivers aggregate reports in milliseconds
+- **Unified observability** — Single SQS deployment with dead-letter queues across all services

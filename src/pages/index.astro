@@ -13,7 +13,7 @@ import Layout from "../layouts/Layout.astro";
       </span>
       <span
         class="text-accent border-accent/20 bg-accent/5 rounded-full border px-2 py-0.5 font-mono text-sm font-semibold tracking-wider"
-        >STATUS: AVAILABLE_FOR_DEPLOYMENT</span
+        >Open to Work</span
       >
     </div>
 
@@ -100,28 +100,62 @@ import Layout from "../layouts/Layout.astro";
       </a>
     </div>
 
-    <div
-      class="group relative overflow-hidden rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 font-mono text-sm leading-relaxed text-zinc-400 shadow-2xl md:p-8 md:text-base"
-    >
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
       <div
-        class="from-accent/5 absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        class="group relative overflow-hidden rounded-lg border border-zinc-800/80 bg-zinc-950 p-5 transition-all hover:border-zinc-700"
       >
+        <div
+          class="from-accent/5 absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        >
+        </div>
+        <div class="relative z-10">
+          <span class="text-accent mb-1 block font-mono text-2xl font-black md:text-3xl">3+</span>
+          <span class="font-mono text-xs tracking-wide text-zinc-500 uppercase">Years Exp</span>
+        </div>
       </div>
-      <p class="relative z-10">
-        <span class="text-accent select-none">~ $ cat </span>about.txt
-        <br /><br />
-        I am a Software Development Engineer specializing in building scalable backend infrastructure
-        and secure, multi-tenant platforms. With deep expertise in <strong
-          class="font-semibold text-zinc-200">TypeScript, Node.js, Bun, and Go (Fiber)</strong
-        >, I engineer systems that handle massive data loads with <strong
-          class="text-accent font-semibold">99.9% uptime</strong
-        >.<br /><br />My recent work focuses on banking-grade fintech security (enforcing row-level
-        security and field-level encryption), polyglot architectures utilizing ClickHouse and
-        PostgreSQL, and integrating advanced Multi-Modal AI (RAG) capabilities into enterprise
-        applications.
-      </p>
+      <div
+        class="group relative overflow-hidden rounded-lg border border-zinc-800/80 bg-zinc-950 p-5 transition-all hover:border-zinc-700"
+      >
+        <div
+          class="from-accent/5 absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        >
+        </div>
+        <div class="relative z-10">
+          <span class="text-accent mb-1 block font-mono text-2xl font-black md:text-3xl">30k+</span>
+          <span class="font-mono text-xs tracking-wide text-zinc-500 uppercase">Users Served</span>
+        </div>
+      </div>
+      <div
+        class="group relative overflow-hidden rounded-lg border border-zinc-800/80 bg-zinc-950 p-5 transition-all hover:border-zinc-700"
+      >
+        <div
+          class="from-accent/5 absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        >
+        </div>
+        <div class="relative z-10">
+          <span class="text-accent mb-1 block font-mono text-2xl font-black md:text-3xl">99.9%</span
+          >
+          <span class="font-mono text-xs tracking-wide text-zinc-500 uppercase">Uptime SLA</span>
+        </div>
+      </div>
+      <div
+        class="group relative overflow-hidden rounded-lg border border-zinc-800/80 bg-zinc-950 p-5 transition-all hover:border-zinc-700"
+      >
+        <div
+          class="from-accent/5 absolute inset-0 bg-gradient-to-br to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        >
+        </div>
+        <div class="relative z-10">
+          <span class="text-accent mb-1 block font-mono text-2xl font-black md:text-3xl">12+</span>
+          <span class="font-mono text-xs tracking-wide text-zinc-500 uppercase">Projects</span>
+        </div>
+      </div>
     </div>
   </section>
+
+  <div class="mb-16 flex items-center gap-4">
+    <div class="h-px flex-1 bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+  </div>
 
   <section class="mb-32">
     <h3
@@ -132,12 +166,26 @@ import Layout from "../layouts/Layout.astro";
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       <div
-        class="rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-zinc-700"
+        class="group rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-sky-500/40"
       >
-        <h4
-          class="text-foreground mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase"
-        >
-          <span class="bg-accent h-1.5 w-1.5 rounded-sm"></span> Languages & Frameworks
+        <h4 class="mb-4 flex items-center gap-3 font-mono text-sm font-bold uppercase">
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-md bg-sky-500/10 text-sky-400"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"
+              ></polyline></svg
+            >
+          </span>
+          <span class="text-foreground">Languages & Frameworks</span>
         </h4>
         <div class="flex flex-wrap gap-2">
           {
@@ -152,7 +200,7 @@ import Layout from "../layouts/Layout.astro";
               "Next.js",
               "Astro",
             ].map((tech) => (
-              <span class="hover:text-accent hover:border-accent/50 cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors">
+              <span class="cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors hover:border-sky-500/50 hover:text-sky-400">
                 {tech}
               </span>
             ))
@@ -161,12 +209,26 @@ import Layout from "../layouts/Layout.astro";
       </div>
 
       <div
-        class="rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-zinc-700"
+        class="group rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-amber-500/40"
       >
-        <h4
-          class="text-foreground mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase"
-        >
-          <span class="bg-accent h-1.5 w-1.5 rounded-sm"></span> Databases & Storage
+        <h4 class="mb-4 flex items-center gap-3 font-mono text-sm font-bold uppercase">
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-md bg-amber-500/10 text-amber-400"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"
+              ></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg
+            >
+          </span>
+          <span class="text-foreground">Databases & Storage</span>
         </h4>
         <div class="flex flex-wrap gap-2">
           {
@@ -180,7 +242,7 @@ import Layout from "../layouts/Layout.astro";
               "Drizzle",
               "AWS S3",
             ].map((tech) => (
-              <span class="hover:text-accent hover:border-accent/50 cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors">
+              <span class="cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors hover:border-amber-500/50 hover:text-amber-400">
                 {tech}
               </span>
             ))
@@ -189,12 +251,25 @@ import Layout from "../layouts/Layout.astro";
       </div>
 
       <div
-        class="rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-zinc-700"
+        class="group rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-rose-500/40"
       >
-        <h4
-          class="text-foreground mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase"
-        >
-          <span class="bg-accent h-1.5 w-1.5 rounded-sm"></span> Infrastructure & Security
+        <h4 class="mb-4 flex items-center gap-3 font-mono text-sm font-bold uppercase">
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-md bg-rose-500/10 text-rose-400"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path></svg
+            >
+          </span>
+          <span class="text-foreground">Infrastructure & Security</span>
         </h4>
         <div class="flex flex-wrap gap-2">
           {
@@ -207,7 +282,7 @@ import Layout from "../layouts/Layout.astro";
               "HMAC",
               "Ngrok",
             ].map((tech) => (
-              <span class="hover:text-accent hover:border-accent/50 cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors">
+              <span class="cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors hover:border-rose-500/50 hover:text-rose-400">
                 {tech}
               </span>
             ))
@@ -216,12 +291,27 @@ import Layout from "../layouts/Layout.astro";
       </div>
 
       <div
-        class="rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-zinc-700"
+        class="group rounded-lg border border-zinc-800/80 bg-zinc-950 p-6 transition-colors hover:border-violet-500/40"
       >
-        <h4
-          class="text-foreground mb-4 flex items-center gap-2 font-mono text-sm font-bold uppercase"
-        >
-          <span class="bg-accent h-1.5 w-1.5 rounded-sm"></span> AI & Search
+        <h4 class="mb-4 flex items-center gap-3 font-mono text-sm font-bold uppercase">
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-md bg-violet-500/10 text-violet-400"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              ><path
+                d="M12 2a4 4 0 0 0-4 4c0 2 2 3 2 6H8a2 2 0 1 0 0 4h8a2 2 0 1 0 0-4h-2c0-3 2-4 2-6a4 4 0 0 0-4-4Z"
+              ></path><line x1="12" y1="18" x2="12" y2="22"></line></svg
+            >
+          </span>
+          <span class="text-foreground">AI & Search</span>
         </h4>
         <div class="flex flex-wrap gap-2">
           {
@@ -232,7 +322,7 @@ import Layout from "../layouts/Layout.astro";
               "Vector Search (pgvector, Atlas)",
               "RAG Architecture",
             ].map((tech) => (
-              <span class="hover:text-accent hover:border-accent/50 cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors">
+              <span class="cursor-default rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400 transition-colors hover:border-violet-500/50 hover:text-violet-400">
                 {tech}
               </span>
             ))
@@ -242,6 +332,10 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </section>
 
+  <div class="mb-16 flex items-center gap-4">
+    <div class="h-px flex-1 bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+  </div>
+
   <section class="mb-16">
     <h3
       class="mb-8 flex items-center border-b border-zinc-800 pb-4 font-mono text-sm tracking-widest text-zinc-500 uppercase"
@@ -249,64 +343,92 @@ import Layout from "../layouts/Layout.astro";
       <span class="text-accent mr-3">>&nbsp;</span>[02] // Featured_Operations
     </h3>
 
-    <div class="grid grid-cols-1 gap-4">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
       <a
         href="/projects/unified-ai-agent"
-        class="group relative block rounded-lg border border-zinc-800 bg-zinc-950 p-6 transition-all hover:border-zinc-600 hover:bg-zinc-900"
+        class="group relative block overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 transition-all hover:border-zinc-600 hover:bg-zinc-900"
       >
-        <h4 class="text-foreground mb-3 flex items-center justify-between text-xl font-bold">
-          Unified Multi-Modal AI Agent (RAG System)
-          <span class="group-hover:text-accent font-mono text-xs text-zinc-400 transition-colors"
-            >[Case Study]</span
+        <div
+          class="relative h-40 w-full overflow-hidden border-b border-zinc-800 bg-zinc-900 md:h-44"
+        >
+          <div
+            class="absolute inset-0 z-10 bg-zinc-950/30 transition-colors duration-500 group-hover:bg-transparent"
           >
-        </h4>
-        <p class="text-muted mb-5 font-mono text-sm leading-relaxed">
-          Production-ready AI system capable of handling complex natural language questions about
-          unstructured data.
-        </p>
-        <div class="flex gap-2">
-          <span
-            class="text-accent bg-accent/10 border-accent/20 rounded-sm border px-2 py-1 font-mono text-xs"
-            >LangChain</span
-          >
-          <span
-            class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
-            >Gemini</span
-          >
-          <span
-            class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
-            >Vector Search</span
-          >
+          </div>
+          <img
+            src="/images/unified-ai-agent.png"
+            alt="Unified AI Agent"
+            class="h-full w-full object-cover opacity-80 transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
+          />
+        </div>
+        <div class="p-6">
+          <h4 class="text-foreground mb-3 flex items-center justify-between text-lg font-bold">
+            Unified Multi-Modal AI Agent
+            <span class="group-hover:text-accent font-mono text-xs text-zinc-400 transition-colors"
+              >[Case Study]</span
+            >
+          </h4>
+          <p class="text-muted mb-5 font-mono text-sm leading-relaxed">
+            Production-ready RAG system for complex natural language queries on unstructured data.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="text-accent bg-accent/10 border-accent/20 rounded-sm border px-2 py-1 font-mono text-xs"
+              >LangChain</span
+            >
+            <span
+              class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
+              >Gemini</span
+            >
+            <span
+              class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
+              >Vector Search</span
+            >
+          </div>
         </div>
       </a>
 
       <a
         href="/projects/gunpowder-fintech-backend"
-        class="group relative block rounded-lg border border-zinc-800 bg-zinc-950 p-6 transition-all hover:border-zinc-600 hover:bg-zinc-900"
+        class="group relative block overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 transition-all hover:border-zinc-600 hover:bg-zinc-900"
       >
-        <h4 class="text-foreground mb-3 flex items-center justify-between text-xl font-bold">
-          Gunpowder Fintech Backend
-          <span class="group-hover:text-accent font-mono text-xs text-zinc-400 transition-colors"
-            >[Case Study]</span
+        <div
+          class="relative h-40 w-full overflow-hidden border-b border-zinc-800 bg-zinc-900 md:h-44"
+        >
+          <div
+            class="absolute inset-0 z-10 bg-zinc-950/30 transition-colors duration-500 group-hover:bg-transparent"
           >
-        </h4>
-        <p class="text-muted mb-5 font-mono text-sm leading-relaxed">
-          Enterprise-grade wealth management platform orchestrating investment accounts, KYC, and
-          direct debits.
-        </p>
-        <div class="flex gap-2">
-          <span
-            class="text-accent bg-accent/10 border-accent/20 rounded-sm border px-2 py-1 font-mono text-xs"
-            >TypeScript</span
-          >
-          <span
-            class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
-            >Prisma</span
-          >
-          <span
-            class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
-            >BullMQ</span
-          >
+          </div>
+          <img
+            src="/images/gunpowder-fintech-backend.png"
+            alt="Gunpowder Fintech Backend"
+            class="h-full w-full object-cover opacity-80 transition-all duration-700 ease-out group-hover:scale-105 group-hover:opacity-100"
+          />
+        </div>
+        <div class="p-6">
+          <h4 class="text-foreground mb-3 flex items-center justify-between text-lg font-bold">
+            Gunpowder Fintech Backend
+            <span class="group-hover:text-accent font-mono text-xs text-zinc-400 transition-colors"
+              >[Case Study]</span
+            >
+          </h4>
+          <p class="text-muted mb-5 font-mono text-sm leading-relaxed">
+            Enterprise wealth management platform with investment accounts, KYC, and direct debits.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="text-accent bg-accent/10 border-accent/20 rounded-sm border px-2 py-1 font-mono text-xs"
+              >TypeScript</span
+            >
+            <span
+              class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
+              >Prisma</span
+            >
+            <span
+              class="rounded-sm border border-zinc-800 bg-zinc-900 px-2 py-1 font-mono text-xs text-zinc-400"
+              >BullMQ</span
+            >
+          </div>
         </div>
       </a>
 

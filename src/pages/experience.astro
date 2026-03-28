@@ -19,39 +19,50 @@ import Layout from "../layouts/Layout.astro";
         class="bg-accent ring-background absolute top-1.5 -left-1.25 h-2.5 w-2.5 rounded-full ring-4"
       ></span>
 
-      <div class="mb-4 flex flex-col md:flex-row md:items-baseline md:justify-between">
+      <div class="mb-2 flex flex-col md:flex-row md:items-baseline md:justify-between">
         <h3 class="text-foreground text-xl font-bold">Software Development Engineer</h3>
-        <span class="mt-2 font-mono text-sm text-zinc-500 md:mt-0">Jan 2026 – Present</span>
+        <span
+          class="text-accent bg-accent/10 border-accent/20 mt-2 inline-flex w-fit items-center rounded-full border px-2.5 py-0.5 font-mono text-xs font-medium md:mt-0"
+          >Jan 2026 – Present</span
+        >
       </div>
 
-      <h4 class="text-accent mb-6 flex items-center gap-2 font-mono text-sm">
+      <h4 class="text-accent mb-5 flex items-center gap-2 font-mono text-sm">
         @ Gunpowder Innovations
         <span class="text-zinc-600">| London, UK - Remote</span>
       </h4>
 
-      <ul class="max-w-2xl space-y-4 font-mono text-sm leading-relaxed text-zinc-300">
+      <div class="mb-5 flex flex-wrap gap-2">
+        {
+          ["61 Prisma Models", "31 Event Types", "AES-256-GCM"].map((metric) => (
+            <span class="rounded-md border border-zinc-800 bg-zinc-900/80 px-2.5 py-1 font-mono text-xs font-semibold text-zinc-300">
+              {metric}
+            </span>
+          ))
+        }
+      </div>
+
+      <ul class="max-w-2xl space-y-3 text-sm leading-relaxed text-zinc-400">
         <li class="flex items-start">
-          <span class="text-accent mt-0.5 mr-3">»</span>
+          <span class="text-accent mt-0.5 mr-3 font-mono">»</span>
           <span
-            ><strong>Zero-Trust Data Security:</strong> Architected a robust Row-Level Security (ACL)
-            system across 61 Prisma models for a multi-tenant platform, utilizing Redis-backed caching
-            and specific handlers to enforce strict data isolation.</span
+            >Architected <strong class="text-zinc-200">Row-Level Security (ACL)</strong> across the entire
+            multi-tenant platform with Redis-backed caching for strict data isolation.</span
           >
         </li>
         <li class="flex items-start">
-          <span class="text-accent mt-0.5 mr-3">»</span>
+          <span class="text-accent mt-0.5 mr-3 font-mono">»</span>
           <span
-            ><strong>Financial Orchestration:</strong> Integrated external financial APIs (WealthKernel
-            and Plaid) and managed a reliable, event-driven webhook pipeline that processes 31 different
-            event types via BullMQ with secure signature verification.</span
+            >Integrated WealthKernel & Plaid APIs with an event-driven <strong class="text-zinc-200"
+              >BullMQ webhook pipeline</strong
+            > and secure signature verification.</span
           >
         </li>
         <li class="flex items-start">
-          <span class="text-accent mt-0.5 mr-3">»</span>
+          <span class="text-accent mt-0.5 mr-3 font-mono">»</span>
           <span
-            ><strong>Banking-Grade Encryption:</strong> Implemented AES-256-GCM field-level encryption
-            with zero-downtime key rotation to protect sensitive user data, ensuring strict financial
-            compliance while maintaining exceptionally low query latency.</span
+            >Implemented <strong class="text-zinc-200">field-level encryption</strong> with zero-downtime
+            key rotation for financial compliance at low query latency.</span
           >
         </li>
       </ul>
@@ -63,55 +74,63 @@ import Layout from "../layouts/Layout.astro";
         class="ring-background absolute top-1.5 -left-1.25 h-2.5 w-2.5 rounded-full bg-zinc-600 ring-4"
       ></span>
 
-      <div class="mb-4 flex flex-col md:flex-row md:items-baseline md:justify-between">
+      <div class="mb-2 flex flex-col md:flex-row md:items-baseline md:justify-between">
         <h3 class="text-foreground text-xl font-bold">Software Development Engineer</h3>
-        <span class="mt-2 font-mono text-sm text-zinc-500 md:mt-0">Jan 2023 – Dec 2025</span>
+        <span
+          class="mt-2 inline-flex w-fit items-center rounded-full border border-zinc-800 bg-zinc-900 px-2.5 py-0.5 font-mono text-xs text-zinc-500 md:mt-0"
+          >Jan 2023 – Dec 2025</span
+        >
       </div>
 
-      <h4 class="mb-6 flex items-center gap-2 font-mono text-sm text-zinc-400">
+      <h4 class="mb-5 flex items-center gap-2 font-mono text-sm text-zinc-400">
         @ The Internet Folks
         <span class="text-zinc-600">| Bhopal, MP - Remote</span>
       </h4>
 
-      <ul class="max-w-2xl space-y-4 font-mono text-sm leading-relaxed text-zinc-400">
+      <div class="mb-5 flex flex-wrap gap-2">
+        {
+          ["30k+ Users", "TypeScript + Go", "Multi-LLM (BYOK)", "5 Products"].map((metric) => (
+            <span class="rounded-md border border-zinc-800 bg-zinc-900/80 px-2.5 py-1 font-mono text-xs font-semibold text-zinc-300">
+              {metric}
+            </span>
+          ))
+        }
+      </div>
+
+      <ul class="max-w-2xl space-y-3 text-sm leading-relaxed text-zinc-400">
         <li class="flex items-start">
-          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span class="mt-0.5 mr-3 font-mono text-zinc-600">»</span>
           <span
-            ><strong>High-Scale Architecture:</strong> Maintained highly reliable backend services for
-            over 30,000 users, utilizing dynamic database partitioning in MongoDB to manage millions of
-            records safely.</span
+            >Maintained backend services for <strong class="text-zinc-200">30,000+ users</strong> with
+            dynamic MongoDB partitioning for millions of records.</span
           >
         </li>
         <li class="flex items-start">
-          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span class="mt-0.5 mr-3 font-mono text-zinc-600">»</span>
           <span
-            ><strong>Polyglot Microservices:</strong> Architected a flexible, multi-language backend system
-            using TypeScript and Go, smartly directing heavy tracking data to ClickHouse and core relational
-            data to PostgreSQL for maximum performance.</span
+            >Built <strong class="text-zinc-200">polyglot microservices</strong> routing tracking data
+            to ClickHouse and relational data to PostgreSQL.</span
           >
         </li>
         <li class="flex items-start">
-          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span class="mt-0.5 mr-3 font-mono text-zinc-600">»</span>
           <span
-            ><strong>Enterprise AI Integration:</strong> Developed a hybrid AI system combining semantic
-            search (pgvector) with multi-LLM generation (OpenAI, Gemini), allowing enterprise clients
-            to securely plug in their own AI keys (BYOK).</span
+            >Developed hybrid AI with <strong class="text-zinc-200">pgvector semantic search</strong
+            > and multi-LLM generation with BYOK support.</span
           >
         </li>
         <li class="flex items-start">
-          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span class="mt-0.5 mr-3 font-mono text-zinc-600">»</span>
           <span
-            ><strong>Automated Financial Ledgers (FaaS):</strong> Created a multi-tenant "Fund as a Service"
-            platform using PostgreSQL and Drizzle ORM, designing a strict financial ledger that accurately
-            tracks capital flows and fees.</span
+            >Created multi-tenant <strong class="text-zinc-200">"Fund as a Service"</strong> platform
+            with strict financial ledger tracking.</span
           >
         </li>
         <li class="flex items-start">
-          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span class="mt-0.5 mr-3 font-mono text-zinc-600">»</span>
           <span
-            ><strong>Digital Agriculture (AgriEasy):</strong> Built a digital agriculture platform featuring
-            a real-time negotiation engine, enabling farmers to agree on contracts and automatically generating
-            personalized, day-by-day crop care schedules.</span
+            >Built <strong class="text-zinc-200">AgriEasy</strong> digital agriculture platform with real-time
+            negotiation and automated crop care schedules.</span
           >
         </li>
       </ul>
@@ -123,23 +142,32 @@ import Layout from "../layouts/Layout.astro";
         class="ring-background absolute top-1.5 -left-1.25 h-2.5 w-2.5 rounded-full bg-zinc-600 ring-4"
       ></span>
 
-      <div class="mb-4 flex flex-col md:flex-row md:items-baseline md:justify-between">
+      <div class="mb-2 flex flex-col md:flex-row md:items-baseline md:justify-between">
         <h3 class="text-foreground text-xl font-bold">Software Development Intern</h3>
-        <span class="mt-2 font-mono text-sm text-zinc-500 md:mt-0">June 2022 – Aug 2022</span>
+        <span
+          class="mt-2 inline-flex w-fit items-center rounded-full border border-zinc-800 bg-zinc-900 px-2.5 py-0.5 font-mono text-xs text-zinc-500 md:mt-0"
+          >June 2022 – Aug 2022</span
+        >
       </div>
 
-      <h4 class="mb-6 flex items-center gap-2 font-mono text-sm text-zinc-400">
+      <h4 class="mb-5 flex items-center gap-2 font-mono text-sm text-zinc-400">
         @ AUM Capital Market Private Limited
         <span class="text-zinc-600">| Kolkata, WB</span>
       </h4>
 
-      <ul class="max-w-2xl space-y-4 font-mono text-sm leading-relaxed text-zinc-400">
+      <div class="mb-5 flex flex-wrap gap-2">
+        <span
+          class="rounded-md border border-zinc-800 bg-zinc-900/80 px-2.5 py-1 font-mono text-xs font-semibold text-zinc-300"
+          >80% Less Manual Work</span
+        >
+      </div>
+
+      <ul class="max-w-2xl space-y-3 text-sm leading-relaxed text-zinc-400">
         <li class="flex items-start">
-          <span class="mt-0.5 mr-3 text-zinc-600">»</span>
+          <span class="mt-0.5 mr-3 font-mono text-zinc-600">»</span>
           <span
-            ><strong>Process Automation:</strong> Developed a React and Node.js solution to automate government
-            bond calculations and payment reminders, cutting down manual administrative work by approximately
-            80%.</span
+            >Automated <strong class="text-zinc-200">government bond calculations</strong> and payment
+            reminders with React and Node.js.</span
           >
         </li>
       </ul>

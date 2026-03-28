@@ -7,42 +7,44 @@ order: 1
 image: "/images/gunpowder-fintech-backend.png"
 ---
 
-> An enterprise-grade, multi-tenant wealth management platform orchestrating investment accounts, KYC verification, and AI-driven recommendations via a RESTful API serving 47+ controllers across 5 business domains.
+> 80+ database models. 55 controllers across 5 business domains. A multi-tenant wealth management API handling real money, real compliance, and zero tolerance for data leaks.
 
-## Key Architecture & Engineering
+## The Challenge
 
-### Two-Layer Access Control (ACL)
+Zugo is a B2B2C platform where financial advisors manage client portfolios, execute investment orders, and run financial projections — served through a single multi-tenant API to mobile and web clients. The backend handles authentication, row-level security, investment execution, KYC, bank aggregation, AI recommendations, and compliance logging. Every API call touches sensitive financial data, so security had to be architectural, not bolted on.
 
-Combines API-level middleware with a strict row-level security system across all 61 data models. It uses six role-specific handlers and **Redis caching** to accurately compute accessible records for different users.
+## Key Engineering Decisions
 
-### Post-Commit Callback Pattern
+### Domain-Driven Architecture
 
-Ensures that external operations (like sending emails or triggering _WealthKernel_ API calls) only execute after the database transaction **safely commits**, preventing inconsistent data states if a rollback occurs.
+5 business domains — **Identity** (auth, sessions, permissions), **Financials** (15+ account types, orders, deposits, planning engine), **Core** (access control, audit, KYC, webhooks), **Assessment** (risk profiles, questionnaires), and **Products** (plans, funds, agreements). Each domain owns its controllers, services, validators, and types.
 
-### Event-Driven Webhook Pipeline
+### Row-Level Security
 
-Manages 31 different _WealthKernel_ webhook event types routed through **BullMQ** queues. It uses `HMAC-SHA256` signature verification and idempotency guards to prevent duplicate transaction processing.
+Every data entity carries a security scope. On each request, the user's role determines their accessible scope — computed once, cached, and injected into every database query. Advisors see only their clients. Tenant admins see their organization. No query runs without a scope boundary — enforced at the data layer across 47+ models.
 
-```typescript
-// Conceptual BullMQ Webhook Pipeline
-const webhookQueue = new Queue("wealthkernel_events", { connection: redis });
+### Investment Platform Integration
 
-webhookQueue.process(async (job) => {
-  // 1. Verify HMAC-SHA256 Signature
-  verifySignature(job.data.payload, job.data.signature);
+17 integration modules covering accounts, portfolios, orders, deposits, direct debits, and transfers. A **BullMQ** webhook pipeline processes 27 event types with signature verification and idempotency guards. 9 handler modules manage the full investment lifecycle with multiple state transitions per event.
 
-  // 2. Check Idempotency Key in Redis
-  if (await redis.exists(`processed:${job.data.eventId}`)) return;
+### Financial Planning Engine
 
-  // 3. Post-Commit Callback Execution
-  await db.transaction(async (tx) => {
-    await routeEventLogic(tx, job.data.payload);
-  });
+A ~1,000-line pure calculation module — no database calls, no side effects. Runs year-by-year simulations with a complete **UK tax engine** (income tax bands, NI, pension relief, ISA limits). Output: annual projections with a retirement feasibility assessment.
 
-  await redis.set(`processed:${job.data.eventId}`, "true");
-});
-```
+### Security & Compliance
 
-### Field-Level Encryption
+- **Field-level encryption** with zero-downtime key rotation for all PII
+- **Multi-provider auth** — email, Google, Apple, biometric, OTP with token revocation and device fingerprinting
+- **Tiered rate limiting** across auth, sensitive, and general endpoints
+- **Full audit trail** — every request logged with PII masking and correlation tracking
+- **Post-commit callbacks** — external operations only fire after transactions commit successfully
 
-Uses `AES-256-GCM` encryption with zero-downtime key rotation to protect sensitive Personally Identifiable Information (PII), achieving **ISO 27001 compliance** while maintaining extremely fast query latency.
+Background processing runs 5 scheduled jobs (transaction syncing, payment management, recurring investments) and 2 dedicated queues (email, webhooks) with retry policies and idempotency guards.
+
+## Impact
+
+- **80+ models, zero cross-tenant leaks** — Row-level security on every query, not just the API layer
+- **27 webhook events, exactly-once processing** — Signature verification + idempotency across the full lifecycle
+- **Zero-downtime encryption rotation** — Key transitions without service interruption
+- **Full UK tax compliance** — PAYE, NI, pension relief computed in a pure stateless engine
+- **Complete audit trail** — Every request logged with PII masking and correlation tracking

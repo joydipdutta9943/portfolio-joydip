@@ -13,6 +13,7 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const pathname = Astro.url.pathname;
 const siteTitle = "Joydip Dutta — Software Engineer";
 const ogTitle = title === siteTitle ? title : `${title} | Joydip Dutta`;
 ---
@@ -81,13 +82,30 @@ const ogTitle = title === siteTitle ? title : `${title} | Joydip Dutta`;
           jd.init()<span class="text-accent animate-pulse">_</span>
         </a>
         <nav class="flex gap-6 font-mono text-sm">
-          <a href="/" class="hover:text-accent focus-visible:text-accent transition-colors">~ /</a>
+          <a
+            href="/"
+            class:list={[
+              "transition-colors",
+              pathname === "/" ? "text-accent" : "hover:text-accent focus-visible:text-accent",
+            ]}>~ /</a
+          >
           <a
             href="/experience"
-            class="hover:text-accent focus-visible:text-accent transition-colors">~ /experience</a
+            class:list={[
+              "transition-colors",
+              pathname === "/experience" || pathname === "/experience/"
+                ? "text-accent"
+                : "hover:text-accent focus-visible:text-accent",
+            ]}>~ /experience</a
           >
-          <a href="/projects" class="hover:text-accent focus-visible:text-accent transition-colors"
-            >~ /projects</a
+          <a
+            href="/projects"
+            class:list={[
+              "transition-colors",
+              pathname.startsWith("/projects")
+                ? "text-accent"
+                : "hover:text-accent focus-visible:text-accent",
+            ]}>~ /projects</a
           >
         </nav>
       </header>

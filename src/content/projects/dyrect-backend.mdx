@@ -5,38 +5,37 @@ techStack: ["Node.js (TypeScript)", "MongoDB", "RabbitMQ", "Redis"]
 order: 8
 ---
 
-> Dynamically sharding physical IoT interaction data at scale.
+> Scan a QR code, register a product, activate a warranty — at scale across international brands.
 
 ## The Challenge
 
-Providing post-sales transparency and instantaneous warranty registration via physical QR codes generates extremely unpredictable, bursty traffic. As multiple international brands rely on the infrastructure to index serialized products, standard database structuring quickly hit read/write limits.
+Physical QR codes on consumer products generate extremely bursty, unpredictable traffic. A single ad campaign can spike scan volume 100x overnight. With multiple international brands sharing the infrastructure, a standard MongoDB collection with tens of millions of short-URLs quickly hits index degradation.
 
-## The Architecture of Scale
+## Key Engineering Decisions
 
-To prevent bottlenecking during massive product scan spikes, I implemented a custom dynamic data partitioning system securely atop **MongoDB** and **RabbitMQ** pipelines.
+### Dynamic Collection Sharding
 
-### 1. Dynamic Collection Sharding
-
-Instead of indexing tens of millions of distinct short-URLs into a monolithic collection (which results in massive B-Tree degradation), I engineered a dynamic MongoDB sharding mechanism that routes telemetry into brand-specific domain subsets on a shared-nothing paradigm.
+Instead of one massive collection, telemetry routes into brand-specific MongoDB collections on a shared-nothing basis. Each brand's scan data lives in its own partition, eliminating B-Tree bloat.
 
 ```javascript
-// Dynamic Partition Router concept
 async function logProductScan(domainHost, telemetryPayload) {
-  // 1. Resolve partitioned tenant collection dynamically
   const collectionName = `scans_${domainHost.replace(/\./g, "_")}`;
-
   const PartitionedCollection = mongoose.model(collectionName, TelemetrySchema, collectionName);
 
-  // 2. Safely commit
   await PartitionedCollection.create(telemetryPayload);
 }
 ```
 
-### 2. Isolated VPN Tunnels
+### Traffic Spike Absorption
 
-Certain enterprise tenants required raw access to specific sub-ledgers. Rather than expose multi-tenant APIs, I built secure infrastructure pipelines resolving via highly programmatic **SSH tunneling** directly to private Virtual Private Cloud (VPC) resources.
+**RabbitMQ** queues buffer incoming scan events during campaign spikes, ensuring the database never receives more writes than it can handle.
 
-## The Impact
+### Secure Enterprise Access
 
-- **Infinite Scalability:** Traffic bursts from QR-code ad campaigns were naturally absorbed via isolated RabbitMQ queueing.
-- **Microsecond Database Lookup:** Sharding the short-URLs structurally eliminated index bloat. Time to resolve a physical product URL to a warranty profile remained practically instantaneous regardless of platform scale.
+For tenants requiring direct database access, isolated **SSH tunnels** connect to private VPC resources — no multi-tenant API endpoints exposed.
+
+## Impact
+
+- **Handles 100x traffic spikes** — RabbitMQ buffering absorbs campaign-driven scan bursts
+- **Constant-time URL resolution** — Per-brand sharding keeps index sizes small regardless of total platform scale
+- **Secure direct access** — Enterprise tenants connect via isolated VPN tunnels, not shared APIs

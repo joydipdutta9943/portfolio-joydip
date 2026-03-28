@@ -5,53 +5,49 @@ techStack: ["TypeScript", "Bun", "MongoDB", "Stripe Connect", "Hatchet"]
 order: 9
 ---
 
-> Architecting complex financial ledgering, multi-tiered payout pipelines, and a timezone-aware recurrence engine.
+> A B2B marketplace handling split payments, timezone-aware scheduling, and automated booking lifecycle management.
 
 ## The Challenge
 
-Building an isolated B2B marketplace requires orchestrating intense logic between booking states, vendor availability, and corporate credit authorizations. Hand-rolling cron jobs to manage thousands of concurrent Stripe pre-authorizations frequently results in stale locks and failed payments.
+Corporate event booking involves three-way financial splits (platform, vendor, tax), vendor availability across time zones, and pre-authorized payments that can go stale. Hand-rolled cron jobs for managing thousands of concurrent Stripe pre-authorizations lead to stale locks and failed captures.
 
-## The Solution
+## Key Engineering Decisions
 
-I designed the core marketplace backend.
+### Split Payment Orchestration
 
-### 1. Complex Financial Ledgering
-
-I integrated **Stripe Connect** to manage the highly complex split payments between the system platform fee, the primary vendor, and local tax requirements. I structured robust logic to execute partial or full refunds accurately, even when the vendor had already drawn down their Stripe bucket balance.
+**Stripe Connect** manages three-way payment splits between the platform fee, primary vendor, and local tax. Partial and full refunds work correctly even after the vendor has already withdrawn from their Stripe balance.
 
 ```typescript
-// Conceptual Multi-Tier Payment Split Workflow
 async function captureCorporateBooking(bookingId) {
   const transaction = await mongoDB.Bookings.findById(bookingId);
   const provider = await mongoDB.Vendors.findById(transaction.vendorId);
 
-  // Platform fee logic defined mathematically on ledger bounds
   const applicationFee = calculatePlatformPercentage(transaction.amount, provider.tier);
 
   const paymentIntent = await stripe.paymentIntents.capture(transaction.preAuthId, {
     amount_to_capture: transaction.amount,
     application_fee_amount: applicationFee,
-    transfer_data: {
-      destination: provider.stripeAccountId,
-    },
+    transfer_data: { destination: provider.stripeAccountId },
   });
 
   return paymentIntent;
 }
 ```
 
-### 2. Timezone-Aware Recurrence Scheduling
+### Timezone-Aware Recurrence
 
-Vendors dictate their availability across various geopolitical zones. I engineered an automated, dynamic event generator that factors in exact daylight savings variables and global UTC offsets when constructing 60-day recurring vendor availability slots natively in MongoDB.
+Vendor availability spans multiple time zones. The scheduler accounts for daylight savings and UTC offsets when generating 60-day recurring availability slots.
 
-### 3. Automated Lifecycle
+### Lifecycle Automation via Hatchet
 
-Instead of cron loops that die on V8 limits, I utilized **Hatchet** background workflows.
+**Hatchet** workflows replaced fragile cron jobs for:
 
-- Automatically cancel highly stale, pending corporate bookings.
-- Void pending Stripe Connect pre-authorizations seamlessly without requiring human administrator interventions.
+- Auto-cancelling stale pending bookings
+- Voiding expired Stripe pre-authorizations
+- No dropped state mutations during booking expirations
 
-## The Impact
+## Impact
 
-- **Frictionless Money Flow:** Executed complex Split-Pay topologies safely across international vendors.
-- **Workflow State Machines:** Eliminating generic cron loops for Hatchet's state machines resulted in zero dropped state mutations during booking expirations.
+- **Correct international split payments** — Three-way Stripe Connect splits across vendors, platform, and tax
+- **Zero dropped expirations** — Hatchet state machines vs. cron loops = no missed booking cancellations
+- **DST-safe scheduling** — Vendor availability correctly shifts with daylight savings across all time zones
