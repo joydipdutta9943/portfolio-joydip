@@ -36,13 +36,15 @@ const ogTitle = title === siteTitle ? title : `${title} | Joydip Dutta`;
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://sannin-coder.info/og-image.png" />
     <meta property="og:site_name" content="Joydip Dutta" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://sannin-coder.info/og-image.png" />
 
     <!-- Additional SEO -->
     <meta name="author" content="Joydip Dutta" />
@@ -53,14 +55,22 @@ const ogTitle = title === siteTitle ? title : `${title} | Joydip Dutta`;
       type="application/ld+json"
       set:html={JSON.stringify({
         "@context": "https://schema.org",
-        "@type": "Person",
-        name: "Joydip Dutta",
+        "@type": "WebSite",
+        name: "Joydip Dutta — Software Development Engineer",
         url: "https://sannin-coder.info",
-        jobTitle: "Software Engineer",
-        sameAs: [
-          "https://github.com/joydipdutta9943",
-          "https://www.linkedin.com/in/joydip-dutta-569428141/",
-        ],
+        description:
+          "Portfolio of Joydip Dutta, Software Development Engineer specializing in microservices, enterprise SaaS, and AI systems.",
+        author: {
+          "@type": "Person",
+          name: "Joydip Dutta",
+          url: "https://sannin-coder.info",
+          jobTitle: "Software Development Engineer",
+          email: "joydip.dutta9943@gmail.com",
+          sameAs: [
+            "https://github.com/joydipdutta9943",
+            "https://www.linkedin.com/in/joydip-dutta-569428141/",
+          ],
+        },
       })}
     />
 
