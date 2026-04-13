@@ -60,8 +60,8 @@
   border-radius: 9999px;
   background: radial-gradient(
     circle at center,
-    rgba(124, 92, 255, 0.18),
-    rgba(59, 130, 246, 0.08) 40%,
+    color-mix(in srgb, var(--color-accent-from) 18%, transparent),
+    color-mix(in srgb, var(--color-accent-via) 8%, transparent) 40%,
     transparent 70%
   );
   filter: blur(120px);
@@ -69,7 +69,7 @@
 }
 
 @utility card-surface {
-  background: linear-gradient(180deg, #0f0f14 0%, #0c0c11 100%);
+  background: linear-gradient(180deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 80%, black) 100%);
   border: 1px solid var(--color-border);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
@@ -184,7 +184,7 @@
   }
 }
 
-/* Custom Scrollbar for Terminal aesthetic */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
