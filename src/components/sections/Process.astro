@@ -1,0 +1,53 @@
+---
+import Card from "../ui/Card.astro";
+
+const steps = [
+  {
+    index: "01",
+    duration: "1 week",
+    title: "Discovery",
+    body: "We pin down the product, the constraints, and the bar. I scope the build, flag the risky parts, and tell you what's hard. If it's not a fit, I'll say so.",
+  },
+  {
+    index: "02",
+    duration: "1–2 weeks",
+    title: "Architecture",
+    body: "Data model, API contract, infra plan. You review and approve before a line of production code is written. Surprises get expensive later.",
+  },
+  {
+    index: "03",
+    duration: "4–12 weeks",
+    title: "Build & ship",
+    body: "Weekly demos, continuous deploys, your team owns the code from day one. I work in your repo, your branch conventions, your review process.",
+  },
+];
+---
+
+<section id="process" class="scroll-mt-24 px-6 py-32">
+  <div class="mx-auto max-w-5xl">
+    <div class="mb-16">
+      <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+        <span class="gradient-text">03</span>
+        <span class="ml-2 text-subtle">— How I work</span>
+      </div>
+      <h2 class="font-display max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+        Predictable process. No surprises.
+      </h2>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-3">
+      {steps.map((step) => (
+        <Card>
+          <div class="mb-4 flex items-baseline justify-between">
+            <span class="gradient-text font-mono text-2xl font-semibold">{step.index}</span>
+            <span class="font-mono text-[11px] uppercase tracking-widest text-subtle">
+              {step.duration}
+            </span>
+          </div>
+          <h3 class="mb-3 text-lg font-semibold text-foreground">{step.title}</h3>
+          <p class="text-sm leading-relaxed text-muted">{step.body}</p>
+        </Card>
+      ))}
+    </div>
+  </div>
+</section>
