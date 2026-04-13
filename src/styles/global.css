@@ -112,15 +112,15 @@
   }
   /* Custom Markdown/MDX Styling */
   .prose-content {
-    @apply max-w-[70ch] leading-8 text-zinc-400;
+    @apply max-w-[72ch] text-base leading-relaxed text-muted;
   }
 
   .prose-content h2 {
-    @apply text-foreground border-accent mt-16 mb-6 border-l-2 pl-4 text-2xl font-bold tracking-tight md:text-3xl;
+    @apply font-display text-foreground mt-16 mb-6 text-3xl font-semibold tracking-[-0.03em] md:text-4xl;
   }
 
   .prose-content h3 {
-    @apply mt-10 mb-4 text-xl font-bold tracking-tight text-zinc-200 md:text-2xl;
+    @apply font-display text-foreground mt-10 mb-4 text-xl font-semibold tracking-[-0.02em] md:text-2xl;
   }
 
   .prose-content p {
@@ -132,11 +132,11 @@
   }
 
   .prose-content ul {
-    @apply mb-8 ml-6 list-outside list-disc space-y-3 text-zinc-300;
+    @apply mb-8 ml-6 list-outside list-disc space-y-3;
   }
 
   .prose-content li::marker {
-    @apply text-accent;
+    color: var(--color-accent-via);
   }
 
   .prose-content li strong {
@@ -144,19 +144,22 @@
   }
 
   .prose-content pre {
-    @apply my-8 overflow-x-auto rounded-lg border border-zinc-800/80 bg-zinc-950 p-4 font-mono text-xs md:p-6 md:text-sm;
+    @apply my-8 overflow-x-auto rounded-xl border border-border p-5 font-mono text-xs md:text-sm;
+    background: #0c0c11;
   }
 
   .prose-content code {
-    @apply text-accent/80 rounded bg-zinc-800/50 px-1.5 py-0.5 font-mono text-sm;
+    @apply rounded-md border border-border bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em] text-foreground;
   }
 
   .prose-content pre code {
-    @apply bg-transparent px-0 text-inherit;
+    @apply border-0 bg-transparent px-0 text-inherit;
   }
 
   .prose-content blockquote {
-    @apply border-accent bg-accent/5 my-8 rounded-r-lg border-l-4 p-5 pl-6 font-mono text-sm leading-relaxed text-zinc-300 not-italic;
+    @apply my-8 rounded-r-lg border-l-2 p-5 pl-6 text-base leading-relaxed text-muted not-italic;
+    border-left-color: var(--color-accent-via);
+    background: rgba(124, 92, 255, 0.04);
   }
 
   .prose-content blockquote p {
@@ -168,19 +171,24 @@
   }
 
   .prose-content thead {
-    @apply border-b border-zinc-700 bg-zinc-900;
+    @apply border-b border-border;
+    background: #0f0f14;
   }
 
   .prose-content th {
-    @apply text-accent px-4 py-3 text-left font-mono text-xs font-semibold tracking-wider uppercase;
+    @apply px-4 py-3 text-left font-mono text-[11px] font-semibold uppercase tracking-wider text-subtle;
   }
 
   .prose-content td {
-    @apply border-b border-zinc-800/50 px-4 py-3 text-zinc-300;
+    @apply border-b border-border px-4 py-3 text-muted;
   }
 
   .prose-content tbody tr {
-    @apply transition-colors hover:bg-zinc-900/50;
+    @apply transition-colors;
+  }
+
+  .prose-content tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
   }
 }
 
