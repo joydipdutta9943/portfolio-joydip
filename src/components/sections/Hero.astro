@@ -1,0 +1,62 @@
+---
+import GradientButton from "../ui/GradientButton.astro";
+
+const stats = [
+  { value: "3+", label: "yrs shipping" },
+  { value: "30k+", label: "users served" },
+  { value: "99.9%", label: "uptime SLA" },
+  { value: "12+", label: "projects shipped" },
+];
+---
+
+<section class="relative flex min-h-[85vh] items-center overflow-hidden px-6">
+  <div class="radial-glow absolute -top-40 left-1/2 -translate-x-1/2"></div>
+
+  <div class="relative mx-auto w-full max-w-5xl">
+    <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-white/[0.02] px-3 py-1.5 text-xs text-muted backdrop-blur-sm">
+      <span class="relative flex h-1.5 w-1.5">
+        <span class="gradient-fill absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
+        <span class="gradient-fill relative inline-flex h-1.5 w-1.5 rounded-full"></span>
+      </span>
+      Available for new projects · Q2 2026
+    </div>
+
+    <h1
+      class="font-display text-foreground mb-6 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.04em] md:text-6xl lg:text-7xl"
+    >
+      Senior engineer building
+      <span class="gradient-text">production systems</span>
+      for funded startups.
+    </h1>
+
+    <p class="mb-10 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
+      I ship backends, SaaS platforms, and AI features that hold up in production.
+      Previously built a fintech wealth platform serving 30k users and a RAG system
+      on unstructured data for enterprise search.
+    </p>
+
+    <div class="mb-16 flex flex-wrap items-center gap-3">
+      <GradientButton
+        href="mailto:joydip.dutta9943@gmail.com?subject=New%20project%20—%20%5Byour%20company%5D"
+      >
+        Start a project
+      </GradientButton>
+      <GradientButton href="#work" variant="ghost">
+        See case studies
+      </GradientButton>
+    </div>
+
+    <div class="grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-4">
+      {stats.map((stat) => (
+        <div class="bg-background px-5 py-5">
+          <div class="font-mono text-2xl font-medium text-foreground md:text-3xl">
+            {stat.value}
+          </div>
+          <div class="mt-1 text-[11px] uppercase tracking-wider text-subtle">
+            {stat.label}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
