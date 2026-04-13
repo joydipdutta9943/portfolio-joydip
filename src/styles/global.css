@@ -1,21 +1,81 @@
 @import "tailwindcss";
 
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter-tight/400.css";
+@import "@fontsource/inter-tight/600.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
 @theme {
-  --color-background: #09090b;
+  --color-background: #0a0a0f;
+  --color-surface: #0f0f14;
+  --color-surface-raised: #15151d;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
+
   --color-foreground: #fafafa;
   --color-muted: #a1a1aa;
-  --color-accent: #4ade80;
+  --color-subtle: #52525b;
 
-  --font-sans: "Inter", "Geist", "Helvetica Neue", sans-serif;
-  --font-mono: "JetBrains Mono", "Geist Mono", "Fira Code", monospace;
+  --color-accent-from: #7c5cff;
+  --color-accent-via: #3b82f6;
+  --color-accent-to: #06b6d4;
 
-  /* Custom Background Utility */
-  --bg-dot-pattern: radial-gradient(circle, #27272a 1px, transparent 1px);
+  /* LEGACY — remove after index.astro is rewritten */
+  --color-accent: #7c5cff;
+
+  --font-display: "Inter Tight", "Inter", sans-serif;
+  --font-sans: "Inter", "Helvetica Neue", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+@utility gradient-text {
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-from),
+    var(--color-accent-via),
+    var(--color-accent-to)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility gradient-fill {
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-from),
+    var(--color-accent-via),
+    var(--color-accent-to)
+  );
+}
+
+@utility radial-glow {
+  position: absolute;
+  pointer-events: none;
+  width: 900px;
+  height: 900px;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle at center,
+    rgba(124, 92, 255, 0.18),
+    rgba(59, 130, 246, 0.08) 40%,
+    transparent 70%
+  );
+  filter: blur(120px);
+  will-change: transform;
+}
+
+@utility card-surface {
+  background: linear-gradient(180deg, #0f0f14 0%, #0c0c11 100%);
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 @utility bg-dot-pattern {
-  background-image: var(--bg-dot-pattern);
-  background-size: 24px 24px;
+  background-image: none;
 }
 
 @layer base {
@@ -28,7 +88,8 @@
   }
 
   body {
-    @apply bg-background text-muted selection:bg-accent selection:text-background min-h-screen font-sans antialiased;
+    @apply bg-background text-muted selection:bg-accent-from selection:text-foreground min-h-screen font-sans antialiased;
+    font-feature-settings: "cv11", "ss01", "ss03";
   }
 
   h1,
@@ -37,7 +98,8 @@
   h4,
   h5,
   h6 {
-    @apply text-foreground font-sans font-bold tracking-tight;
+    @apply text-foreground font-display font-semibold;
+    letter-spacing: -0.03em;
   }
 
   code,
@@ -46,7 +108,7 @@
   }
 
   a {
-    @apply focus-visible:ring-accent focus-visible:ring-offset-background transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply focus-visible:ring-accent-from focus-visible:ring-offset-background transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
   }
   /* Custom Markdown/MDX Styling */
   .prose-content {
