@@ -1,0 +1,123 @@
+---
+const featured = [
+  {
+    slug: "unified-ai-agent",
+    title: "Unified Multi-Modal AI Agent",
+    outcome: "Shipped a production RAG system for complex natural-language queries over unstructured enterprise data.",
+    image: "/images/unified-ai-agent.png",
+    tags: ["LangChain", "Gemini", "Vector search"],
+  },
+  {
+    slug: "gunpowder-fintech-backend",
+    title: "Gunpowder Fintech Backend",
+    outcome: "Built a wealth management platform serving 30k users with investment accounts, KYC, and direct debits.",
+    image: "/images/gunpowder-fintech-backend.png",
+    tags: ["TypeScript", "Prisma", "BullMQ"],
+  },
+];
+
+const smaller = [
+  {
+    slug: "dyrect-backend",
+    title: "Dyrect",
+    outcome: "Direct-to-customer platform backend with automated workflows.",
+    tags: ["Node.js", "MongoDB"],
+  },
+  {
+    slug: "levo-microservices",
+    title: "Levo",
+    outcome: "Polyglot microservices architecture for a production SaaS.",
+    tags: ["Go", "Fiber", "Postgres"],
+  },
+  {
+    slug: "crooze-gamified-fitness",
+    title: "Crooze",
+    outcome: "Gamified fitness backend with real-time events and leaderboards.",
+    tags: ["Node.js", "Redis"],
+  },
+];
+---
+
+<section id="work" class="scroll-mt-24 px-6 py-32">
+  <div class="mx-auto max-w-6xl">
+    <div class="mb-16">
+      <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+        <span class="gradient-text">02</span>
+        <span class="ml-2 text-subtle">— Selected work</span>
+      </div>
+      <h2 class="font-display max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+        Production systems, not demos.
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      {featured.map((p) => (
+        <a
+          href={`/projects/${p.slug}`}
+          class="card-surface group relative block overflow-hidden rounded-xl transition-all duration-300 hover:border-border-strong"
+        >
+          <div class="relative aspect-[16/9] w-full overflow-hidden border-b border-border bg-surface-raised">
+            <img
+              src={p.image}
+              alt={p.title}
+              class="h-full w-full object-cover opacity-80 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent"></div>
+          </div>
+          <div class="p-6">
+            <h3 class="mb-2 text-lg font-semibold text-foreground">{p.title}</h3>
+            <p class="mb-5 text-sm leading-relaxed text-muted">{p.outcome}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {p.tags.map((tag) => (
+                <span class="rounded-md border border-border bg-white/[0.02] px-2 py-1 font-mono text-[11px] text-muted">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+      {smaller.map((p) => (
+        <a
+          href={`/projects/${p.slug}`}
+          class="card-surface group block rounded-xl p-6 transition-all duration-300 hover:border-border-strong"
+        >
+          <h3 class="mb-2 text-base font-semibold text-foreground">{p.title}</h3>
+          <p class="mb-4 text-sm leading-relaxed text-muted">{p.outcome}</p>
+          <div class="flex flex-wrap gap-1.5">
+            {p.tags.map((tag) => (
+              <span class="rounded-md border border-border bg-white/[0.02] px-2 py-1 font-mono text-[11px] text-muted">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-10 flex justify-end">
+      <a
+        href="/projects"
+        class="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
+      >
+        View all 12 projects
+        <svg
+          class="h-4 w-4 transition-transform group-hover:translate-x-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14"></path>
+          <path d="m12 5 7 7-7 7"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
