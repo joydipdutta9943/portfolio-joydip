@@ -14,7 +14,11 @@ const { project } = Astro.props;
 const { Content } = await render(project);
 ---
 
-<Layout title={`${project.data.title} | Case Study`} description={project.data.description}>
+<Layout
+  title={`${project.data.title} | Joydip Dutta`}
+  description={project.data.description}
+  ogImage={project.data.image}
+>
   <div class="mx-auto max-w-5xl px-6 pb-24">
 
     <!-- Back link -->

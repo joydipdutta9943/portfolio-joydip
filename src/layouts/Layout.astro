@@ -7,46 +7,61 @@ import Footer from "../components/ui/Footer.astro";
 interface Props {
   title: string;
   description?: string;
+  ogImage?: string;
 }
 
 const {
   title,
   description = "Freelance product engineer building production backends, SaaS platforms, and AI systems for funded startups.",
+  ogImage,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const siteTitle = "Joydip Dutta — Freelance Product Engineer";
-const ogTitle = title === siteTitle ? title : `${title} | Joydip Dutta`;
+
+// Truncate meta description to 155 chars (Google truncates at ~160)
+const metaDescription =
+  description.length > 155 ? description.slice(0, 152).trimEnd() + "…" : description;
+
+// Resolve OG image — per-page override or fallback to global
+const resolvedOgImage = ogImage
+  ? new URL(ogImage.replace(/^\//, ""), Astro.site).href
+  : `${Astro.site}og-image.png`;
 ---
 
 <!doctype html>
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={metaDescription} />
+    <meta name="author" content="Joydip Dutta" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0a0a0f" />
     <meta name="generator" content={Astro.generator} />
+
     <title>{title}</title>
-
     <link rel="canonical" href={canonicalURL.href} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
 
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
-    <meta property="og:title" content={ogTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://sannin-coder.info/og-image.png" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Joydip Dutta" />
     <meta property="og:locale" content="en_US" />
 
+    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={ogTitle} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://sannin-coder.info/og-image.png" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={metaDescription} />
+    <meta name="twitter:image" content={resolvedOgImage} />
 
-    <meta name="author" content="Joydip Dutta" />
-    <meta name="robots" content="index, follow" />
-
+    <!-- Structured data -->
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
@@ -58,6 +73,24 @@ const ogTitle = title === siteTitle ? title : `${title} | Joydip Dutta`;
         description:
           "Freelance product engineer building backends, SaaS platforms, and AI systems for funded startups.",
         email: "joydip.dutta9943@gmail.com",
+        knowsAbout: [
+          "TypeScript",
+          "Go",
+          "Node.js",
+          "PostgreSQL",
+          "MongoDB",
+          "AWS",
+          "LangChain",
+          "RAG systems",
+          "Microservices",
+          "SaaS architecture",
+        ],
+        hasOccupation: {
+          "@type": "Occupation",
+          name: "Freelance Product Engineer",
+          occupationalCategory: "15-1252.00",
+          skills: "Full-stack engineering, backend architecture, AI integration",
+        },
         sameAs: [
           "https://github.com/joydipdutta9943",
           "https://www.linkedin.com/in/joydip-dutta-569428141/",
