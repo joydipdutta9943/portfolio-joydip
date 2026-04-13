@@ -1,0 +1,112 @@
+---
+import Card from "../ui/Card.astro";
+
+const stacks = [
+  {
+    heading: "Languages & Frameworks",
+    items: ["TypeScript", "Go (Fiber)", "Bun", "Python", "Node.js", "GraphQL", "React", "Next.js", "Astro"],
+  },
+  {
+    heading: "Databases & Storage",
+    items: ["PostgreSQL", "MongoDB", "ClickHouse", "Redis", "DynamoDB", "Prisma", "Drizzle", "AWS S3"],
+  },
+  {
+    heading: "Infrastructure & Security",
+    items: ["Docker", "Kubernetes", "BullMQ", "AWS (SQS, SES)", "AES-256-GCM", "HMAC"],
+  },
+  {
+    heading: "AI & Search",
+    items: ["LangChain", "Google Gemini", "OpenAI", "pgvector", "MongoDB Atlas Vector", "RAG"],
+  },
+];
+
+const previouslyAt = [
+  {
+    role: "Software Development Engineer",
+    company: "Gunpowder Innovations",
+    location: "London, UK · Remote",
+    years: "Jan 2026 — Present",
+  },
+  {
+    role: "Software Development Engineer",
+    company: "The Internet Folks",
+    location: "Bhopal, IN · Remote",
+    years: "Jan 2023 — Dec 2025",
+  },
+  {
+    role: "Software Development Intern",
+    company: "AUM Capital Market",
+    location: "Kolkata, IN",
+    years: "Jun 2022 — Aug 2022",
+  },
+];
+---
+
+<section id="about" class="scroll-mt-24 px-6 py-32">
+  <div class="mx-auto max-w-5xl">
+    <div class="mb-16">
+      <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+        <span class="gradient-text">04</span>
+        <span class="ml-2 text-subtle">— About</span>
+      </div>
+      <h2 class="font-display max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+        Hi, I'm Joydip.
+      </h2>
+    </div>
+
+    <div class="grid gap-12 md:grid-cols-[1.2fr_1fr]">
+      <div class="space-y-5 text-base leading-relaxed text-muted">
+        <p>
+          I'm a senior engineer who takes on full-stack product builds for funded startups.
+          My work sits at the boundary of backend systems and product — the parts that decide
+          whether something actually ships and holds up in production.
+        </p>
+        <p>
+          Over the last three-plus years I've built a fintech wealth platform serving 30k users,
+          a multi-modal RAG system doing natural-language search over unstructured enterprise
+          data, and a handful of polyglot microservice backends. I write TypeScript and Go for
+          most things, Python when the ML work demands it.
+        </p>
+        <p>
+          I work async, keep scope honest, and don't chase frameworks. If you're a funded startup
+          with something real to build, the contact section is below.
+        </p>
+
+        <div class="!mt-10">
+          <div class="mb-4 font-mono text-[11px] uppercase tracking-widest text-subtle">
+            Previously at
+          </div>
+          <ul class="space-y-3">
+            {previouslyAt.map((r) => (
+              <li class="flex flex-col gap-1 border-b border-border pb-3 md:flex-row md:items-baseline md:justify-between md:gap-4">
+                <div>
+                  <span class="text-foreground">{r.role}</span>
+                  <span class="text-muted"> · {r.company}</span>
+                  <span class="block text-xs text-subtle md:inline md:ml-2">{r.location}</span>
+                </div>
+                <span class="font-mono text-[11px] text-subtle">{r.years}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        {stacks.map((stack) => (
+          <Card class="!p-5">
+            <div class="mb-3 font-mono text-[11px] uppercase tracking-widest text-subtle">
+              {stack.heading}
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              {stack.items.map((item) => (
+                <span class="rounded-md border border-border bg-white/[0.02] px-2 py-1 font-mono text-[11px] text-muted">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
