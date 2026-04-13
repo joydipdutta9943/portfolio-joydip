@@ -16,61 +16,68 @@ const { Content } = await render(project);
 
 <Layout title={`${project.data.title} | Case Study`} description={project.data.description}>
   <div class="mx-auto max-w-5xl px-6 pb-24">
-  <div class="animate-in fade-in slide-in-from-bottom-4 mb-12 duration-700 ease-out">
+
+    <!-- Back link -->
     <a
       href="/projects"
-      class="hover:text-accent group mb-8 inline-flex items-center font-mono text-sm text-zinc-500 transition-colors"
+      class="group mb-10 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
     >
       <svg
-        class="mr-2 transition-transform group-hover:-translate-x-1"
-        width="16"
-        height="16"
+        class="h-4 w-4 transition-transform group-hover:-translate-x-0.5"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
         stroke-linecap="round"
-        stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg
+        stroke-linejoin="round"
+        aria-hidden="true"
       >
-      cd ../
+        <path d="m15 18-6-6 6-6"></path>
+      </svg>
+      All projects
     </a>
 
-    <h1 class="text-foreground mb-4 text-3xl leading-tight font-black tracking-tighter md:text-5xl">
-      {project.data.title}
-    </h1>
+    <!-- Header -->
+    <div class="mb-12">
+      <h1 class="font-display mb-4 text-3xl font-semibold leading-tight tracking-[-0.03em] text-foreground md:text-5xl">
+        {project.data.title}
+      </h1>
 
-    <p class="text-muted mb-6 text-base leading-relaxed md:text-lg">{project.data.description}</p>
+      <p class="mb-8 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
+        {project.data.description}
+      </p>
 
-    <div class="mb-10 flex flex-wrap gap-2">
-      {
-        project.data.techStack.map((tech) => (
-          <span class="text-accent bg-accent/10 border-accent/20 rounded-md border px-3 py-1.5 font-mono text-xs font-medium">
-            {tech}
-          </span>
-        ))
-      }
+      <div class="flex flex-wrap gap-2">
+        {
+          project.data.techStack.map((tech) => (
+            <span class="rounded-md border border-border bg-white/[0.02] px-3 py-1.5 font-mono text-xs text-muted">
+              {tech}
+            </span>
+          ))
+        }
+      </div>
     </div>
 
+    <!-- Hero image -->
     {
       project.data.image && (
-        <div class="relative mb-12 h-64 w-full overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 shadow-2xl md:h-96">
-          <div class="absolute inset-0 z-10 bg-zinc-950/20" />
+        <div class="relative mb-12 h-64 w-full overflow-hidden rounded-xl border border-border bg-surface shadow-2xl md:h-96">
           <img
             src={project.data.image}
             alt={project.data.title}
-            class="h-full w-full object-cover"
+            class="h-full w-full object-cover opacity-90"
           />
+          <div class="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent"></div>
         </div>
       )
     }
 
-    <div class="mb-12 h-px w-full bg-gradient-to-r from-transparent via-zinc-700 to-transparent">
-    </div>
-  </div>
+    <div class="mb-12 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"></div>
 
-  <!-- Custom MDX Styling Scope mapped to global.css -->
-  <article class="prose-content pb-32">
-    <Content />
-  </article>
+    <!-- MDX content -->
+    <article class="prose-content pb-32">
+      <Content />
+    </article>
+
   </div>
 </Layout>
