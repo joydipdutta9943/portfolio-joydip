@@ -10,13 +10,13 @@ Reposition the existing personal portfolio as a freelance product-engineering st
 
 ## Positioning
 
-| | |
-|---|---|
-| **Role on the site** | Freelance product engineer (not employee) |
-| **What he sells** | Full-stack product builds: MVPs, SaaS, backends, AI features |
-| **Target client** | Funded startups (seed / Series A) |
-| **Proof strategy** | Case-study depth + quantified metrics (no testimonials or client logos yet) |
-| **Conversion path** | Email only — `mailto:` with pre-filled subject |
+|                      |                                                                                      |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| **Role on the site** | Freelance product engineer (not employee)                                            |
+| **What he sells**    | Full-stack product builds: MVPs, SaaS, backends, AI features                         |
+| **Target client**    | Funded startups (seed / Series A)                                                    |
+| **Proof strategy**   | Case-study depth + quantified metrics (no testimonials or client logos yet)          |
+| **Conversion path**  | Email only — `mailto:` with pre-filled subject                                       |
 | **Visual direction** | Linear / Vercel / Raycast — dark, glassy, gradient-heavy. Terminal identity dropped. |
 
 ## Information Architecture
@@ -115,6 +115,7 @@ Four service cards in a 2×2 grid. Each card has a monoline icon, service name (
 Section heading: `02 — Selected work`.
 
 Bento-style asymmetric grid:
+
 - Two featured cards (`col-span-2`) — Unified Multi-Modal AI Agent, Gunpowder Fintech Backend — with larger images and more copy.
 - Below: 3-column strip of 3 smaller cards (Dyrect, Levo, Crooze or similar — pick three strongest).
 
@@ -148,6 +149,7 @@ Two-column layout.
 Section heading: `05 — Start a project`.
 
 Full-width panel with large radial gradient glow (matching hero). Centered content:
+
 - Display headline: "Have something hard to build?"
 - Paragraph stating fit criteria (funded startup, real product, 4+ week engagement).
 - Primary gradient button: `mailto:joydip.dutta9943@gmail.com?subject=New project — [your company]`
@@ -175,7 +177,7 @@ Short sentences. Technical but not jargony. Confident, not performative. Every c
 >
 > I ship backends, SaaS platforms, and AI features that hold up in production. Previously built a fintech wealth platform serving 30k users and a RAG system on unstructured data for enterprise search.
 >
-> [ Start a project ]  [ See case studies ]
+> [ Start a project ] [ See case studies ]
 
 ### Contact Copy
 

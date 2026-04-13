@@ -17,6 +17,7 @@
 ## File Map
 
 **New files:**
+
 ```
 src/components/ui/Card.astro
 src/components/ui/GradientButton.astro
@@ -31,6 +32,7 @@ src/components/sections/Contact.astro
 ```
 
 **Modified files:**
+
 ```
 package.json                       — add @fontsource packages
 src/styles/global.css              — new palette via @theme, new utilities, case-study prose restyle
@@ -41,6 +43,7 @@ src/pages/projects/[slug].astro    — (no structural change; inherits new prose
 ```
 
 **Deleted files:**
+
 ```
 src/pages/experience.astro
 ```
@@ -50,11 +53,13 @@ src/pages/experience.astro
 ## Task 1: Install font packages
 
 **Files:**
+
 - Modify: `package.json` (via npm)
 
 - [ ] **Step 1: Install @fontsource packages**
 
 Run:
+
 ```bash
 cd /home/joydip/portfolio-joydip && npm install @fontsource/inter @fontsource/inter-tight @fontsource/jetbrains-mono
 ```
@@ -64,6 +69,7 @@ Expected: three packages added to `dependencies` in `package.json`.
 - [ ] **Step 2: Verify build still passes**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -84,6 +90,7 @@ git commit -m "chore: add @fontsource packages for Inter, Inter Tight, JetBrains
 Replace the `@theme` block and `@layer base` color references so the rest of the plan has new colors, fonts, and gradient utilities to reach for. Keep `.prose-content` styles for now (those get updated in Task 17).
 
 **Files:**
+
 - Modify: `src/styles/global.css`
 
 - [ ] **Step 1: Replace the top of `src/styles/global.css`**
@@ -171,66 +178,67 @@ Replace everything from the top of the file through the end of the `@utility bg-
 In the same file, find:
 
 ```css
-  body {
-    @apply bg-background text-muted selection:bg-accent selection:text-background min-h-screen font-sans antialiased;
-  }
+body {
+  @apply bg-background text-muted selection:bg-accent selection:text-background min-h-screen font-sans antialiased;
+}
 ```
 
 Replace with:
 
 ```css
-  body {
-    @apply bg-background text-muted selection:bg-accent-from selection:text-foreground min-h-screen font-sans antialiased;
-    font-feature-settings: "cv11", "ss01", "ss03";
-  }
+body {
+  @apply bg-background text-muted selection:bg-accent-from selection:text-foreground min-h-screen font-sans antialiased;
+  font-feature-settings: "cv11", "ss01", "ss03";
+}
 ```
 
 Find:
 
 ```css
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply text-foreground font-sans font-bold tracking-tight;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-foreground font-sans font-bold tracking-tight;
+}
 ```
 
 Replace with:
 
 ```css
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply text-foreground font-display font-semibold;
-    letter-spacing: -0.03em;
-  }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-foreground font-display font-semibold;
+  letter-spacing: -0.03em;
+}
 ```
 
 Find:
 
 ```css
-  a {
-    @apply focus-visible:ring-accent focus-visible:ring-offset-background transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
-  }
+a {
+  @apply focus-visible:ring-accent focus-visible:ring-offset-background transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+}
 ```
 
 Replace with:
 
 ```css
-  a {
-    @apply focus-visible:ring-accent-from focus-visible:ring-offset-background transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
-  }
+a {
+  @apply focus-visible:ring-accent-from focus-visible:ring-offset-background transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+}
 ```
 
 - [ ] **Step 3: Run build — this will fail because Layout.astro still references `bg-dot-pattern`**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -242,8 +250,8 @@ Expected: build fails. That is expected at this step — Layout.astro (updated i
 Add this inside the `@theme { ... }` block in `src/styles/global.css` (after `--color-accent-to`):
 
 ```css
-  /* LEGACY — remove after Task 16 when index.astro is rewritten */
-  --color-accent: #7c5cff;
+/* LEGACY — remove after Task 16 when index.astro is rewritten */
+--color-accent: #7c5cff;
 ```
 
 Also add `bg-dot-pattern` back as a passthrough so Layout.astro still builds (it will be removed in Task 9):
@@ -257,6 +265,7 @@ Also add `bg-dot-pattern` back as a passthrough so Layout.astro still builds (it
 - [ ] **Step 5: Build again — must pass now**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -277,6 +286,7 @@ git commit -m "feat(styles): add new design tokens and gradient utilities"
 Tailwind v4 reads tokens from `@theme` in CSS, but this repo still has a `tailwind.config.mjs`. Keep it in sync so nothing references stale values.
 
 **Files:**
+
 - Modify: `tailwind.config.mjs`
 
 - [ ] **Step 1: Replace the entire contents of `tailwind.config.mjs` with:**
@@ -312,6 +322,7 @@ export default {
 - [ ] **Step 2: Build to verify**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -332,6 +343,7 @@ git commit -m "chore(tailwind): sync config with new design tokens"
 A shared surface component used by services, work, process, about, and contact sections. Hairline border, inner top highlight, subtle hover lift.
 
 **Files:**
+
 - Create: `src/components/ui/Card.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -358,12 +370,14 @@ const Tag = as;
     className,
   ]}
 >
-  {interactive && (
-    <div
-      class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-      style="background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(124, 92, 255, 0.06), transparent 40%);"
-    />
-  )}
+  {
+    interactive && (
+      <div
+        class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style="background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(124, 92, 255, 0.06), transparent 40%);"
+      />
+    )
+  }
   <div class="relative z-10">
     <slot />
   </div>
@@ -373,6 +387,7 @@ const Tag = as;
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -393,6 +408,7 @@ git commit -m "feat(ui): add Card surface primitive"
 Primary CTA with the signature gradient fill and subtle glow. Also supports a `variant="ghost"` for the secondary button style.
 
 **Files:**
+
 - Create: `src/components/ui/GradientButton.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -414,7 +430,7 @@ const { href, variant = "primary", external = false, class: className = "" } = A
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
   class:list={[
-    "group relative inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-medium text-sm transition-all duration-300",
+    "group relative inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-medium transition-all duration-300",
     variant === "primary" && [
       "gradient-fill text-white",
       "shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_10px_30px_-10px_rgba(124,92,255,0.6)]",
@@ -422,7 +438,7 @@ const { href, variant = "primary", external = false, class: className = "" } = A
       "hover:brightness-110",
     ],
     variant === "ghost" && [
-      "border border-border text-foreground",
+      "border-border text-foreground border",
       "hover:border-border-strong hover:bg-white/[0.02]",
     ],
     className,
@@ -448,6 +464,7 @@ const { href, variant = "primary", external = false, class: className = "" } = A
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -468,6 +485,7 @@ git commit -m "feat(ui): add GradientButton primitive with primary and ghost var
 Sticky top navigation with anchor links. Transparent at page top, compacts with frosted-glass background on scroll.
 
 **Files:**
+
 - Create: `src/components/ui/Nav.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -477,23 +495,24 @@ Sticky top navigation with anchor links. Transparent at page top, compacts with 
 import GradientButton from "./GradientButton.astro";
 ---
 
-<nav
-  id="site-nav"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
->
+<nav id="site-nav" class="fixed top-0 right-0 left-0 z-50 transition-all duration-300">
   <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
     <a
       href="/"
-      class="font-display text-lg font-semibold tracking-tight text-foreground transition-opacity hover:opacity-80"
+      class="font-display text-foreground text-lg font-semibold tracking-tight transition-opacity hover:opacity-80"
     >
       Joydip Dutta
     </a>
 
     <div class="hidden items-center gap-8 md:flex">
-      <a href="/#work" class="text-sm text-muted transition-colors hover:text-foreground">Work</a>
-      <a href="/#services" class="text-sm text-muted transition-colors hover:text-foreground">Services</a>
-      <a href="/#about" class="text-sm text-muted transition-colors hover:text-foreground">About</a>
-      <a href="/#contact" class="text-sm text-muted transition-colors hover:text-foreground">Contact</a>
+      <a href="/#work" class="text-muted hover:text-foreground text-sm transition-colors">Work</a>
+      <a href="/#services" class="text-muted hover:text-foreground text-sm transition-colors"
+        >Services</a
+      >
+      <a href="/#about" class="text-muted hover:text-foreground text-sm transition-colors">About</a>
+      <a href="/#contact" class="text-muted hover:text-foreground text-sm transition-colors"
+        >Contact</a
+      >
     </div>
 
     <GradientButton
@@ -535,6 +554,7 @@ import GradientButton from "./GradientButton.astro";
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -555,6 +575,7 @@ git commit -m "feat(ui): add Nav with sticky frosted-on-scroll behavior"
 Stripped-down footer. Three columns: copyright, nav anchors, social links. No "System.Status: ONLINE" indicator.
 
 **Files:**
+
 - Create: `src/components/ui/Footer.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -564,25 +585,27 @@ Stripped-down footer. Three columns: copyright, nav anchors, social links. No "S
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-32 border-t border-border">
-  <div class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 py-10 md:flex-row md:items-center">
-    <div class="text-xs text-subtle">
+<footer class="border-border mt-32 border-t">
+  <div
+    class="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 py-10 md:flex-row md:items-center"
+  >
+    <div class="text-subtle text-xs">
       © {year} Joydip Dutta. All rights reserved.
     </div>
 
-    <nav class="flex gap-6 text-xs text-muted">
-      <a href="/#work" class="transition-colors hover:text-foreground">Work</a>
-      <a href="/#services" class="transition-colors hover:text-foreground">Services</a>
-      <a href="/#about" class="transition-colors hover:text-foreground">About</a>
-      <a href="/#contact" class="transition-colors hover:text-foreground">Contact</a>
+    <nav class="text-muted flex gap-6 text-xs">
+      <a href="/#work" class="hover:text-foreground transition-colors">Work</a>
+      <a href="/#services" class="hover:text-foreground transition-colors">Services</a>
+      <a href="/#about" class="hover:text-foreground transition-colors">About</a>
+      <a href="/#contact" class="hover:text-foreground transition-colors">Contact</a>
     </nav>
 
-    <div class="flex gap-5 text-xs text-muted">
+    <div class="text-muted flex gap-5 text-xs">
       <a
         href="https://github.com/joydipdutta9943"
         target="_blank"
         rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
+        class="hover:text-foreground transition-colors"
       >
         GitHub
       </a>
@@ -590,14 +613,11 @@ const year = new Date().getFullYear();
         href="https://www.linkedin.com/in/joydip-dutta-569428141/"
         target="_blank"
         rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
+        class="hover:text-foreground transition-colors"
       >
         LinkedIn
       </a>
-      <a
-        href="mailto:joydip.dutta9943@gmail.com"
-        class="transition-colors hover:text-foreground"
-      >
+      <a href="mailto:joydip.dutta9943@gmail.com" class="hover:text-foreground transition-colors">
         Email
       </a>
     </div>
@@ -608,6 +628,7 @@ const year = new Date().getFullYear();
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -628,6 +649,7 @@ git commit -m "feat(ui): add minimal Footer component"
 This swaps the current terminal-themed header/footer for the new components, updates SEO metadata to "Freelance Product Engineer" framing, and removes the `bg-dot-pattern` background. After this task, all pages (home, experience, projects) share the new chrome — existing section content still looks terminal-y but will be rewritten downstream.
 
 **Files:**
+
 - Modify: `src/layouts/Layout.astro`
 
 - [ ] **Step 1: Replace the entire contents of `src/layouts/Layout.astro` with:**
@@ -715,6 +737,7 @@ const ogTitle = title === siteTitle ? title : `${title} | Joydip Dutta`;
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -724,11 +747,13 @@ Expected: clean build. `index.astro` will look half-broken (new chrome wrapped a
 - [ ] **Step 3: Spot-check in browser**
 
 Run:
+
 ```bash
 npm run dev
 ```
 
 Open `http://localhost:4321`. Verify:
+
 - New sticky nav at top with "Joydip Dutta", anchor links, "Start a project" gradient button.
 - New footer at bottom with three columns.
 - No `bg-dot-pattern` background.
@@ -748,6 +773,7 @@ git commit -m "feat(layout): swap terminal header/footer for new Nav/Footer and 
 ## Task 9: Create `Hero` section component
 
 **Files:**
+
 - Create: `src/components/sections/Hero.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -768,26 +794,30 @@ const stats = [
   <div class="radial-glow absolute -top-40 left-1/2 -translate-x-1/2"></div>
 
   <div class="relative mx-auto w-full max-w-5xl">
-    <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-white/[0.02] px-3 py-1.5 text-xs text-muted backdrop-blur-sm">
+    <div
+      class="border-border text-muted mb-8 inline-flex items-center gap-2 rounded-full border bg-white/[0.02] px-3 py-1.5 text-xs backdrop-blur-sm"
+    >
       <span class="relative flex h-1.5 w-1.5">
-        <span class="gradient-fill absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
+        <span
+          class="gradient-fill absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+        ></span>
         <span class="gradient-fill relative inline-flex h-1.5 w-1.5 rounded-full"></span>
       </span>
       Available for new projects · Q2 2026
     </div>
 
     <h1
-      class="font-display text-foreground mb-6 max-w-4xl text-5xl font-semibold leading-[1.02] tracking-[-0.04em] md:text-6xl lg:text-7xl"
+      class="font-display text-foreground mb-6 max-w-4xl text-5xl leading-[1.02] font-semibold tracking-[-0.04em] md:text-6xl lg:text-7xl"
     >
       Senior engineer building
       <span class="gradient-text">production systems</span>
       for funded startups.
     </h1>
 
-    <p class="mb-10 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
-      I ship backends, SaaS platforms, and AI features that hold up in production.
-      Previously built a fintech wealth platform serving 30k users and a RAG system
-      on unstructured data for enterprise search.
+    <p class="text-muted mb-10 max-w-2xl text-lg leading-relaxed md:text-xl">
+      I ship backends, SaaS platforms, and AI features that hold up in production. Previously built
+      a fintech wealth platform serving 30k users and a RAG system on unstructured data for
+      enterprise search.
     </p>
 
     <div class="mb-16 flex flex-wrap items-center gap-3">
@@ -796,22 +826,22 @@ const stats = [
       >
         Start a project
       </GradientButton>
-      <GradientButton href="#work" variant="ghost">
-        See case studies
-      </GradientButton>
+      <GradientButton href="#work" variant="ghost"> See case studies </GradientButton>
     </div>
 
-    <div class="grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-border bg-border md:grid-cols-4">
-      {stats.map((stat) => (
-        <div class="bg-background px-5 py-5">
-          <div class="font-mono text-2xl font-medium text-foreground md:text-3xl">
-            {stat.value}
+    <div
+      class="border-border bg-border grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-xl border md:grid-cols-4"
+    >
+      {
+        stats.map((stat) => (
+          <div class="bg-background px-5 py-5">
+            <div class="text-foreground font-mono text-2xl font-medium md:text-3xl">
+              {stat.value}
+            </div>
+            <div class="text-subtle mt-1 text-[11px] tracking-wider uppercase">{stat.label}</div>
           </div>
-          <div class="mt-1 text-[11px] uppercase tracking-wider text-subtle">
-            {stat.label}
-          </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 </section>
@@ -820,6 +850,7 @@ const stats = [
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -838,6 +869,7 @@ git commit -m "feat(sections): add Hero with pill badge, gradient headline, stat
 ## Task 10: Create `Services` section component
 
 **Files:**
+
 - Create: `src/components/sections/Services.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -852,16 +884,14 @@ const services = [
     pitch:
       "Full SaaS builds from zero. Backend, API, database, auth, payments, integrations — the whole backend and as much frontend as you need. 4–12 week engagements.",
     tags: ["TypeScript / Go", "Postgres / Mongo", "AWS"],
-    iconPath:
-      "M12 2 4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6l-8-4z M9 12l2 2 4-4",
+    iconPath: "M12 2 4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6l-8-4z M9 12l2 2 4-4",
   },
   {
     title: "Backend Architecture",
     pitch:
       "Microservices, event systems, scale-ready foundations. Reviews of what you have, or greenfield designs for what you're about to build.",
     tags: ["Fiber", "BullMQ", "ClickHouse"],
-    iconPath:
-      "M4 6h16 M4 12h16 M4 18h16 M8 6v12 M16 6v12",
+    iconPath: "M4 6h16 M4 12h16 M4 18h16 M8 6v12 M16 6v12",
   },
   {
     title: "AI & RAG Systems",
@@ -885,43 +915,47 @@ const services = [
 <section id="services" class="scroll-mt-24 px-6 py-32">
   <div class="mx-auto max-w-5xl">
     <div class="mb-16">
-      <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+      <div class="mb-3 font-mono text-xs tracking-widest uppercase">
         <span class="gradient-text">01</span>
-        <span class="ml-2 text-subtle">— What I build</span>
+        <span class="text-subtle ml-2">— What I build</span>
       </div>
-      <h2 class="font-display max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+      <h2
+        class="font-display max-w-2xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-5xl"
+      >
         Work I take on for <span class="gradient-text">funded teams</span>.
       </h2>
     </div>
 
     <div class="grid gap-4 md:grid-cols-2">
-      {services.map((service) => (
-        <Card interactive class="group">
-          <div class="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-white/[0.02]">
-            <svg
-              class="h-5 w-5 text-foreground"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d={service.iconPath}></path>
-            </svg>
-          </div>
-          <h3 class="mb-3 text-xl font-semibold text-foreground">{service.title}</h3>
-          <p class="mb-5 text-sm leading-relaxed text-muted">{service.pitch}</p>
-          <div class="flex flex-wrap gap-1.5">
-            {service.tags.map((tag) => (
-              <span class="rounded-md border border-border bg-white/[0.02] px-2 py-1 font-mono text-[11px] text-muted">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </Card>
-      ))}
+      {
+        services.map((service) => (
+          <Card interactive class="group">
+            <div class="border-border mb-5 inline-flex h-10 w-10 items-center justify-center rounded-lg border bg-white/[0.02]">
+              <svg
+                class="text-foreground h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d={service.iconPath} />
+              </svg>
+            </div>
+            <h3 class="text-foreground mb-3 text-xl font-semibold">{service.title}</h3>
+            <p class="text-muted mb-5 text-sm leading-relaxed">{service.pitch}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {service.tags.map((tag) => (
+                <span class="border-border text-muted rounded-md border bg-white/[0.02] px-2 py-1 font-mono text-[11px]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </Card>
+        ))
+      }
     </div>
   </div>
 </section>
@@ -930,6 +964,7 @@ const services = [
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -950,6 +985,7 @@ git commit -m "feat(sections): add Services with 2x2 card grid"
 Two featured cards at top (col-span-2 on md), three smaller cards below. Pulls the project routes that already exist at `/projects/<slug>`.
 
 **Files:**
+
 - Create: `src/components/sections/Work.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -960,14 +996,16 @@ const featured = [
   {
     slug: "unified-ai-agent",
     title: "Unified Multi-Modal AI Agent",
-    outcome: "Shipped a production RAG system for complex natural-language queries over unstructured enterprise data.",
+    outcome:
+      "Shipped a production RAG system for complex natural-language queries over unstructured enterprise data.",
     image: "/images/unified-ai-agent.png",
     tags: ["LangChain", "Gemini", "Vector search"],
   },
   {
     slug: "gunpowder-fintech-backend",
     title: "Gunpowder Fintech Backend",
-    outcome: "Built a wealth management platform serving 30k users with investment accounts, KYC, and direct debits.",
+    outcome:
+      "Built a wealth management platform serving 30k users with investment accounts, KYC, and direct debits.",
     image: "/images/gunpowder-fintech-backend.png",
     tags: ["TypeScript", "Prisma", "BullMQ"],
   },
@@ -998,67 +1036,73 @@ const smaller = [
 <section id="work" class="scroll-mt-24 px-6 py-32">
   <div class="mx-auto max-w-6xl">
     <div class="mb-16">
-      <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+      <div class="mb-3 font-mono text-xs tracking-widest uppercase">
         <span class="gradient-text">02</span>
-        <span class="ml-2 text-subtle">— Selected work</span>
+        <span class="text-subtle ml-2">— Selected work</span>
       </div>
-      <h2 class="font-display max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+      <h2
+        class="font-display max-w-2xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-5xl"
+      >
         Production systems, not demos.
       </h2>
     </div>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-      {featured.map((p) => (
-        <a
-          href={`/projects/${p.slug}`}
-          class="card-surface group relative block overflow-hidden rounded-xl transition-all duration-300 hover:border-border-strong"
-        >
-          <div class="relative aspect-[16/9] w-full overflow-hidden border-b border-border bg-surface-raised">
-            <img
-              src={p.image}
-              alt={p.title}
-              class="h-full w-full object-cover opacity-80 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-background/60 to-transparent"></div>
-          </div>
-          <div class="p-6">
-            <h3 class="mb-2 text-lg font-semibold text-foreground">{p.title}</h3>
-            <p class="mb-5 text-sm leading-relaxed text-muted">{p.outcome}</p>
+      {
+        featured.map((p) => (
+          <a
+            href={`/projects/${p.slug}`}
+            class="card-surface group hover:border-border-strong relative block overflow-hidden rounded-xl transition-all duration-300"
+          >
+            <div class="border-border bg-surface-raised relative aspect-[16/9] w-full overflow-hidden border-b">
+              <img
+                src={p.image}
+                alt={p.title}
+                class="h-full w-full object-cover opacity-80 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+              />
+              <div class="from-background/60 absolute inset-0 bg-gradient-to-t to-transparent" />
+            </div>
+            <div class="p-6">
+              <h3 class="text-foreground mb-2 text-lg font-semibold">{p.title}</h3>
+              <p class="text-muted mb-5 text-sm leading-relaxed">{p.outcome}</p>
+              <div class="flex flex-wrap gap-1.5">
+                {p.tags.map((tag) => (
+                  <span class="border-border text-muted rounded-md border bg-white/[0.02] px-2 py-1 font-mono text-[11px]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+      {
+        smaller.map((p) => (
+          <a
+            href={`/projects/${p.slug}`}
+            class="card-surface group hover:border-border-strong block rounded-xl p-6 transition-all duration-300"
+          >
+            <h3 class="text-foreground mb-2 text-base font-semibold">{p.title}</h3>
+            <p class="text-muted mb-4 text-sm leading-relaxed">{p.outcome}</p>
             <div class="flex flex-wrap gap-1.5">
               {p.tags.map((tag) => (
-                <span class="rounded-md border border-border bg-white/[0.02] px-2 py-1 font-mono text-[11px] text-muted">
+                <span class="border-border text-muted rounded-md border bg-white/[0.02] px-2 py-1 font-mono text-[11px]">
                   {tag}
                 </span>
               ))}
             </div>
-          </div>
-        </a>
-      ))}
-    </div>
-
-    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-      {smaller.map((p) => (
-        <a
-          href={`/projects/${p.slug}`}
-          class="card-surface group block rounded-xl p-6 transition-all duration-300 hover:border-border-strong"
-        >
-          <h3 class="mb-2 text-base font-semibold text-foreground">{p.title}</h3>
-          <p class="mb-4 text-sm leading-relaxed text-muted">{p.outcome}</p>
-          <div class="flex flex-wrap gap-1.5">
-            {p.tags.map((tag) => (
-              <span class="rounded-md border border-border bg-white/[0.02] px-2 py-1 font-mono text-[11px] text-muted">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </a>
-      ))}
+          </a>
+        ))
+      }
     </div>
 
     <div class="mt-10 flex justify-end">
       <a
         href="/projects"
-        class="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-foreground"
+        class="group text-muted hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
       >
         View all 12 projects
         <svg
@@ -1083,6 +1127,7 @@ const smaller = [
 - [ ] **Step 2: Verify the referenced project slugs exist**
 
 Run:
+
 ```bash
 ls src/content/projects/
 ```
@@ -1094,6 +1139,7 @@ If any file is missing, open `src/content/projects/` and substitute one of the o
 - [ ] **Step 3: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1112,6 +1158,7 @@ git commit -m "feat(sections): add Work bento grid with 2 featured + 3 smaller c
 ## Task 12: Create `Process` section component
 
 **Files:**
+
 - Create: `src/components/sections/Process.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -1145,28 +1192,32 @@ const steps = [
 <section id="process" class="scroll-mt-24 px-6 py-32">
   <div class="mx-auto max-w-5xl">
     <div class="mb-16">
-      <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+      <div class="mb-3 font-mono text-xs tracking-widest uppercase">
         <span class="gradient-text">03</span>
-        <span class="ml-2 text-subtle">— How I work</span>
+        <span class="text-subtle ml-2">— How I work</span>
       </div>
-      <h2 class="font-display max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+      <h2
+        class="font-display max-w-2xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-5xl"
+      >
         Predictable process. No surprises.
       </h2>
     </div>
 
     <div class="grid gap-4 md:grid-cols-3">
-      {steps.map((step) => (
-        <Card>
-          <div class="mb-4 flex items-baseline justify-between">
-            <span class="gradient-text font-mono text-2xl font-semibold">{step.index}</span>
-            <span class="font-mono text-[11px] uppercase tracking-widest text-subtle">
-              {step.duration}
-            </span>
-          </div>
-          <h3 class="mb-3 text-lg font-semibold text-foreground">{step.title}</h3>
-          <p class="text-sm leading-relaxed text-muted">{step.body}</p>
-        </Card>
-      ))}
+      {
+        steps.map((step) => (
+          <Card>
+            <div class="mb-4 flex items-baseline justify-between">
+              <span class="gradient-text font-mono text-2xl font-semibold">{step.index}</span>
+              <span class="text-subtle font-mono text-[11px] tracking-widest uppercase">
+                {step.duration}
+              </span>
+            </div>
+            <h3 class="text-foreground mb-3 text-lg font-semibold">{step.title}</h3>
+            <p class="text-muted text-sm leading-relaxed">{step.body}</p>
+          </Card>
+        ))
+      }
     </div>
   </div>
 </section>
@@ -1175,6 +1226,7 @@ const steps = [
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1195,6 +1247,7 @@ git commit -m "feat(sections): add Process 3-step card strip"
 Two-column layout: bio + stack panel. Folds the old `/experience` content (3 roles at Gunpowder Innovations, The Internet Folks, AUM Capital) into this section.
 
 **Files:**
+
 - Create: `src/components/sections/About.astro`
 
 - [ ] **Step 1: Create `src/components/sections/About.astro` with this exact content**
@@ -1206,11 +1259,30 @@ import Card from "../ui/Card.astro";
 const stacks = [
   {
     heading: "Languages & Frameworks",
-    items: ["TypeScript", "Go (Fiber)", "Bun", "Python", "Node.js", "GraphQL", "React", "Next.js", "Astro"],
+    items: [
+      "TypeScript",
+      "Go (Fiber)",
+      "Bun",
+      "Python",
+      "Node.js",
+      "GraphQL",
+      "React",
+      "Next.js",
+      "Astro",
+    ],
   },
   {
     heading: "Databases & Storage",
-    items: ["PostgreSQL", "MongoDB", "ClickHouse", "Redis", "DynamoDB", "Prisma", "Drizzle", "AWS S3"],
+    items: [
+      "PostgreSQL",
+      "MongoDB",
+      "ClickHouse",
+      "Redis",
+      "DynamoDB",
+      "Prisma",
+      "Drizzle",
+      "AWS S3",
+    ],
   },
   {
     heading: "Infrastructure & Security",
@@ -1247,27 +1319,29 @@ const previouslyAt = [
 <section id="about" class="scroll-mt-24 px-6 py-32">
   <div class="mx-auto max-w-5xl">
     <div class="mb-16">
-      <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+      <div class="mb-3 font-mono text-xs tracking-widest uppercase">
         <span class="gradient-text">04</span>
-        <span class="ml-2 text-subtle">— About</span>
+        <span class="text-subtle ml-2">— About</span>
       </div>
-      <h2 class="font-display max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+      <h2
+        class="font-display max-w-2xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-5xl"
+      >
         Hi, I'm Joydip.
       </h2>
     </div>
 
     <div class="grid gap-12 md:grid-cols-[1.2fr_1fr]">
-      <div class="space-y-5 text-base leading-relaxed text-muted">
+      <div class="text-muted space-y-5 text-base leading-relaxed">
         <p>
-          I'm a senior engineer who takes on full-stack product builds for funded startups.
-          My work sits at the boundary of backend systems and product — the parts that decide
-          whether something actually ships and holds up in production.
+          I'm a senior engineer who takes on full-stack product builds for funded startups. My work
+          sits at the boundary of backend systems and product — the parts that decide whether
+          something actually ships and holds up in production.
         </p>
         <p>
-          Over the last three-plus years I've built a fintech wealth platform serving 30k users,
-          a multi-modal RAG system doing natural-language search over unstructured enterprise
-          data, and a handful of polyglot microservice backends. I write TypeScript and Go for
-          most things, Python when the ML work demands it.
+          Over the last three-plus years I've built a fintech wealth platform serving 30k users, a
+          multi-modal RAG system doing natural-language search over unstructured enterprise data,
+          and a handful of polyglot microservice backends. I write TypeScript and Go for most
+          things, Python when the ML work demands it.
         </p>
         <p>
           I work async, keep scope honest, and don't chase frameworks. If you're a funded startup
@@ -1275,39 +1349,43 @@ const previouslyAt = [
         </p>
 
         <div class="!mt-10">
-          <div class="mb-4 font-mono text-[11px] uppercase tracking-widest text-subtle">
+          <div class="text-subtle mb-4 font-mono text-[11px] tracking-widest uppercase">
             Previously at
           </div>
           <ul class="space-y-3">
-            {previouslyAt.map((r) => (
-              <li class="flex flex-col gap-1 border-b border-border pb-3 md:flex-row md:items-baseline md:justify-between md:gap-4">
-                <div>
-                  <span class="text-foreground">{r.role}</span>
-                  <span class="text-muted"> · {r.company}</span>
-                  <span class="block text-xs text-subtle md:inline md:ml-2">{r.location}</span>
-                </div>
-                <span class="font-mono text-[11px] text-subtle">{r.years}</span>
-              </li>
-            ))}
+            {
+              previouslyAt.map((r) => (
+                <li class="border-border flex flex-col gap-1 border-b pb-3 md:flex-row md:items-baseline md:justify-between md:gap-4">
+                  <div>
+                    <span class="text-foreground">{r.role}</span>
+                    <span class="text-muted"> · {r.company}</span>
+                    <span class="text-subtle block text-xs md:ml-2 md:inline">{r.location}</span>
+                  </div>
+                  <span class="text-subtle font-mono text-[11px]">{r.years}</span>
+                </li>
+              ))
+            }
           </ul>
         </div>
       </div>
 
       <div class="space-y-4">
-        {stacks.map((stack) => (
-          <Card class="!p-5">
-            <div class="mb-3 font-mono text-[11px] uppercase tracking-widest text-subtle">
-              {stack.heading}
-            </div>
-            <div class="flex flex-wrap gap-1.5">
-              {stack.items.map((item) => (
-                <span class="rounded-md border border-border bg-white/[0.02] px-2 py-1 font-mono text-[11px] text-muted">
-                  {item}
-                </span>
-              ))}
-            </div>
-          </Card>
-        ))}
+        {
+          stacks.map((stack) => (
+            <Card class="!p-5">
+              <div class="text-subtle mb-3 font-mono text-[11px] tracking-widest uppercase">
+                {stack.heading}
+              </div>
+              <div class="flex flex-wrap gap-1.5">
+                {stack.items.map((item) => (
+                  <span class="border-border text-muted rounded-md border bg-white/[0.02] px-2 py-1 font-mono text-[11px]">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </Card>
+          ))
+        }
       </div>
     </div>
   </div>
@@ -1317,6 +1395,7 @@ const previouslyAt = [
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1335,6 +1414,7 @@ git commit -m "feat(sections): add About with bio, previously-at, stack panel"
 ## Task 14: Create `Contact` section component
 
 **Files:**
+
 - Create: `src/components/sections/Contact.astro`
 
 - [ ] **Step 1: Create the file with this exact content**
@@ -1344,23 +1424,25 @@ git commit -m "feat(sections): add About with bio, previously-at, stack panel"
 import GradientButton from "../ui/GradientButton.astro";
 ---
 
-<section id="contact" class="scroll-mt-24 relative overflow-hidden px-6 py-32">
+<section id="contact" class="relative scroll-mt-24 overflow-hidden px-6 py-32">
   <div class="radial-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
 
   <div class="relative mx-auto max-w-3xl text-center">
-    <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+    <div class="mb-3 font-mono text-xs tracking-widest uppercase">
       <span class="gradient-text">05</span>
-      <span class="ml-2 text-subtle">— Start a project</span>
+      <span class="text-subtle ml-2">— Start a project</span>
     </div>
 
-    <h2 class="font-display mb-6 text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-6xl">
+    <h2
+      class="font-display mb-6 text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-6xl"
+    >
       Have something <span class="gradient-text">hard to build?</span>
     </h2>
 
-    <p class="mx-auto mb-10 max-w-xl text-base leading-relaxed text-muted md:text-lg">
-      I take a small number of engagements at a time. Best fit: funded startup, real
-      product in production or about to be, four-plus weeks of work. Send me what
-      you're building and I'll reply within 24 hours.
+    <p class="text-muted mx-auto mb-10 max-w-xl text-base leading-relaxed md:text-lg">
+      I take a small number of engagements at a time. Best fit: funded startup, real product in
+      production or about to be, four-plus weeks of work. Send me what you're building and I'll
+      reply within 24 hours.
     </p>
 
     <div class="mb-8 flex justify-center">
@@ -1371,12 +1453,12 @@ import GradientButton from "../ui/GradientButton.astro";
       </GradientButton>
     </div>
 
-    <div class="flex items-center justify-center gap-6 text-xs text-muted">
+    <div class="text-muted flex items-center justify-center gap-6 text-xs">
       <a
         href="https://github.com/joydipdutta9943"
         target="_blank"
         rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
+        class="hover:text-foreground transition-colors"
       >
         GitHub
       </a>
@@ -1385,7 +1467,7 @@ import GradientButton from "../ui/GradientButton.astro";
         href="https://www.linkedin.com/in/joydip-dutta-569428141/"
         target="_blank"
         rel="noopener noreferrer"
-        class="transition-colors hover:text-foreground"
+        class="hover:text-foreground transition-colors"
       >
         LinkedIn
       </a>
@@ -1397,6 +1479,7 @@ import GradientButton from "../ui/GradientButton.astro";
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1417,6 +1500,7 @@ git commit -m "feat(sections): add Contact with radial glow and primary CTA"
 This is the visual flip — the home page becomes a single-scroll composition of the new section components. After this task, the home page looks completely new.
 
 **Files:**
+
 - Modify: `src/pages/index.astro`
 
 - [ ] **Step 1: Replace the entire contents of `src/pages/index.astro` with:**
@@ -1448,6 +1532,7 @@ import Contact from "../components/sections/Contact.astro";
 - [ ] **Step 2: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1457,11 +1542,13 @@ Expected: clean build.
 - [ ] **Step 3: Browser check**
 
 Run:
+
 ```bash
 npm run dev
 ```
 
 Open `http://localhost:4321`. Verify:
+
 - Hero has the pill badge, gradient headline, stat strip, and radial glow behind it.
 - Nav sits on top of hero, becomes frosted when you scroll past ~24px.
 - Services grid shows 4 cards in 2×2.
@@ -1480,8 +1567,8 @@ Stop dev server (Ctrl-C).
 Open `src/styles/global.css` and delete the two legacy lines added in Task 2 Step 4:
 
 ```css
-  /* LEGACY — remove after Task 16 when index.astro is rewritten */
-  --color-accent: #7c5cff;
+/* LEGACY — remove after Task 16 when index.astro is rewritten */
+--color-accent: #7c5cff;
 ```
 
 And the passthrough:
@@ -1495,6 +1582,7 @@ And the passthrough:
 - [ ] **Step 5: Rebuild**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1521,6 +1609,7 @@ git commit -m "feat(home): rewrite index as single-page freelance studio composi
 The case-study MDX files use `.prose-content` from `global.css`. The current rules reference the old green accent and terminal styling. Update them to match the new visual system.
 
 **Files:**
+
 - Modify: `src/styles/global.css`
 
 - [ ] **Step 1: Find the existing `.prose-content` block**
@@ -1528,9 +1617,9 @@ The case-study MDX files use `.prose-content` from `global.css`. The current rul
 In `src/styles/global.css`, locate the block starting with:
 
 ```css
-  .prose-content {
-    @apply max-w-[70ch] leading-8 text-zinc-400;
-  }
+.prose-content {
+  @apply max-w-[70ch] leading-8 text-zinc-400;
+}
 ```
 
 and ending at the `.prose-content tbody tr { ... }` rule.
@@ -1538,90 +1627,91 @@ and ending at the `.prose-content tbody tr { ... }` rule.
 - [ ] **Step 2: Replace that entire block with:**
 
 ```css
-  .prose-content {
-    @apply max-w-[72ch] text-base leading-relaxed text-muted;
-  }
+.prose-content {
+  @apply text-muted max-w-[72ch] text-base leading-relaxed;
+}
 
-  .prose-content h2 {
-    @apply font-display text-foreground mt-16 mb-6 text-3xl font-semibold tracking-[-0.03em] md:text-4xl;
-  }
+.prose-content h2 {
+  @apply font-display text-foreground mt-16 mb-6 text-3xl font-semibold tracking-[-0.03em] md:text-4xl;
+}
 
-  .prose-content h3 {
-    @apply font-display text-foreground mt-10 mb-4 text-xl font-semibold tracking-[-0.02em] md:text-2xl;
-  }
+.prose-content h3 {
+  @apply font-display text-foreground mt-10 mb-4 text-xl font-semibold tracking-[-0.02em] md:text-2xl;
+}
 
-  .prose-content p {
-    @apply mb-6;
-  }
+.prose-content p {
+  @apply mb-6;
+}
 
-  .prose-content strong {
-    @apply text-foreground font-semibold;
-  }
+.prose-content strong {
+  @apply text-foreground font-semibold;
+}
 
-  .prose-content ul {
-    @apply mb-8 ml-6 list-outside list-disc space-y-3;
-  }
+.prose-content ul {
+  @apply mb-8 ml-6 list-outside list-disc space-y-3;
+}
 
-  .prose-content li::marker {
-    color: var(--color-accent-via);
-  }
+.prose-content li::marker {
+  color: var(--color-accent-via);
+}
 
-  .prose-content li strong {
-    @apply text-foreground;
-  }
+.prose-content li strong {
+  @apply text-foreground;
+}
 
-  .prose-content pre {
-    @apply my-8 overflow-x-auto rounded-xl border border-border p-5 font-mono text-xs md:text-sm;
-    background: #0c0c11;
-  }
+.prose-content pre {
+  @apply border-border my-8 overflow-x-auto rounded-xl border p-5 font-mono text-xs md:text-sm;
+  background: #0c0c11;
+}
 
-  .prose-content code {
-    @apply rounded-md border border-border bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em] text-foreground;
-  }
+.prose-content code {
+  @apply border-border text-foreground rounded-md border bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em];
+}
 
-  .prose-content pre code {
-    @apply border-0 bg-transparent px-0 text-inherit;
-  }
+.prose-content pre code {
+  @apply border-0 bg-transparent px-0 text-inherit;
+}
 
-  .prose-content blockquote {
-    @apply my-8 rounded-r-lg border-l-2 p-5 pl-6 text-base leading-relaxed text-muted not-italic;
-    border-left-color: var(--color-accent-via);
-    background: rgba(124, 92, 255, 0.04);
-  }
+.prose-content blockquote {
+  @apply text-muted my-8 rounded-r-lg border-l-2 p-5 pl-6 text-base leading-relaxed not-italic;
+  border-left-color: var(--color-accent-via);
+  background: rgba(124, 92, 255, 0.04);
+}
 
-  .prose-content blockquote p {
-    @apply mb-0;
-  }
+.prose-content blockquote p {
+  @apply mb-0;
+}
 
-  .prose-content table {
-    @apply my-8 w-full border-collapse overflow-hidden rounded-lg text-sm;
-  }
+.prose-content table {
+  @apply my-8 w-full border-collapse overflow-hidden rounded-lg text-sm;
+}
 
-  .prose-content thead {
-    @apply border-b border-border;
-    background: #0f0f14;
-  }
+.prose-content thead {
+  @apply border-border border-b;
+  background: #0f0f14;
+}
 
-  .prose-content th {
-    @apply px-4 py-3 text-left font-mono text-[11px] font-semibold uppercase tracking-wider text-subtle;
-  }
+.prose-content th {
+  @apply text-subtle px-4 py-3 text-left font-mono text-[11px] font-semibold tracking-wider uppercase;
+}
 
-  .prose-content td {
-    @apply border-b border-border px-4 py-3 text-muted;
-  }
+.prose-content td {
+  @apply border-border text-muted border-b px-4 py-3;
+}
 
-  .prose-content tbody tr {
-    @apply transition-colors;
-  }
+.prose-content tbody tr {
+  @apply transition-colors;
+}
 
-  .prose-content tbody tr:hover {
-    background: rgba(255, 255, 255, 0.02);
-  }
+.prose-content tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
 ```
 
 - [ ] **Step 3: Build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1631,11 +1721,13 @@ Expected: clean build.
 - [ ] **Step 4: Spot-check a case study page in the browser**
 
 Run:
+
 ```bash
 npm run dev
 ```
 
 Open `http://localhost:4321/projects/gunpowder-fintech-backend` (or any other project slug). Verify:
+
 - Heading uses Inter Tight.
 - No green accent bars on `h2`.
 - Code blocks render with the new border and dark surface.
@@ -1657,11 +1749,13 @@ git commit -m "style(prose): restyle case-study content to new visual system"
 The About section now contains the previously-at list that used to live here. Delete the standalone page.
 
 **Files:**
+
 - Delete: `src/pages/experience.astro`
 
 - [ ] **Step 1: Delete the file**
 
 Run:
+
 ```bash
 rm src/pages/experience.astro
 ```
@@ -1669,6 +1763,7 @@ rm src/pages/experience.astro
 - [ ] **Step 2: Grep for any remaining references**
 
 Run:
+
 ```bash
 grep -rn "/experience" src/ public/ 2>/dev/null
 ```
@@ -1678,6 +1773,7 @@ Expected: no results, or only matches inside `dist/` (which is regenerated). If 
 - [ ] **Step 3: Build — sitemap regenerates**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1700,6 +1796,7 @@ Last sweep for anything left behind from the terminal aesthetic.
 - [ ] **Step 1: Grep for terminal motifs**
 
 Run:
+
 ```bash
 grep -rn "bg-dot-pattern\|System\.Status\|jd\.init\|Execute /projects\|Featured_Operations\|Technical_Arsenal\|Open to Work\|4ade80\|terminal-green" src/
 ```
@@ -1709,6 +1806,7 @@ Expected: no matches. Any match surfaces leftover old content. Remove or rewrite
 - [ ] **Step 2: Grep for stale class references to removed tokens**
 
 Run:
+
 ```bash
 grep -rn "text-accent[^-]\|bg-accent[^-]\|border-accent[^-]\|hover:text-accent[^-]\|hover:border-accent[^-]" src/
 ```
@@ -1718,6 +1816,7 @@ Expected: no matches. If any remain, replace with `accent-from`, `accent-via`, o
 - [ ] **Step 3: Full production build**
 
 Run:
+
 ```bash
 npm run build
 ```
@@ -1727,11 +1826,13 @@ Expected: clean build, zero errors, zero warnings.
 - [ ] **Step 4: Preview the production build**
 
 Run:
+
 ```bash
 npm run preview
 ```
 
 Open `http://localhost:4321` and walk the site:
+
 - Home: hero, services, work, process, about, contact all render correctly with no layout breakage at desktop and mobile widths (resize the window).
 - Nav: transparent at top, frosted on scroll, anchor links jump to the right sections, "Start a project" opens mail client.
 - `/projects`: renders with new chrome.
@@ -1744,6 +1845,7 @@ Stop preview server (Ctrl-C).
 - [ ] **Step 5: Format all files with Prettier**
 
 Run:
+
 ```bash
 npm run format
 ```

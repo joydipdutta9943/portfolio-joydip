@@ -2,23 +2,24 @@
 import GradientButton from "./GradientButton.astro";
 ---
 
-<nav
-  id="site-nav"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
->
+<nav id="site-nav" class="fixed top-0 right-0 left-0 z-50 transition-all duration-300">
   <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
     <a
       href="/"
-      class="font-display text-lg font-semibold tracking-tight text-foreground transition-opacity hover:opacity-80"
+      class="font-display text-foreground text-lg font-semibold tracking-tight transition-opacity hover:opacity-80"
     >
       Joydip Dutta
     </a>
 
     <div class="hidden items-center gap-8 md:flex">
-      <a href="/#work" class="text-sm text-muted transition-colors hover:text-foreground">Work</a>
-      <a href="/#services" class="text-sm text-muted transition-colors hover:text-foreground">Services</a>
-      <a href="/#about" class="text-sm text-muted transition-colors hover:text-foreground">About</a>
-      <a href="/#contact" class="text-sm text-muted transition-colors hover:text-foreground">Contact</a>
+      <a href="/#work" class="text-muted hover:text-foreground text-sm transition-colors">Work</a>
+      <a href="/#services" class="text-muted hover:text-foreground text-sm transition-colors"
+        >Services</a
+      >
+      <a href="/#about" class="text-muted hover:text-foreground text-sm transition-colors">About</a>
+      <a href="/#contact" class="text-muted hover:text-foreground text-sm transition-colors"
+        >Contact</a
+      >
     </div>
 
     <GradientButton

@@ -20,12 +20,14 @@ const Tag = as;
     className,
   ]}
 >
-  {interactive && (
-    <div
-      class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-      style="background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(124, 92, 255, 0.06), transparent 40%);"
-    />
-  )}
+  {
+    interactive && (
+      <div
+        class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style="background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(124, 92, 255, 0.06), transparent 40%);"
+      />
+    )
+  }
   <div class="relative z-10">
     <slot />
   </div>

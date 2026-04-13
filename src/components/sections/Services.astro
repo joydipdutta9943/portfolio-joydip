@@ -7,16 +7,14 @@ const services = [
     pitch:
       "Full SaaS builds from zero. Backend, API, database, auth, payments, integrations — the whole backend and as much frontend as you need. 4–12 week engagements.",
     tags: ["TypeScript / Go", "Postgres / Mongo", "AWS"],
-    iconPath:
-      "M12 2 4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6l-8-4z M9 12l2 2 4-4",
+    iconPath: "M12 2 4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6l-8-4z M9 12l2 2 4-4",
   },
   {
     title: "Backend Architecture",
     pitch:
       "Microservices, event systems, scale-ready foundations. Reviews of what you have, or greenfield designs for what you're about to build.",
     tags: ["Fiber", "BullMQ", "ClickHouse"],
-    iconPath:
-      "M4 6h16 M4 12h16 M4 18h16 M8 6v12 M16 6v12",
+    iconPath: "M4 6h16 M4 12h16 M4 18h16 M8 6v12 M16 6v12",
   },
   {
     title: "AI & RAG Systems",
@@ -40,43 +38,47 @@ const services = [
 <section id="services" class="scroll-mt-24 px-6 py-32">
   <div class="mx-auto max-w-5xl">
     <div class="mb-16">
-      <div class="mb-3 font-mono text-xs uppercase tracking-widest">
+      <div class="mb-3 font-mono text-xs tracking-widest uppercase">
         <span class="gradient-text">01</span>
-        <span class="ml-2 text-subtle">— What I build</span>
+        <span class="text-subtle ml-2">— What I build</span>
       </div>
-      <h2 class="font-display max-w-2xl text-4xl font-semibold leading-[1.05] tracking-[-0.03em] md:text-5xl">
+      <h2
+        class="font-display max-w-2xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-5xl"
+      >
         Work I take on for <span class="gradient-text">funded teams</span>.
       </h2>
     </div>
 
     <div class="grid gap-4 md:grid-cols-2">
-      {services.map((service) => (
-        <Card interactive class="group">
-          <div class="mb-5 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-white/[0.02]">
-            <svg
-              class="h-5 w-5 text-foreground"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d={service.iconPath}></path>
-            </svg>
-          </div>
-          <h3 class="mb-3 text-xl font-semibold text-foreground">{service.title}</h3>
-          <p class="mb-5 text-sm leading-relaxed text-muted">{service.pitch}</p>
-          <div class="flex flex-wrap gap-1.5">
-            {service.tags.map((tag) => (
-              <span class="rounded-md border border-border bg-white/[0.02] px-2 py-1 font-mono text-[11px] text-muted">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </Card>
-      ))}
+      {
+        services.map((service) => (
+          <Card interactive class="group">
+            <div class="border-border mb-5 inline-flex h-10 w-10 items-center justify-center rounded-lg border bg-white/[0.02]">
+              <svg
+                class="text-foreground h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d={service.iconPath} />
+              </svg>
+            </div>
+            <h3 class="text-foreground mb-3 text-xl font-semibold">{service.title}</h3>
+            <p class="text-muted mb-5 text-sm leading-relaxed">{service.pitch}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {service.tags.map((tag) => (
+                <span class="border-border text-muted rounded-md border bg-white/[0.02] px-2 py-1 font-mono text-[11px]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </Card>
+        ))
+      }
     </div>
   </div>
 </section>

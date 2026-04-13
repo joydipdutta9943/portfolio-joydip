@@ -68,7 +68,11 @@
 }
 
 @utility card-surface {
-  background: linear-gradient(180deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 80%, black) 100%);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface) 0%,
+    color-mix(in srgb, var(--color-surface) 80%, black) 100%
+  );
   border: 1px solid var(--color-border);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
@@ -107,7 +111,7 @@
   }
   /* Custom Markdown/MDX Styling */
   .prose-content {
-    @apply max-w-[72ch] text-base leading-relaxed text-muted;
+    @apply text-muted max-w-[72ch] text-base leading-relaxed;
   }
 
   .prose-content h2 {
@@ -139,12 +143,12 @@
   }
 
   .prose-content pre {
-    @apply my-8 overflow-x-auto rounded-xl border border-border p-5 font-mono text-xs md:text-sm;
+    @apply border-border my-8 overflow-x-auto rounded-xl border p-5 font-mono text-xs md:text-sm;
     background: #0c0c11;
   }
 
   .prose-content code {
-    @apply rounded-md border border-border bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em] text-foreground;
+    @apply border-border text-foreground rounded-md border bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em];
   }
 
   .prose-content pre code {
@@ -152,7 +156,7 @@
   }
 
   .prose-content blockquote {
-    @apply my-8 rounded-r-lg border-l-2 p-5 pl-6 text-base leading-relaxed text-muted not-italic;
+    @apply text-muted my-8 rounded-r-lg border-l-2 p-5 pl-6 text-base leading-relaxed not-italic;
     border-left-color: var(--color-accent-via);
     background: rgba(124, 92, 255, 0.04);
   }
@@ -166,16 +170,16 @@
   }
 
   .prose-content thead {
-    @apply border-b border-border;
+    @apply border-border border-b;
     background: #0f0f14;
   }
 
   .prose-content th {
-    @apply px-4 py-3 text-left font-mono text-[11px] font-semibold uppercase tracking-wider text-subtle;
+    @apply text-subtle px-4 py-3 text-left font-mono text-[11px] font-semibold tracking-wider uppercase;
   }
 
   .prose-content td {
-    @apply border-b border-border px-4 py-3 text-muted;
+    @apply border-border text-muted border-b px-4 py-3;
   }
 
   .prose-content tbody tr {

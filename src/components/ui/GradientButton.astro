@@ -14,7 +14,7 @@ const { href, variant = "primary", external = false, class: className = "" } = A
   target={external ? "_blank" : undefined}
   rel={external ? "noopener noreferrer" : undefined}
   class:list={[
-    "group relative inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-medium text-sm transition-all duration-300",
+    "group relative inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 text-sm font-medium transition-all duration-300",
     variant === "primary" && [
       "gradient-fill text-white",
       "shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_10px_30px_-10px_rgba(124,92,255,0.6)]",
@@ -22,7 +22,7 @@ const { href, variant = "primary", external = false, class: className = "" } = A
       "hover:brightness-110",
     ],
     variant === "ghost" && [
-      "border border-border text-foreground",
+      "border-border text-foreground border",
       "hover:border-border-strong hover:bg-white/[0.02]",
     ],
     className,
