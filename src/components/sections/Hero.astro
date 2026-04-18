@@ -10,6 +10,12 @@ const stats = [
   { value: "99.9%", label: "uptime SLA" },
   { value: "12+", label: "projects shipped" },
 ];
+
+const heroSegments = [
+  { text: "Senior engineer shipping" },
+  { text: "production systems", className: "gradient-text" },
+  { text: "for funded startups." },
+];
 ---
 
 <section id="top" class="pk-section pk-hero" style="padding: 0 24px;">
@@ -19,11 +25,7 @@ const stats = [
     <StatusPill>Available · Q2 2026 · 2 of 3 slots open</StatusPill>
 
     <h1 class="pk-hero__title">
-      <RevealWords client:load text="Senior engineer shipping" />{" "}
-      <span class="gradient-text">
-        <RevealWords client:load delayOffset={180} text="production systems" />
-      </span>{" "}
-      <RevealWords client:load delayOffset={360} text="for funded startups." />
+      <RevealWords client:load segments={heroSegments} />
     </h1>
 
     <p class="pk-hero__sub">
