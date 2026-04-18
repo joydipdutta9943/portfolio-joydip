@@ -121,7 +121,9 @@ export default function CommandPalette({ items }: Props) {
       e.preventDefault();
       if (filtered[active]) run(filtered[active]);
     } else if (e.key === "Tab") {
+      // Only one focusable element (input). Keep focus on input.
       e.preventDefault();
+      inputRef.current?.focus();
     }
   };
 
@@ -153,6 +155,11 @@ export default function CommandPalette({ items }: Props) {
           spellCheck={false}
         />
         <div className="pk-cmd__list" role="listbox">
+          <span className="sr-only" aria-live="polite">
+            {filtered.length === 0
+              ? "No results"
+              : `${filtered.length} result${filtered.length === 1 ? "" : "s"}`}
+          </span>
           {filtered.length === 0 && (
             <div
               className="pk-cmd__item"

@@ -149,6 +149,26 @@
   transform: translateX(3px);
 }
 
+.pk-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.pk-cmdk:focus-visible,
+.pk-nav__link:focus-visible,
+.pk-nav__brand:focus-visible,
+.pk-proj:focus-visible,
+.pk-footer__links a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.pk-cmd__input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 -2px 0 var(--color-accent);
+}
+
 /* ---------- Status pill ---------- */
 .pk-status {
   display: inline-flex;
@@ -640,4 +660,16 @@
   color: var(--color-fg-subtle);
   text-transform: uppercase;
   letter-spacing: 0.12em;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
