@@ -1,94 +1,54 @@
 @import "tailwindcss";
+@import "./tokens.css";
+@import "./kit.css";
 
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter-tight/400.css";
-@import "@fontsource/inter-tight/600.css";
-@import "@fontsource/jetbrains-mono/400.css";
-@import "@fontsource/jetbrains-mono/500.css";
-
-@theme {
-  --color-background: #0a0a0f;
-  --color-surface: #0f0f14;
-  --color-surface-raised: #15151d;
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-border-strong: rgba(255, 255, 255, 0.12);
-
-  --color-foreground: #fafafa;
-  --color-muted: #a1a1aa;
-  --color-subtle: #52525b;
-
-  --color-accent-from: #7c5cff;
-  --color-accent-via: #3b82f6;
-  --color-accent-to: #06b6d4;
-
-  --color-accent: #7c5cff;
-
-  --font-display: "Inter Tight", "Inter", sans-serif;
-  --font-sans: "Inter", "Helvetica Neue", sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
-}
+@import "@fontsource/geist-sans/400.css";
+@import "@fontsource/geist-sans/500.css";
+@import "@fontsource/geist-sans/600.css";
+@import "@fontsource/geist-sans/700.css";
+@import "@fontsource/geist-mono/400.css";
+@import "@fontsource/geist-mono/500.css";
+@import "@fontsource/geist-mono/600.css";
 
 @utility gradient-text {
-  background: linear-gradient(
-    90deg,
-    var(--color-accent-from),
-    var(--color-accent-via),
-    var(--color-accent-to)
-  );
+  background: var(--gradient-accent);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 @utility gradient-fill {
-  background: linear-gradient(
-    90deg,
-    var(--color-accent-from),
-    var(--color-accent-via),
-    var(--color-accent-to)
-  );
+  background: var(--gradient-accent);
 }
 
-@utility radial-glow {
-  position: absolute;
-  pointer-events: none;
-  width: 900px;
-  height: 900px;
-  border-radius: 9999px;
-  background: radial-gradient(
-    circle at center,
-    color-mix(in srgb, var(--color-accent-from) 18%, transparent),
-    color-mix(in srgb, var(--color-accent-via) 8%, transparent) 40%,
-    transparent 70%
-  );
-  filter: blur(120px);
-  will-change: transform;
+@utility dotted-bg {
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
 }
 
 @utility card-surface {
   background: linear-gradient(
     180deg,
     var(--color-surface) 0%,
-    color-mix(in srgb, var(--color-surface) 80%, black) 100%
+    color-mix(in srgb, var(--color-surface) 86%, black) 100%
   );
   border: 1px solid var(--color-border);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: var(--shadow-inset-hi);
 }
 
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
-
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-muted selection:bg-accent-from selection:text-foreground min-h-screen font-sans antialiased;
-    font-feature-settings: "cv11", "ss01", "ss03";
+    @apply bg-bg text-fg-muted font-sans antialiased min-h-screen;
+    font-feature-settings: "ss01", "ss02", "cv11";
+  }
+
+  ::selection {
+    background: var(--color-accent-from);
+    color: var(--color-fg);
   }
 
   h1,
@@ -97,29 +57,31 @@
   h4,
   h5,
   h6 {
-    @apply text-foreground font-display font-semibold;
-    letter-spacing: -0.03em;
+    @apply text-fg font-display font-semibold tracking-tighter;
   }
 
   code,
-  pre {
-    @apply font-mono text-sm;
+  pre,
+  kbd,
+  samp {
+    @apply font-mono;
   }
 
   a {
-    @apply focus-visible:ring-accent-from focus-visible:ring-offset-background transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
   }
-  /* Custom Markdown/MDX Styling */
+
+  /* Prose / MDX body — retuned to v2 tokens */
   .prose-content {
-    @apply text-muted max-w-[72ch] text-base leading-relaxed;
+    @apply text-fg-muted max-w-[72ch] text-base leading-relaxed;
   }
 
   .prose-content h2 {
-    @apply font-display text-foreground mt-16 mb-6 text-3xl font-semibold tracking-[-0.03em] md:text-4xl;
+    @apply font-display text-fg mt-16 mb-6 text-3xl font-semibold tracking-tighter md:text-4xl;
   }
 
   .prose-content h3 {
-    @apply font-display text-foreground mt-10 mb-4 text-xl font-semibold tracking-[-0.02em] md:text-2xl;
+    @apply font-display text-fg mt-10 mb-4 text-xl font-semibold tracking-tight md:text-2xl;
   }
 
   .prose-content p {
@@ -127,7 +89,7 @@
   }
 
   .prose-content strong {
-    @apply text-foreground font-semibold;
+    @apply text-fg font-semibold;
   }
 
   .prose-content ul {
@@ -135,20 +97,20 @@
   }
 
   .prose-content li::marker {
-    color: var(--color-accent-via);
+    color: var(--color-accent-from);
   }
 
   .prose-content li strong {
-    @apply text-foreground;
+    @apply text-fg;
   }
 
   .prose-content pre {
-    @apply border-border my-8 overflow-x-auto rounded-xl border p-5 font-mono text-xs md:text-sm;
-    background: #0c0c11;
+    @apply my-8 overflow-x-auto rounded-xl border border-border p-5 font-mono text-xs md:text-sm;
+    background: var(--color-surface-deep);
   }
 
   .prose-content code {
-    @apply border-border text-foreground rounded-md border bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em];
+    @apply border border-border text-fg rounded-md bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em];
   }
 
   .prose-content pre code {
@@ -156,9 +118,9 @@
   }
 
   .prose-content blockquote {
-    @apply text-muted my-8 rounded-r-lg border-l-2 p-5 pl-6 text-base leading-relaxed not-italic;
-    border-left-color: var(--color-accent-via);
-    background: rgba(124, 92, 255, 0.04);
+    @apply text-fg-muted my-8 rounded-r-lg border-l-2 p-5 pl-6 text-base leading-relaxed not-italic;
+    border-left-color: var(--color-accent-from);
+    background: var(--tint-accent-08);
   }
 
   .prose-content blockquote p {
@@ -170,16 +132,16 @@
   }
 
   .prose-content thead {
-    @apply border-border border-b;
-    background: #0f0f14;
+    @apply border-b border-border;
+    background: var(--color-surface);
   }
 
   .prose-content th {
-    @apply text-subtle px-4 py-3 text-left font-mono text-[11px] font-semibold tracking-wider uppercase;
+    @apply text-fg-subtle px-4 py-3 text-left font-mono text-[11px] font-semibold tracking-wider uppercase;
   }
 
   .prose-content td {
-    @apply border-border text-muted border-b px-4 py-3;
+    @apply border-b border-border text-fg-muted px-4 py-3;
   }
 
   .prose-content tbody tr {
@@ -187,20 +149,24 @@
   }
 
   .prose-content tbody tr:hover {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--tint-white-02);
   }
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-background;
+  background: var(--color-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-zinc-800 transition-colors hover:bg-zinc-700;
+  background: var(--color-fg-faint);
+  transition: background 200ms var(--ease);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-fg-subtle);
 }

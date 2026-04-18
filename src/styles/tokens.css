@@ -1,0 +1,105 @@
+/* ==========================================================================
+   v2 Design Tokens
+   - @theme block: Tailwind v4 utility-generating tokens (colors, fonts, radii,
+     tracking). Name --color-* / --font-* / --radius-* / --tracking-* produce
+     utilities like bg-bg, text-fg-muted, font-mono, rounded-lg, tracking-tighter.
+   - :root block: raw CSS vars used by pk-* rules in kit.css and inline styles.
+     Not exposed as utilities.
+   - Berkeley/Commit Mono swap flagged below — drop .woff2 into public/fonts/
+     and replace --font-mono to complete.
+   ========================================================================== */
+
+@theme {
+  /* Surfaces */
+  --color-bg: #08080b;
+  --color-surface: #0d0d11;
+  --color-surface-raised: #13131a;
+  --color-surface-deep: #0a0a0e;
+
+  /* Foreground */
+  --color-fg: #fafafa;
+  --color-fg-muted: #a1a1aa;
+  --color-fg-subtle: #52525b;
+  --color-fg-faint: #27272a;
+
+  /* Borders */
+  --color-border: rgba(255, 255, 255, 0.06);
+  --color-border-strong: rgba(255, 255, 255, 0.12);
+
+  /* Accent (duotone) */
+  --color-accent: #7c5cff;
+  --color-accent-from: #7c5cff;
+  --color-accent-to: #22d3ee;
+
+  /* Fonts */
+  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  /* FLAG: Swap to Berkeley Mono / Commit Mono when licensed */
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Letter spacing (utilities: tracking-tightest/tighter/tight) */
+  --tracking-tightest: -0.045em;
+  --tracking-tighter: -0.035em;
+  --tracking-tight: -0.02em;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* Tints */
+  --tint-white-02: rgba(255, 255, 255, 0.02);
+  --tint-white-04: rgba(255, 255, 255, 0.04);
+  --tint-accent-08: rgba(124, 92, 255, 0.08);
+  --tint-accent-30: rgba(124, 92, 255, 0.30);
+
+  /* Shadows / elevation */
+  --shadow-inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-card-hover:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 24px 60px -24px rgba(124, 92, 255, 0.28);
+  --shadow-btn-primary:
+    0 0 0 1px rgba(255, 255, 255, 0.10),
+    0 14px 40px -12px rgba(124, 92, 255, 0.55);
+  --shadow-btn-primary-hover:
+    0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 20px 48px -12px rgba(124, 92, 255, 0.75);
+
+  /* Motion — Apple/Linear easing */
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 560ms;
+
+  /* Grid texture */
+  --grid-size: 24px;
+  --grid-dot: rgba(255, 255, 255, 0.05);
+
+  /* Max widths */
+  --max-w-prose: 72ch;
+  --max-w-page: 1280px;
+
+  /* Gradients (convenience) */
+  --gradient-accent: linear-gradient(100deg, var(--color-accent-from) 0%, var(--color-accent-to) 100%);
+  --gradient-accent-soft: linear-gradient(100deg, rgba(124, 92, 255, 0.15) 0%, rgba(34, 211, 238, 0.15) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .pk-reveal,
+  .pk-reveal-word {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
