@@ -1,33 +1,24 @@
 ---
-import GradientButton from "./GradientButton.astro";
+import Button from "../react/Button";
 ---
 
-<nav id="site-nav" class="fixed top-0 right-0 left-0 z-50 transition-all duration-300">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
-    <a
-      href="/"
-      class="font-display text-foreground text-lg font-semibold tracking-tight transition-opacity hover:opacity-80"
-    >
-      Joydip Dutta
-    </a>
+<nav id="site-nav" class="pk-nav">
+  <div class="pk-nav__inner">
+    <a href="/" class="pk-nav__brand">Joydip Dutta</a>
 
-    <div class="hidden items-center gap-8 md:flex">
-      <a href="/#work" class="text-muted hover:text-foreground text-sm transition-colors">Work</a>
-      <a href="/#services" class="text-muted hover:text-foreground text-sm transition-colors"
-        >Services</a
-      >
-      <a href="/#about" class="text-muted hover:text-foreground text-sm transition-colors">About</a>
-      <a href="/#contact" class="text-muted hover:text-foreground text-sm transition-colors"
-        >Contact</a
-      >
+    <div class="pk-nav__links">
+      <a href="/#work" class="pk-nav__link">Work</a>
+      <a href="/#services" class="pk-nav__link">Services</a>
+      <a href="/#about" class="pk-nav__link">About</a>
+      <a href="/#contact" class="pk-nav__link">Contact</a>
     </div>
 
-    <GradientButton
-      href="mailto:joydip.dutta9943@gmail.com?subject=New%20project%20—%20%5Byour%20company%5D"
-      class="!px-4 !py-2 !text-xs"
-    >
-      Start a project
-    </GradientButton>
+    <div class="pk-nav__right">
+      <button id="nav-cmdk" class="pk-cmdk" type="button" aria-label="Open command palette">
+        Search <kbd>⌘K</kbd>
+      </button>
+      <Button client:load size="sm" href="/#contact">Start a project</Button>
+    </div>
   </div>
 </nav>
 
@@ -36,23 +27,18 @@ import GradientButton from "./GradientButton.astro";
     const nav = document.getElementById("site-nav");
     if (!nav) return;
     const onScroll = () => {
-      if (window.scrollY > 24) {
-        nav.classList.add("nav-scrolled");
-      } else {
-        nav.classList.remove("nav-scrolled");
-      }
+      if (window.scrollY > 24) nav.classList.add("scrolled");
+      else nav.classList.remove("scrolled");
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     document.addEventListener("astro:page-load", onScroll);
+
+    const cmdBtn = document.getElementById("nav-cmdk");
+    if (cmdBtn) {
+      cmdBtn.addEventListener("click", () => {
+        window.dispatchEvent(new CustomEvent("pk:cmd-open"));
+      });
+    }
   })();
 </script>
-
-<style>
-  #site-nav.nav-scrolled {
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    background: rgba(10, 10, 15, 0.7);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  }
-</style>

@@ -18,11 +18,9 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-// Truncate meta description to 155 chars (Google truncates at ~160)
 const metaDescription =
   description.length > 155 ? description.slice(0, 152).trimEnd() + "…" : description;
 
-// Resolve OG image — per-page override or fallback to global
 const resolvedOgImage = ogImage
   ? new URL(ogImage.replace(/^\//, ""), Astro.site).href
   : `${Astro.site}og-image.png`;
@@ -36,7 +34,7 @@ const resolvedOgImage = ogImage
     <meta name="description" content={metaDescription} />
     <meta name="author" content="Joydip Dutta" />
     <meta name="robots" content="index, follow" />
-    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="theme-color" content="#08080b" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
@@ -44,7 +42,6 @@ const resolvedOgImage = ogImage
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:title" content={title} />
@@ -55,13 +52,11 @@ const resolvedOgImage = ogImage
     <meta property="og:site_name" content="Joydip Dutta" />
     <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter / X -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={metaDescription} />
     <meta name="twitter:image" content={resolvedOgImage} />
 
-    <!-- Structured data -->
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
@@ -100,11 +95,12 @@ const resolvedOgImage = ogImage
 
     <ClientRouter />
   </head>
-  <body class="bg-background antialiased">
+  <body class="pk-page">
     <Nav />
-    <main class="pt-24">
+    <main>
       <slot />
     </main>
     <Footer />
+    <!-- CommandPalette mount point — populated in Task 8 -->
   </body>
 </html>

@@ -12,9 +12,12 @@ export default defineConfig({
     server: {
       allowedHosts: true,
     },
+    define: {
+      __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
+    },
   },
   server: {
-    host: true, // Listen on all local networks (0.0.0.0)
+    host: true,
   },
   integrations: [mdx(), react(), sitemap()],
   markdown: {
