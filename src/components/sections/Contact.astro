@@ -1,5 +1,6 @@
 ---
 import Eyebrow from "../ui/Eyebrow.astro";
+import SocialIcon from "../ui/SocialIcon.astro";
 import CopyEmailButton from "../react/CopyEmailButton";
 ---
 
@@ -17,35 +18,53 @@ import CopyEmailButton from "../react/CopyEmailButton";
     </h2>
 
     <p
-      style="color: var(--color-fg-muted); font-size: 18px; line-height: 1.55; max-width: 560px; margin: 0 auto 40px;"
+      style="color: var(--color-fg-body); font-size: 18px; line-height: 1.6; max-width: 560px; margin: 0 auto 40px;"
     >
-      I take a small number of engagements at a time. Best fit: funded startup, real product in
-      production or about to be, four-plus weeks of work. Send me what you're building and I'll
-      reply within 24 hours.
+      I take a couple of side projects at a time outside of my day job. Best fit: funded startups,
+      real products shipping or close to it, scoped work under ~3 months, async-friendly. Send me
+      what you're building and I'll reply within 24 hours.
     </p>
 
     <CopyEmailButton client:load />
 
     <div
-      style="margin-top: 32px; display: flex; justify-content: center; gap: 24px; color: var(--color-fg-muted); font-size: 12px;"
+      class="pk-social-row"
+      style="margin-top: 36px; display: flex; justify-content: center; gap: 20px; color: var(--color-fg-muted); font-size: 13px;"
     >
       <a
         href="https://github.com/joydipdutta9943"
         target="_blank"
         rel="noopener noreferrer"
-        style="transition: color .2s var(--ease);"
+        aria-label="GitHub"
+        style="display: inline-flex; align-items: center; gap: 8px; transition: color .2s var(--ease);"
       >
-        GitHub
+        <SocialIcon name="github" size={16} />
+        <span>GitHub</span>
       </a>
-      <span style="color: var(--color-fg-subtle);">·</span>
       <a
         href="https://www.linkedin.com/in/joydip-dutta-569428141/"
         target="_blank"
         rel="noopener noreferrer"
-        style="transition: color .2s var(--ease);"
+        aria-label="LinkedIn"
+        style="display: inline-flex; align-items: center; gap: 8px; transition: color .2s var(--ease);"
       >
-        LinkedIn
+        <SocialIcon name="linkedin" size={16} />
+        <span>LinkedIn</span>
+      </a>
+      <a
+        href="mailto:joydip.dutta9943@gmail.com"
+        aria-label="Email"
+        style="display: inline-flex; align-items: center; gap: 8px; transition: color .2s var(--ease);"
+      >
+        <SocialIcon name="mail" size={16} />
+        <span>Email</span>
       </a>
     </div>
   </div>
 </section>
+
+<style>
+  .pk-social-row a:hover {
+    color: var(--color-fg);
+  }
+</style>

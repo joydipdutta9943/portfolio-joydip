@@ -16,19 +16,7 @@ When fitness activity earns digital currency, people cheat. Overlapping activiti
 
 ### Fraud-Resistant De-duplication
 
-The `processActivities` pipeline detects time-overlapping entries from third-party fitness APIs. When conflicts arise, it retains the entry with the highest data fidelity and discards the rest.
-
-```javascript
-async function syncStravaActivity(userId, activity) {
-  const overlap = await detectActivityOverlap(userId, activity.timestamp);
-
-  if (overlap && overlap.fidelity > activity.fidelity) {
-    return; // Discard low-fidelity overlapping attempt
-  }
-
-  gamificationEmitter.emit("activity_verified", { userId, activity });
-}
-```
+The `processActivities` pipeline detects time-overlapping entries from third-party fitness APIs. When conflicts arise, it retains the entry with the highest data fidelity and discards the rest — so a double-submitted run from both Strava and Apple Health never scores twice.
 
 ### Event-Driven Gamification
 

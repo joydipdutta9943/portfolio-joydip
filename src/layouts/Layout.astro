@@ -11,12 +11,23 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+  article?: {
+    headline: string;
+    description?: string;
+    image?: string;
+    datePublished?: Date | string;
+    dateModified?: Date | string;
+    keywords?: string[];
+  };
 }
 
 const {
   title,
   description = "Freelance product engineer building production backends, SaaS platforms, and AI systems for funded startups.",
   ogImage,
+  breadcrumbs,
+  article,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -39,7 +50,7 @@ const cmdItems: CmdItem[] = [
   { id: "copy-email", label: "Copy email address", meta: "ACTION", action: "copy-email" },
   {
     id: "resume",
-    label: "Download résumé (PDF)",
+    label: "Download resume (PDF)",
     meta: "ACTION",
     href: "/resume-joydip-dutta.pdf",
   },
@@ -63,6 +74,88 @@ const cmdItems: CmdItem[] = [
     tags: p.data.techStack,
   })),
 ];
+
+// --- JSON-LD blocks ---
+const siteUrl = Astro.site?.href ?? "https://sannin-coder.info/";
+
+const personLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Joydip Dutta",
+  url: siteUrl,
+  jobTitle: "Freelance Software Engineer",
+  description:
+    "Freelance product engineer building backends, SaaS platforms, and AI systems for funded startups.",
+  email: "joydip.dutta9943@gmail.com",
+  knowsAbout: [
+    "TypeScript",
+    "Go",
+    "Node.js",
+    "PostgreSQL",
+    "MongoDB",
+    "AWS",
+    "LangChain",
+    "RAG systems",
+    "Microservices",
+    "SaaS architecture",
+  ],
+  hasOccupation: {
+    "@type": "Occupation",
+    name: "Freelance Product Engineer",
+    occupationalCategory: "15-1252.00",
+    skills: "Full-stack engineering, backend architecture, AI integration",
+  },
+  sameAs: [
+    "https://github.com/joydipdutta9943",
+    "https://www.linkedin.com/in/joydip-dutta-569428141/",
+  ],
+};
+
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Joydip Dutta",
+  alternateName: "Joydip Dutta — Freelance Product Engineer",
+  url: siteUrl,
+  inLanguage: "en",
+  author: { "@type": "Person", name: "Joydip Dutta" },
+};
+
+const breadcrumbLd = breadcrumbs
+  ? {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((b, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: b.name,
+        item: new URL(b.url.replace(/^\//, ""), Astro.site).href,
+      })),
+    }
+  : null;
+
+const toIso = (d?: Date | string) =>
+  d ? (typeof d === "string" ? new Date(d).toISOString() : d.toISOString()) : undefined;
+
+const articleLd = article
+  ? {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      headline: article.headline,
+      description: article.description ?? metaDescription,
+      image: article.image
+        ? new URL(article.image.replace(/^\//, ""), Astro.site).href
+        : resolvedOgImage,
+      url: canonicalURL.href,
+      mainEntityOfPage: canonicalURL.href,
+      inLanguage: "en",
+      author: { "@type": "Person", name: "Joydip Dutta", url: siteUrl },
+      publisher: { "@type": "Person", name: "Joydip Dutta", url: siteUrl },
+      datePublished: toIso(article.datePublished),
+      dateModified: toIso(article.dateModified ?? article.datePublished),
+      keywords: article.keywords?.length ? article.keywords.join(", ") : undefined,
+    }
+  : null;
 ---
 
 <!doctype html>
@@ -81,7 +174,7 @@ const cmdItems: CmdItem[] = [
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? "article" : "website"} />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={metaDescription} />
@@ -96,41 +189,14 @@ const cmdItems: CmdItem[] = [
     <meta name="twitter:description" content={metaDescription} />
     <meta name="twitter:image" content={resolvedOgImage} />
 
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Person",
-        name: "Joydip Dutta",
-        url: "https://sannin-coder.info",
-        jobTitle: "Freelance Software Engineer",
-        description:
-          "Freelance product engineer building backends, SaaS platforms, and AI systems for funded startups.",
-        email: "joydip.dutta9943@gmail.com",
-        knowsAbout: [
-          "TypeScript",
-          "Go",
-          "Node.js",
-          "PostgreSQL",
-          "MongoDB",
-          "AWS",
-          "LangChain",
-          "RAG systems",
-          "Microservices",
-          "SaaS architecture",
-        ],
-        hasOccupation: {
-          "@type": "Occupation",
-          name: "Freelance Product Engineer",
-          occupationalCategory: "15-1252.00",
-          skills: "Full-stack engineering, backend architecture, AI integration",
-        },
-        sameAs: [
-          "https://github.com/joydipdutta9943",
-          "https://www.linkedin.com/in/joydip-dutta-569428141/",
-        ],
-      })}
-    />
+    <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
+    {
+      breadcrumbLd && (
+        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
+      )
+    }
+    {articleLd && <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />}
 
     <ClientRouter />
   </head>

@@ -15,20 +15,7 @@ Real-time recommendations during browsing are computationally expensive. Calcula
 
 ### Async Matrix Computation
 
-Heavy recommendation calculations run on distributed **Celery** workers. They process event streams (clicks, cart-adds) from PostgreSQL, compute cosine similarity via `scikit-learn`, and serialize results into **Redis**. The API layer only reads pre-computed scores.
-
-```python
-@app.get("/recommendations/{user_id}")
-async def get_curated_feed(user_id: str):
-    cached = await redis_pool.get(f"user:{user_id}:recs")
-
-    if cached:
-        return json.loads(cached)
-
-    # Cold start fallback
-    trending = await db.fetch("SELECT id FROM global_trending LIMIT 20")
-    return {"results": trending}
-```
+Heavy recommendation calculations run on distributed **Celery** workers. They process event streams (clicks, cart-adds) from PostgreSQL, compute cosine similarity via `scikit-learn`, and serialize results into **Redis**. The FastAPI layer only reads pre-computed scores — the expensive O(N²) math never runs inside a user-facing request.
 
 ### Cold Start Fallback
 

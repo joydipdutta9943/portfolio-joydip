@@ -15,17 +15,7 @@ The school needed two things from one website: a lightning-fast public portal fo
 
 ### Islands Architecture
 
-**Astro v5** partial hydration (`client:visible` / `client:idle`) strips unused JavaScript from the main thread. Static content ships as pure HTML; React components only hydrate when needed.
-
-```html
-<Layout title="AGNIBINA MODEL SCHOOL">
-  <!-- Zero-JS static rendering for the hero -->
-  <HeroSection announcements="{latestNotices}" />
-
-  <!-- React island: hydrates only when scrolled into view -->
-  <ComplexComplianceDataGrid client:visible cbseData="{fetchRegulatoryStats()}" />
-</Layout>
-```
+**Astro v5** partial hydration (`client:visible` / `client:idle`) strips unused JavaScript from the main thread. The hero and announcement feed ship as pure HTML; the compliance data grid — the only heavy React component — hydrates only when scrolled into view.
 
 ### Design System
 

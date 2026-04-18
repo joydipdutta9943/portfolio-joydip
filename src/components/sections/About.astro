@@ -3,9 +3,13 @@ import Card from "../react/Card";
 import Chips from "../ui/Chips.astro";
 import Eyebrow from "../ui/Eyebrow.astro";
 
-const stacks = [
+type StackColor = "violet" | "cyan" | "amber" | "emerald";
+
+const stacks: { heading: string; items: string[]; color: StackColor; tone: string }[] = [
   {
     heading: "Languages & Frameworks",
+    color: "violet",
+    tone: "#a78bfa",
     items: [
       "TypeScript",
       "Go (Fiber)",
@@ -20,6 +24,8 @@ const stacks = [
   },
   {
     heading: "Databases & Storage",
+    color: "cyan",
+    tone: "#22d3ee",
     items: [
       "PostgreSQL",
       "MongoDB",
@@ -33,10 +39,14 @@ const stacks = [
   },
   {
     heading: "Infrastructure & Security",
+    color: "amber",
+    tone: "#fbbf24",
     items: ["Docker", "Kubernetes", "BullMQ", "AWS (SQS, SES)", "AES-256-GCM", "HMAC"],
   },
   {
     heading: "AI & Search",
+    color: "emerald",
+    tone: "#34d399",
     items: ["LangChain", "Google Gemini", "OpenAI", "pgvector", "MongoDB Atlas Vector", "RAG"],
   },
 ];
@@ -72,45 +82,50 @@ const previouslyAt = [
       style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start;"
       class="pk-about-grid"
     >
-      <div
-        style="display: flex; flex-direction: column; gap: 20px; max-width: 640px; font-size: 17px; line-height: 1.6; color: var(--color-fg-muted);"
-      >
-        <p style="margin: 0;">
-          I'm a senior engineer who takes on full-stack product builds for funded startups. My work
-          sits at the boundary of backend systems and product — the parts that decide whether
-          something actually ships and holds up in production.
-        </p>
-        <p style="margin: 0;">
-          Over the last three-plus years I've built a fintech wealth platform serving 30k users, a
-          multi-modal RAG system doing natural-language search over unstructured enterprise data,
-          and a handful of polyglot microservice backends. I write TypeScript and Go for most
-          things, Python when the ML work demands it.
-        </p>
-        <p style="margin: 0;">
-          I work async, keep scope honest, and don't chase frameworks. If you're a funded startup
-          with something real to build, the contact section is below.
-        </p>
+      {/* Left column — bio paragraphs + previously at */}
+      <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div
+          style="max-width: 640px; display: flex; flex-direction: column; gap: 22px; font-size: 17px; line-height: 1.75; color: var(--color-fg-body); letter-spacing: -0.005em;"
+        >
+          <p style="margin: 0;">
+            I'm a senior engineer who takes on full-stack product builds for funded startups. My
+            work sits at the boundary of backend systems and product — the parts that decide
+            whether something actually ships and holds up in production.
+          </p>
+          <p style="margin: 0;">
+            Over the last three-plus years I've built a fintech wealth platform serving 30k users,
+            a multi-modal RAG system doing natural-language search over unstructured enterprise
+            data, and a handful of polyglot microservice backends. I write TypeScript and Go for
+            most things, Python when the ML work demands it.
+          </p>
+          <p style="margin: 0;">
+            I work async, keep scope honest, and don't chase frameworks. If you're a funded startup
+            with something real to build, the contact section is below.
+          </p>
+        </div>
 
-        <div style="margin-top: 24px;">
+        <div style="margin-top: 28px; max-width: 640px;">
           <div
-            style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--color-fg-subtle); margin-bottom: 16px;"
+            style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-fg-subtle); margin-bottom: 14px;"
           >
             Previously at
           </div>
-          <ul
-            style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;"
-          >
+          <ul style="list-style: none; padding: 0; margin: 0;">
             {
-              previouslyAt.map((r) => (
-                <li style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; font-size: 15px;">
+              previouslyAt.map((r, i) => (
+                <li
+                  style={`display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; padding: 16px 0; ${i < previouslyAt.length - 1 ? "border-bottom: 1px solid var(--color-border);" : ""}`}
+                >
                   <div>
-                    <span style="color: var(--color-fg);">{r.role}</span>
-                    <span style="color: var(--color-fg-muted);"> · {r.company}</span>
-                    <span style="color: var(--color-fg-subtle); display: block; font-size: 12px; margin-top: 2px;">
-                      {r.location}
-                    </span>
+                    <div style="color: var(--color-fg); font-size: 16px; font-weight: 500; letter-spacing: var(--tracking-tight);">
+                      {r.role}
+                    </div>
+                    <div style="color: var(--color-fg-body); font-size: 14px; margin-top: 4px;">
+                      {r.company}
+                      <span style="color: var(--color-fg-subtle);"> · {r.location}</span>
+                    </div>
                   </div>
-                  <span style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px;">
+                  <span style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; white-space: nowrap; padding-top: 3px;">
                     {r.years}
                   </span>
                 </li>
@@ -120,14 +135,21 @@ const previouslyAt = [
         </div>
       </div>
 
+      {/* Right column — 4 color-tinted skill cards */}
       <div style="display: flex; flex-direction: column; gap: 16px;">
         {
           stacks.map((stack) => (
             <Card client:visible>
-              <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--color-fg-subtle); margin-bottom: 12px;">
+              <div
+                style={`display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: ${stack.tone}; margin-bottom: 14px;`}
+              >
+                <span
+                  aria-hidden="true"
+                  style={`width: 6px; height: 6px; border-radius: 999px; background: ${stack.tone}; box-shadow: 0 0 10px ${stack.tone}66;`}
+                />
                 {stack.heading}
               </div>
-              <Chips items={stack.items} />
+              <Chips items={stack.items} chipClass={`pk-chip--lg pk-chip--${stack.color}`} />
             </Card>
           ))
         }

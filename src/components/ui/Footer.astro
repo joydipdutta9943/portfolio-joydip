@@ -1,4 +1,6 @@
 ---
+import SocialIcon from "./SocialIcon.astro";
+
 const year = new Date().getFullYear();
 const buildIso = __BUILD_TIME__;
 ---
@@ -12,15 +14,28 @@ const buildIso = __BUILD_TIME__;
     </span>
 
     <div class="pk-footer__links">
-      <a href="https://github.com/joydipdutta9943" target="_blank" rel="noopener noreferrer"
-        >GitHub</a
+      <a
+        href="https://github.com/joydipdutta9943"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub"
       >
+        <SocialIcon name="github" />
+        <span>GitHub</span>
+      </a>
       <a
         href="https://www.linkedin.com/in/joydip-dutta-569428141/"
         target="_blank"
-        rel="noopener noreferrer">LinkedIn</a
+        rel="noopener noreferrer"
+        aria-label="LinkedIn"
       >
-      <a href="mailto:joydip.dutta9943@gmail.com">Email</a>
+        <SocialIcon name="linkedin" />
+        <span>LinkedIn</span>
+      </a>
+      <a href="mailto:joydip.dutta9943@gmail.com" aria-label="Email">
+        <SocialIcon name="mail" />
+        <span>Email</span>
+      </a>
     </div>
   </div>
 </footer>

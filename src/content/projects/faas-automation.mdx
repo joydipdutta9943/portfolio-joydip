@@ -16,24 +16,7 @@ Fund managers spend days manually calculating capital calls, generating PDF noti
 
 ### Automated Document Pipeline
 
-Headless **Puppeteer** hydrates HTML templates with financial data and renders personalized PDF notices per investor. Buffers stream directly to **AWS S3**, bypassing disk I/O entirely.
-
-```typescript
-export async function streamNoticesToS3(investors: Investor[]) {
-  const browser = await puppeteer.launch({ headless: "new" });
-
-  const promises = investors.map(async (investor) => {
-    const page = await browser.newPage();
-    await page.setContent(buildLegalTemplate(investor));
-    const pdfBuffer = await page.pdf();
-    await uploadToAWS(`funds/drawdown/${investor.id}.pdf`, pdfBuffer);
-    await page.close();
-  });
-
-  await Promise.all(promises);
-  await browser.close();
-}
-```
+Headless **Puppeteer** hydrates legal HTML templates with financial data and renders personalized PDF notices per investor. Buffers stream directly to **AWS S3**, bypassing disk I/O entirely — hundreds of investor-specific PDFs generate in parallel during a single capital-call run.
 
 ### Relational Financial Ledger
 

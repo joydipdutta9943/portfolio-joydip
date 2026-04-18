@@ -19,19 +19,6 @@ Contract farming involves real-world constraints: a farmer's land has finite cap
 
 A transactional bidding system that validates proposed crop quantities against the farmer's actual land availability (`area_in_use`). Resources lock on acceptance, guaranteeing conflict-free contracts.
 
-```typescript
-async function negotiateContract(bid) {
-  const farm = await mongoDB.Farms.findOne({ id: bid.farmerId });
-  const maxCapacity = calculateBiologicalLimit(farm.area_in_use);
-
-  if (bid.tonnage > maxCapacity) {
-    throw new Error("Bid exceeds available land capacity.");
-  }
-
-  return lockAgriculturalContract(bid);
-}
-```
-
 ### Automated Crop Scheduler
 
 Once a contract is signed, a recurring task engine clones a master blueprint into a personalized, day-by-day care schedule (sowing, watering, fertilizing) tailored to the farmer's specific land topology.

@@ -8,11 +8,17 @@ const projects = await getCollection("projects");
 const sortedProjects = projects.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
 const featured = sortedProjects.filter((p) => p.data.image);
 const rest = sortedProjects.filter((p) => !p.data.image);
+
+const breadcrumbs = [
+  { name: "Home", url: "/" },
+  { name: "Projects", url: "/projects" },
+];
 ---
 
 <Layout
   title="Projects | Joydip Dutta — Freelance Product Engineer"
   description="Case studies and projects — fintech backends, AI agents, microservices, and full-stack applications."
+  breadcrumbs={breadcrumbs}
 >
   <section class="pk-section" style="padding-top: 140px;">
     <div class="pk-section__inner">
@@ -39,7 +45,7 @@ const rest = sortedProjects.filter((p) => !p.data.image);
       <Eyebrow n="—" label="Case studies" />
       <h1 class="pk-h2" style="max-width: 100%;">All projects.</h1>
       <p
-        style="max-width: 560px; color: var(--color-fg-muted); font-size: 17px; line-height: 1.6; margin: -48px 0 64px;"
+        style="max-width: 640px; color: var(--color-fg-body); font-size: 18px; line-height: 1.7; margin: -48px 0 72px;"
       >
         Case studies from production systems — fintech, AI, microservices, and full-stack SaaS
         builds.
@@ -47,7 +53,7 @@ const rest = sortedProjects.filter((p) => !p.data.image);
 
       {
         featured.length > 0 && (
-          <div style="margin-bottom: 64px;">
+          <div style="margin-bottom: 72px;">
             <div style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
               <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);">
                 Featured
@@ -57,12 +63,21 @@ const rest = sortedProjects.filter((p) => !p.data.image);
               {featured.map((p) => (
                 <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
                   <div class="pk-proj__img">
-                    <img src={p.data.image} alt={p.data.title} />
+                    <img
+                      src={p.data.image}
+                      alt={`${p.data.title} — case study cover`}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
-                  <div class="pk-proj__body">
-                    <h2 class="pk-proj__title">{p.data.title}</h2>
-                    <p class="pk-proj__desc">{p.data.description}</p>
-                    <Chips items={p.data.techStack} max={4} />
+                  <div class="pk-proj__body" style="padding: 26px 28px;">
+                    <h2 class="pk-proj__title" style="font-size: 20px; margin-bottom: 10px;">
+                      {p.data.title}
+                    </h2>
+                    <p class="pk-proj__desc" style="font-size: 15px; margin-bottom: 20px;">
+                      {p.data.description}
+                    </p>
+                    <Chips items={p.data.techStack} max={4} chipClass="pk-chip--lg" />
                   </div>
                 </a>
               ))}
@@ -82,12 +97,12 @@ const rest = sortedProjects.filter((p) => !p.data.image);
             <div class="pk-grid-3">
               {rest.map((p) => (
                 <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
-                  <div class="pk-proj__body">
-                    <h2 class="pk-proj__title" style="font-size: 16px;">
+                  <div class="pk-proj__body" style="padding: 22px 24px;">
+                    <h2 class="pk-proj__title" style="font-size: 17px; margin-bottom: 8px;">
                       {p.data.title}
                     </h2>
                     <p class="pk-proj__desc">{p.data.description}</p>
-                    <Chips items={p.data.techStack} max={3} />
+                    <Chips items={p.data.techStack} max={3} chipClass="pk-chip--lg" />
                   </div>
                 </a>
               ))}

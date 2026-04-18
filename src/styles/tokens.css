@@ -18,6 +18,7 @@
 
   /* Foreground */
   --color-fg: #fafafa;
+  --color-fg-body: #d4d4d8;
   --color-fg-muted: #a1a1aa;
   --color-fg-subtle: #52525b;
   --color-fg-faint: #27272a;

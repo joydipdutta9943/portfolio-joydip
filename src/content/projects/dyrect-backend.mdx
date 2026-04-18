@@ -15,16 +15,7 @@ Physical QR codes on consumer products generate extremely bursty, unpredictable 
 
 ### Dynamic Collection Sharding
 
-Instead of one massive collection, telemetry routes into brand-specific MongoDB collections on a shared-nothing basis. Each brand's scan data lives in its own partition, eliminating B-Tree bloat.
-
-```javascript
-async function logProductScan(domainHost, telemetryPayload) {
-  const collectionName = `scans_${domainHost.replace(/\./g, "_")}`;
-  const PartitionedCollection = mongoose.model(collectionName, TelemetrySchema, collectionName);
-
-  await PartitionedCollection.create(telemetryPayload);
-}
-```
+Instead of one massive collection, telemetry routes into brand-specific MongoDB collections derived from the request's domain host. Each brand's scan data lives in its own partition — index sizes stay small regardless of total platform scale, and B-Tree bloat never kicks in.
 
 ### Traffic Spike Absorption
 

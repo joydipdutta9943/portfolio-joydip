@@ -20,22 +20,7 @@ SaaS companies need product demos fast. Manually recording screens, editing foot
 
 ### Headless Media Pipeline
 
-Background workers convert live React/DOM scenes into video and PDF assets using **Puppeteer** for capture and **FFmpeg** for encoding.
-
-```typescript
-export async function convertDOMToMedia(session: DOMSession) {
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
-  await page.setContent(session.htmlSnapshot);
-
-  const recordingStream = await page.createPDFStream();
-  const converter = spawn("ffmpeg", ["-i", "pipe:0", "-c:v", "libx264", "/outputs/demo.mp4"]);
-  recordingStream.pipe(converter.stdin);
-
-  await s3.upload(converter.stdout);
-  return { status: "SUCCESS" };
-}
-```
+Background workers convert live React/DOM scenes into video and PDF assets using **Puppeteer** for capture and **FFmpeg** for encoding. The pipeline streams frames straight to S3 — no heavy rendering ever blocks the API.
 
 ### Usage-Based Billing
 

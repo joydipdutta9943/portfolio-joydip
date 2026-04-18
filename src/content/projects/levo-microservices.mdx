@@ -23,24 +23,7 @@ Each data type routes to the database built for it:
 
 ### Dynamic Query Builder in Go
 
-A translation engine that converts deeply nested JSON filters from the frontend into optimized ClickHouse SQL on the fly. Enterprise operators use this for complex telemetry reporting.
-
-```go
-func BuildClickHouseQuery(filters []FilterNode) (string, []interface{}) {
-    query := squirrel.Select("user_id, count(*) as triggers").
-        From("events_local")
-
-    for _, f := range filters {
-        if f.Operator == "in" {
-            query = query.Where(squirrel.Eq{f.Field: f.Values})
-        } else if f.Operator == "gt" {
-            query = query.Where(squirrel.Gt{f.Field: f.Value})
-        }
-    }
-
-    return query.ToSql()
-}
-```
+A translation engine that converts deeply nested JSON filters from the frontend into optimized ClickHouse SQL on the fly. Enterprise operators use it to slice millions of events with arbitrary predicates — and the generated queries run in milliseconds.
 
 ### Centralized Worker Pattern
 

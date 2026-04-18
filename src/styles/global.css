@@ -118,9 +118,24 @@
   }
 
   .prose-content blockquote {
-    @apply text-fg-muted my-8 rounded-r-lg border-l-2 p-5 pl-6 text-base leading-relaxed not-italic;
-    border-left-color: var(--color-accent-from);
-    background: var(--tint-accent-08);
+    @apply text-fg mt-0 mb-14 border-0 p-0 text-xl leading-snug not-italic md:text-2xl;
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: var(--tracking-tight);
+    position: relative;
+    padding-left: 28px;
+    background: transparent;
+    max-width: 68ch;
+  }
+  .prose-content blockquote::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 3px;
+    border-radius: 2px;
+    background: var(--gradient-accent);
   }
 
   .prose-content blockquote p {

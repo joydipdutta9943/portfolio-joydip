@@ -19,12 +19,21 @@ const smaller = sorted.filter((p) => !p.data.image).slice(0, 3);
         featured.map((p) => (
           <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
             <div class="pk-proj__img">
-              <img src={p.data.image} alt={p.data.title} />
+              <img
+                src={p.data.image}
+                alt={`${p.data.title} — case study cover`}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
-            <div class="pk-proj__body">
-              <h3 class="pk-proj__title">{p.data.title}</h3>
-              <p class="pk-proj__desc">{p.data.description}</p>
-              <Chips items={p.data.techStack} max={4} />
+            <div class="pk-proj__body" style="padding: 26px 28px;">
+              <h3 class="pk-proj__title" style="font-size: 20px; margin-bottom: 10px;">
+                {p.data.title}
+              </h3>
+              <p class="pk-proj__desc" style="font-size: 15px; margin-bottom: 20px;">
+                {p.data.description}
+              </p>
+              <Chips items={p.data.techStack} max={4} chipClass="pk-chip--lg" />
             </div>
           </a>
         ))
@@ -35,12 +44,12 @@ const smaller = sorted.filter((p) => !p.data.image).slice(0, 3);
       {
         smaller.map((p) => (
           <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
-            <div class="pk-proj__body">
-              <h3 class="pk-proj__title" style="font-size: 16px;">
+            <div class="pk-proj__body" style="padding: 22px 24px;">
+              <h3 class="pk-proj__title" style="font-size: 17px; margin-bottom: 8px;">
                 {p.data.title}
               </h3>
               <p class="pk-proj__desc">{p.data.description}</p>
-              <Chips items={p.data.techStack} max={3} />
+              <Chips items={p.data.techStack} max={3} chipClass="pk-chip--lg" />
             </div>
           </a>
         ))

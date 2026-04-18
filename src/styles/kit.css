@@ -293,9 +293,9 @@
   letter-spacing: var(--tracking-tight);
 }
 .pk-card__body {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-fg-muted);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--color-fg-body);
   margin: 0 0 20px;
 }
 
@@ -313,6 +313,34 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   padding: 4px 8px;
+}
+.pk-chip--lg {
+  font-size: 12.5px;
+  padding: 6px 11px;
+  color: var(--color-fg-body);
+  letter-spacing: 0.01em;
+}
+
+/* Category-tinted chip variants — used in About "What I use" */
+.pk-chip--violet {
+  color: #a78bfa;
+  background: rgba(167, 139, 250, 0.08);
+  border-color: rgba(167, 139, 250, 0.22);
+}
+.pk-chip--cyan {
+  color: #22d3ee;
+  background: rgba(34, 211, 238, 0.08);
+  border-color: rgba(34, 211, 238, 0.22);
+}
+.pk-chip--amber {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.08);
+  border-color: rgba(251, 191, 36, 0.22);
+}
+.pk-chip--emerald {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.08);
+  border-color: rgba(52, 211, 153, 0.22);
 }
 
 /* ---------- Hero ---------- */
@@ -335,8 +363,8 @@
 }
 .pk-hero__sub {
   font-size: 19px;
-  line-height: 1.55;
-  color: var(--color-fg-muted);
+  line-height: 1.6;
+  color: var(--color-fg-body);
   max-width: 620px;
   margin: 0 0 44px;
   letter-spacing: var(--tracking-tight);
@@ -463,9 +491,9 @@
   letter-spacing: var(--tracking-tight);
 }
 .pk-proj__desc {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-fg-muted);
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--color-fg-body);
   margin: 0 0 18px;
 }
 
@@ -556,12 +584,24 @@
 }
 .pk-footer__links {
   display: flex;
-  gap: 24px;
+  gap: 20px;
   font-size: 12px;
   color: var(--color-fg-muted);
 }
+.pk-footer__links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
 .pk-footer__links a:hover {
   color: var(--color-fg);
+}
+.pk-footer__links a svg {
+  opacity: 0.8;
+  transition: opacity 0.2s var(--ease);
+}
+.pk-footer__links a:hover svg {
+  opacity: 1;
 }
 .pk-footer__deploy {
   font-family: var(--font-mono);

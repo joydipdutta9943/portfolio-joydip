@@ -15,24 +15,7 @@ Corporate event booking involves three-way financial splits (platform, vendor, t
 
 ### Split Payment Orchestration
 
-**Stripe Connect** manages three-way payment splits between the platform fee, primary vendor, and local tax. Partial and full refunds work correctly even after the vendor has already withdrawn from their Stripe balance.
-
-```typescript
-async function captureCorporateBooking(bookingId) {
-  const transaction = await mongoDB.Bookings.findById(bookingId);
-  const provider = await mongoDB.Vendors.findById(transaction.vendorId);
-
-  const applicationFee = calculatePlatformPercentage(transaction.amount, provider.tier);
-
-  const paymentIntent = await stripe.paymentIntents.capture(transaction.preAuthId, {
-    amount_to_capture: transaction.amount,
-    application_fee_amount: applicationFee,
-    transfer_data: { destination: provider.stripeAccountId },
-  });
-
-  return paymentIntent;
-}
-```
+**Stripe Connect** manages three-way payment splits between the platform fee, primary vendor, and local tax on every booking. Partial and full refunds work correctly even after the vendor has already withdrawn from their Stripe balance — the claw-back flow reverses the application fee and vendor transfer in the right order every time.
 
 ### Timezone-Aware Recurrence
 

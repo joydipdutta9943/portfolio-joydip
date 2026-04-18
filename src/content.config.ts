@@ -9,6 +9,8 @@ const projects = defineCollection({
     techStack: z.array(z.string()),
     order: z.number().optional(),
     image: z.string().optional(),
+    publishedDate: z.coerce.date().optional(),
+    updatedDate: z.coerce.date().optional(),
   }),
 });
 

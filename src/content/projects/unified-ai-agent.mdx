@@ -29,16 +29,7 @@ LangChain acts as the routing layer, dynamically selecting the right tool (vecto
 
 ### Multi-Modal Ingestion
 
-PDFs parsed via `pdf-parse`, images processed through `sharp` and **Tesseract OCR**, complex visuals interpreted by **Gemini Vision**. Everything gets converted to 768-dimensional embeddings via Google's `text-embedding-004`.
-
-```typescript
-async function indexMultiModal(documentPath) {
-  const visualContext = await geminiVision.analyze(documentPath);
-  const vector = await embeddingModel.embed(visualContext);
-
-  await atlasVectorStore.addDocuments([{ embedding: vector, metadata: { source: documentPath } }]);
-}
-```
+PDFs parsed via `pdf-parse`, images processed through `sharp` and **Tesseract OCR**, complex visuals interpreted by **Gemini Vision**. Everything gets converted to 768-dimensional embeddings via Google's `text-embedding-004` before landing in the vector store.
 
 ### Hybrid Vector Search
 
