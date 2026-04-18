@@ -1,8 +1,11 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import { getCollection } from "astro:content";
 import "../styles/global.css";
 import Nav from "../components/ui/Nav.astro";
 import Footer from "../components/ui/Footer.astro";
+import CommandPalette from "../components/react/CommandPalette";
+import type { CmdItem } from "../components/react/types";
 
 interface Props {
   title: string;
@@ -24,6 +27,32 @@ const metaDescription =
 const resolvedOgImage = ogImage
   ? new URL(ogImage.replace(/^\//, ""), Astro.site).href
   : `${Astro.site}og-image.png`;
+
+const projects = await getCollection("projects");
+const sortedProjects = projects.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+
+const cmdItems: CmdItem[] = [
+  { id: "nav-work", label: "Jump to — Selected work", meta: "NAV", href: "/#work" },
+  { id: "nav-services", label: "Jump to — Services", meta: "NAV", href: "/#services" },
+  { id: "nav-about", label: "Jump to — About", meta: "NAV", href: "/#about" },
+  { id: "nav-contact", label: "Jump to — Contact", meta: "NAV", href: "/#contact" },
+  { id: "copy-email", label: "Copy email address", meta: "ACTION", action: "copy-email" },
+  { id: "resume", label: "Download résumé (PDF)", meta: "ACTION", href: "/resume-joydip-dutta.pdf" },
+  { id: "github", label: "Open GitHub profile", meta: "EXT", href: "https://github.com/joydipdutta9943" },
+  {
+    id: "linkedin",
+    label: "Open LinkedIn profile",
+    meta: "EXT",
+    href: "https://www.linkedin.com/in/joydip-dutta-569428141/",
+  },
+  ...sortedProjects.map((p) => ({
+    id: `case-${p.id}`,
+    label: `Case study — ${p.data.title}`,
+    meta: "CASE STUDY" as const,
+    href: `/projects/${p.id}`,
+    tags: p.data.techStack,
+  })),
+];
 ---
 
 <!doctype html>
@@ -101,6 +130,6 @@ const resolvedOgImage = ogImage
       <slot />
     </main>
     <Footer />
-    <!-- CommandPalette mount point — populated in Task 8 -->
+    <CommandPalette client:idle items={cmdItems} />
   </body>
 </html>
