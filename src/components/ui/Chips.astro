@@ -1,0 +1,15 @@
+---
+interface Props {
+  items: string[];
+  max?: number;
+  class?: string;
+}
+const { items, max, class: className = "" } = Astro.props;
+const shown = typeof max === "number" ? items.slice(0, max) : items;
+const overflow = typeof max === "number" && items.length > max ? items.length - max : 0;
+---
+
+<div class:list={["pk-chips", className]}>
+  {shown.map((item) => <span class="pk-chip">{item}</span>)}
+  {overflow > 0 && <span class="pk-chip" style="opacity:.7">+{overflow} more</span>}
+</div>

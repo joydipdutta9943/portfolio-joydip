@@ -1,0 +1,13 @@
+---
+interface Props {
+  n: string;
+  label: string;
+  class?: string;
+}
+const { n, label, class: className = "" } = Astro.props;
+---
+
+<div class:list={["pk-eyebrow", className]}>
+  <span class="pk-eyebrow__n">{n}</span>
+  <span class="pk-eyebrow__s">— {label}</span>
+</div>
