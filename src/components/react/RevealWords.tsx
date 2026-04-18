@@ -2,15 +2,15 @@ import { useInView } from "./useInView";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 type Props = {
-  children: string;
+  text: string;
   className?: string;
   delayOffset?: number;
 };
 
-export default function RevealWords({ children, className = "", delayOffset = 0 }: Props) {
+export default function RevealWords({ text, className = "", delayOffset = 0 }: Props) {
   const [ref, inView] = useInView<HTMLSpanElement>({ threshold: 0.2, once: true });
   const reduced = usePrefersReducedMotion();
-  const words = String(children).split(" ");
+  const words = text.split(" ");
   const visible = reduced ? true : inView;
 
   return (
