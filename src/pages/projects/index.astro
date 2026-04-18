@@ -48,12 +48,8 @@ const rest = sortedProjects.filter((p) => !p.data.image);
       {
         featured.length > 0 && (
           <div style="margin-bottom: 64px;">
-            <div
-              style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);"
-            >
-              <span
-                style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);"
-              >
+            <div style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+              <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);">
                 Featured
               </span>
             </div>
@@ -78,12 +74,8 @@ const rest = sortedProjects.filter((p) => !p.data.image);
       {
         rest.length > 0 && (
           <div>
-            <div
-              style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);"
-            >
-              <span
-                style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);"
-              >
+            <div style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+              <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);">
                 More projects
               </span>
             </div>
@@ -91,7 +83,9 @@ const rest = sortedProjects.filter((p) => !p.data.image);
               {rest.map((p) => (
                 <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
                   <div class="pk-proj__body">
-                    <h2 class="pk-proj__title" style="font-size: 16px;">{p.data.title}</h2>
+                    <h2 class="pk-proj__title" style="font-size: 16px;">
+                      {p.data.title}
+                    </h2>
                     <p class="pk-proj__desc">{p.data.description}</p>
                     <Chips items={p.data.techStack} max={3} />
                   </div>

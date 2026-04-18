@@ -46,6 +46,7 @@ Expected: `HTTP/1.1 200 OK` (confirms starting point is working).
 ## Task 1: Swap font packages
 
 **Files:**
+
 - Modify: `package.json` (dependencies section)
 - Verify: `package-lock.json` updates
 
@@ -66,6 +67,7 @@ Expected: both packages added (`@fontsource/geist-sans` ~5.2.x, `@fontsource/gei
 - [ ] Run: `node -e "const p=require('./package.json');console.log(Object.keys(p.dependencies).filter(k=>k.includes('fontsource')))"`
 
 Expected output:
+
 ```
 [ '@fontsource/geist-mono', '@fontsource/geist-sans' ]
 ```
@@ -81,6 +83,7 @@ Expected: both files exist.
 ### Step 1.5: Commit
 
 - [ ] Run:
+
 ```bash
 git add package.json package-lock.json
 git commit -m "$(cat <<'EOF'
@@ -102,6 +105,7 @@ Expected: single commit, two files changed.
 ## Task 2: Introduce v2 token system (tokens.css + global.css trim + tailwind.config.mjs reduction)
 
 **Files:**
+
 - Create: `src/styles/tokens.css`
 - Modify: `src/styles/global.css`
 - Modify: `tailwind.config.mjs`
@@ -169,19 +173,16 @@ Expected: single commit, two files changed.
   --tint-white-02: rgba(255, 255, 255, 0.02);
   --tint-white-04: rgba(255, 255, 255, 0.04);
   --tint-accent-08: rgba(124, 92, 255, 0.08);
-  --tint-accent-30: rgba(124, 92, 255, 0.30);
+  --tint-accent-30: rgba(124, 92, 255, 0.3);
 
   /* Shadows / elevation */
   --shadow-inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --shadow-card-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 24px 60px -24px rgba(124, 92, 255, 0.28);
+    0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 60px -24px rgba(124, 92, 255, 0.28);
   --shadow-btn-primary:
-    0 0 0 1px rgba(255, 255, 255, 0.10),
-    0 14px 40px -12px rgba(124, 92, 255, 0.55);
+    0 0 0 1px rgba(255, 255, 255, 0.1), 0 14px 40px -12px rgba(124, 92, 255, 0.55);
   --shadow-btn-primary-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.16),
-    0 20px 48px -12px rgba(124, 92, 255, 0.75);
+    0 0 0 1px rgba(255, 255, 255, 0.16), 0 20px 48px -12px rgba(124, 92, 255, 0.75);
 
   /* Motion — Apple/Linear easing */
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
@@ -199,8 +200,16 @@ Expected: single commit, two files changed.
   --max-w-page: 1280px;
 
   /* Gradients (convenience) */
-  --gradient-accent: linear-gradient(100deg, var(--color-accent-from) 0%, var(--color-accent-to) 100%);
-  --gradient-accent-soft: linear-gradient(100deg, rgba(124, 92, 255, 0.15) 0%, rgba(34, 211, 238, 0.15) 100%);
+  --gradient-accent: linear-gradient(
+    100deg,
+    var(--color-accent-from) 0%,
+    var(--color-accent-to) 100%
+  );
+  --gradient-accent-soft: linear-gradient(
+    100deg,
+    rgba(124, 92, 255, 0.15) 0%,
+    rgba(34, 211, 238, 0.15) 100%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -267,7 +276,7 @@ Expected: single commit, two files changed.
   }
 
   body {
-    @apply bg-bg text-fg-muted font-sans antialiased min-h-screen;
+    @apply bg-bg text-fg-muted min-h-screen font-sans antialiased;
     font-feature-settings: "ss01", "ss02", "cv11";
   }
 
@@ -293,7 +302,7 @@ Expected: single commit, two files changed.
   }
 
   a {
-    @apply transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+    @apply focus-visible:ring-accent focus-visible:ring-offset-bg transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
   }
 
   /* Prose / MDX body — retuned to v2 tokens */
@@ -330,12 +339,12 @@ Expected: single commit, two files changed.
   }
 
   .prose-content pre {
-    @apply my-8 overflow-x-auto rounded-xl border border-border p-5 font-mono text-xs md:text-sm;
+    @apply border-border my-8 overflow-x-auto rounded-xl border p-5 font-mono text-xs md:text-sm;
     background: var(--color-surface-deep);
   }
 
   .prose-content code {
-    @apply border border-border text-fg rounded-md bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em];
+    @apply border-border text-fg rounded-md border bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em];
   }
 
   .prose-content pre code {
@@ -357,7 +366,7 @@ Expected: single commit, two files changed.
   }
 
   .prose-content thead {
-    @apply border-b border-border;
+    @apply border-border border-b;
     background: var(--color-surface);
   }
 
@@ -366,7 +375,7 @@ Expected: single commit, two files changed.
   }
 
   .prose-content td {
-    @apply border-b border-border text-fg-muted px-4 py-3;
+    @apply border-border text-fg-muted border-b px-4 py-3;
   }
 
   .prose-content tbody tr {
@@ -446,6 +455,7 @@ Note: sections will look visually wrong in the browser (fonts switched, colors s
 ### Step 2.7: Commit
 
 - [ ] Run:
+
 ```bash
 git add src/styles/tokens.css src/styles/global.css src/styles/kit.css tailwind.config.mjs
 git commit -m "$(cat <<'EOF'
@@ -467,9 +477,10 @@ EOF
 
 ---
 
-## Task 3: Port pk-* kit styles to kit.css
+## Task 3: Port pk-\* kit styles to kit.css
 
 **Files:**
+
 - Modify: `src/styles/kit.css` (replace stub)
 
 ### Step 3.1: Write full kit.css
@@ -715,7 +726,10 @@ EOF
   padding: 24px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.5s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  transition:
+    transform 0.5s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 .pk-card--interactive {
   transform-style: preserve-3d;
@@ -870,7 +884,10 @@ EOF
   );
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-inset-hi);
-  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.5s var(--ease);
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    transform 0.5s var(--ease);
   cursor: pointer;
   transform-style: preserve-3d;
   will-change: transform;
@@ -942,7 +959,9 @@ EOF
 .pk-reveal {
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
 }
 .pk-reveal.in {
   opacity: 1;
@@ -952,7 +971,9 @@ EOF
   display: inline-block;
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out);
 }
 .pk-reveal-word.in {
   opacity: 1;
@@ -1052,7 +1073,9 @@ EOF
   background: linear-gradient(180deg, var(--color-surface), var(--color-surface-deep));
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
-  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   overflow: hidden;
   transform: translateY(-6px) scale(0.98);
   transition: transform 0.24s var(--ease-out);
@@ -1131,6 +1154,7 @@ Expected: Build succeeds. No new CSS warnings. `pk-*` classes aren't used in any
 ### Step 3.3: Commit
 
 - [ ] Run:
+
 ```bash
 git add src/styles/kit.css
 git commit -m "$(cat <<'EOF'
@@ -1152,6 +1176,7 @@ EOF
 ## Task 4: Add v2 React primitives + Astro UI components
 
 **Files:**
+
 - Create: `src/components/react/useInView.ts`
 - Create: `src/components/react/usePrefersReducedMotion.ts`
 - Create: `src/components/react/types.ts`
@@ -1615,7 +1640,13 @@ const overflow = typeof max === "number" && items.length > max ? items.length - 
 
 <div class:list={["pk-chips", className]}>
   {shown.map((item) => <span class="pk-chip">{item}</span>)}
-  {overflow > 0 && <span class="pk-chip" style="opacity:.7">+{overflow} more</span>}
+  {
+    overflow > 0 && (
+      <span class="pk-chip" style="opacity:.7">
+        +{overflow} more
+      </span>
+    )
+  }
 </div>
 ```
 
@@ -1654,6 +1685,7 @@ If `astro check` is not installed, skip — the production build catches type er
 ### Step 4.15: Commit
 
 - [ ] Run:
+
 ```bash
 git add src/components/react src/components/ui/StatusPill.astro src/components/ui/Chip.astro src/components/ui/Chips.astro src/components/ui/Eyebrow.astro
 git commit -m "$(cat <<'EOF'
@@ -1685,6 +1717,7 @@ EOF
 ## Task 5: Update Layout + Nav + build stamp
 
 **Files:**
+
 - Modify: `astro.config.mjs`
 - Create: `src/env.d.ts` (new — repo doesn't have one yet)
 - Modify: `src/layouts/Layout.astro`
@@ -1808,8 +1841,14 @@ const buildIso = __BUILD_TIME__;
     </span>
 
     <div class="pk-footer__links">
-      <a href="https://github.com/joydipdutta9943" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href="https://www.linkedin.com/in/joydip-dutta-569428141/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/joydipdutta9943" target="_blank" rel="noopener noreferrer"
+        >GitHub</a
+      >
+      <a
+        href="https://www.linkedin.com/in/joydip-dutta-569428141/"
+        target="_blank"
+        rel="noopener noreferrer">LinkedIn</a
+      >
       <a href="mailto:joydip.dutta9943@gmail.com">Email</a>
     </div>
   </div>
@@ -1961,6 +2000,7 @@ Note: The `<main class="pt-24">` top padding is gone — the nav is `position: f
 Expected: Build succeeds. Warnings about `radial-glow`, `card-surface`, `gradient-fill`, `gradient-text`, `text-muted`, `text-foreground`, `bg-background` etc. from section components are expected — sections are rewritten in tasks 6–9.
 
 - [ ] Run a 4-second smoke in dev:
+
 ```bash
 npm run dev &
 sleep 4
@@ -1973,6 +2013,7 @@ Expected: `HTTP/1.1 200 OK`. Home page will look visually broken (sections still
 ### Step 5.7: Commit
 
 - [ ] Run:
+
 ```bash
 git add astro.config.mjs src/env.d.ts src/layouts/Layout.astro src/components/ui/Nav.astro src/components/ui/Footer.astro
 git commit -m "$(cat <<'EOF'
@@ -2001,6 +2042,7 @@ EOF
 ## Task 6: Port Hero + Contact sections
 
 **Files:**
+
 - Modify: `src/components/sections/Hero.astro`
 - Modify: `src/components/sections/Contact.astro`
 
@@ -2038,9 +2080,9 @@ const stats = [
     </h1>
 
     <p class="pk-hero__sub">
-      I ship backends, SaaS platforms, and AI features that hold up in production. Previously built a
-      fintech wealth platform serving 30k users and a RAG system on unstructured data for enterprise
-      search.
+      I ship backends, SaaS platforms, and AI features that hold up in production. Previously built
+      a fintech wealth platform serving 30k users and a RAG system on unstructured data for
+      enterprise search.
     </p>
 
     <div class="pk-hero__actions">
@@ -2066,10 +2108,7 @@ import CopyEmailButton from "../react/CopyEmailButton";
 ---
 
 <section id="contact" class="pk-section" style="text-align: center;">
-  <div
-    class="radial-glow-v2"
-    style="top: 50%; left: 50%; transform: translate(-50%, -50%);"
-  ></div>
+  <div class="radial-glow-v2" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
 
   <div class="pk-section__inner" style="max-width: 720px;">
     <Eyebrow n="05" label="Start a project" />
@@ -2085,8 +2124,8 @@ import CopyEmailButton from "../react/CopyEmailButton";
       style="color: var(--color-fg-muted); font-size: 18px; line-height: 1.55; max-width: 560px; margin: 0 auto 40px;"
     >
       I take a small number of engagements at a time. Best fit: funded startup, real product in
-      production or about to be, four-plus weeks of work. Send me what you're building and I'll reply
-      within 24 hours.
+      production or about to be, four-plus weeks of work. Send me what you're building and I'll
+      reply within 24 hours.
     </p>
 
     <CopyEmailButton client:load />
@@ -2134,6 +2173,7 @@ Kill dev server when done.
 ### Step 6.5: Commit
 
 - [ ] Run:
+
 ```bash
 git add src/components/sections/Hero.astro src/components/sections/Contact.astro
 git commit -m "$(cat <<'EOF'
@@ -2158,6 +2198,7 @@ EOF
 ## Task 7: Port Services, Work, Process, About sections
 
 **Files:**
+
 - Modify: `src/components/sections/Services.astro`
 - Modify: `src/components/sections/Work.astro`
 - Modify: `src/components/sections/Process.astro`
@@ -2237,7 +2278,9 @@ const services = [
                 stroke-linejoin="round"
                 aria-hidden="true"
               >
-                {s.iconPaths.map((d) => <path d={d} />)}
+                {s.iconPaths.map((d) => (
+                  <path d={d} />
+                ))}
               </svg>
             </div>
             <h3 class="pk-card__title">{s.title}</h3>
@@ -2295,7 +2338,9 @@ const smaller = sorted.filter((p) => !p.data.image).slice(0, 3);
         smaller.map((p) => (
           <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
             <div class="pk-proj__body">
-              <h3 class="pk-proj__title" style="font-size: 16px;">{p.data.title}</h3>
+              <h3 class="pk-proj__title" style="font-size: 16px;">
+                {p.data.title}
+              </h3>
               <p class="pk-proj__desc">{p.data.description}</p>
               <Chips items={p.data.techStack} max={3} />
             </div>
@@ -2334,22 +2379,19 @@ const steps = [
     n: "01",
     dur: "1 week",
     title: "Discovery",
-    body:
-      "We pin down the product, the constraints, and the bar. I scope the build, flag the risky parts, and tell you what's hard. If it's not a fit, I'll say so.",
+    body: "We pin down the product, the constraints, and the bar. I scope the build, flag the risky parts, and tell you what's hard. If it's not a fit, I'll say so.",
   },
   {
     n: "02",
     dur: "1–2 weeks",
     title: "Architecture",
-    body:
-      "Data model, API contract, infra plan. You review and approve before a line of production code is written. Surprises get expensive later.",
+    body: "Data model, API contract, infra plan. You review and approve before a line of production code is written. Surprises get expensive later.",
   },
   {
     n: "03",
     dur: "4–12 weeks",
     title: "Build & ship",
-    body:
-      "Weekly demos, continuous deploys, your team owns the code from day one. I work in your repo, your branch conventions, your review process.",
+    body: "Weekly demos, continuous deploys, your team owns the code from day one. I work in your repo, your branch conventions, your review process.",
   },
 ];
 ---
@@ -2367,8 +2409,12 @@ const steps = [
               <span class="pk-step__n">{s.n}</span>
               <span class="pk-step__dur">{s.dur}</span>
             </div>
-            <h3 class="pk-card__title" style="font-size: 17px;">{s.title}</h3>
-            <p class="pk-card__body" style="margin: 0;">{s.body}</p>
+            <h3 class="pk-card__title" style="font-size: 17px;">
+              {s.title}
+            </h3>
+            <p class="pk-card__body" style="margin: 0;">
+              {s.body}
+            </p>
           </Card>
         ))
       }
@@ -2390,11 +2436,30 @@ import Eyebrow from "../ui/Eyebrow.astro";
 const stacks = [
   {
     heading: "Languages & Frameworks",
-    items: ["TypeScript", "Go (Fiber)", "Bun", "Python", "Node.js", "GraphQL", "React", "Next.js", "Astro"],
+    items: [
+      "TypeScript",
+      "Go (Fiber)",
+      "Bun",
+      "Python",
+      "Node.js",
+      "GraphQL",
+      "React",
+      "Next.js",
+      "Astro",
+    ],
   },
   {
     heading: "Databases & Storage",
-    items: ["PostgreSQL", "MongoDB", "ClickHouse", "Redis", "DynamoDB", "Prisma", "Drizzle", "AWS S3"],
+    items: [
+      "PostgreSQL",
+      "MongoDB",
+      "ClickHouse",
+      "Redis",
+      "DynamoDB",
+      "Prisma",
+      "Drizzle",
+      "AWS S3",
+    ],
   },
   {
     heading: "Infrastructure & Security",
@@ -2437,7 +2502,9 @@ const previouslyAt = [
       style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start;"
       class="pk-about-grid"
     >
-      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px; font-size: 17px; line-height: 1.6; color: var(--color-fg-muted);">
+      <div
+        style="display: flex; flex-direction: column; gap: 20px; max-width: 640px; font-size: 17px; line-height: 1.6; color: var(--color-fg-muted);"
+      >
         <p style="margin: 0;">
           I'm a senior engineer who takes on full-stack product builds for funded startups. My work
           sits at the boundary of backend systems and product — the parts that decide whether
@@ -2460,24 +2527,20 @@ const previouslyAt = [
           >
             Previously at
           </div>
-          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+          <ul
+            style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;"
+          >
             {
               previouslyAt.map((r) => (
-                <li
-                  style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; font-size: 15px;"
-                >
+                <li style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; font-size: 15px;">
                   <div>
                     <span style="color: var(--color-fg);">{r.role}</span>
                     <span style="color: var(--color-fg-muted);"> · {r.company}</span>
-                    <span
-                      style="color: var(--color-fg-subtle); display: block; font-size: 12px; margin-top: 2px;"
-                    >
+                    <span style="color: var(--color-fg-subtle); display: block; font-size: 12px; margin-top: 2px;">
                       {r.location}
                     </span>
                   </div>
-                  <span
-                    style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px;"
-                  >
+                  <span style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px;">
                     {r.years}
                   </span>
                 </li>
@@ -2491,9 +2554,7 @@ const previouslyAt = [
         {
           stacks.map((stack) => (
             <Card client:visible>
-              <div
-                style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--color-fg-subtle); margin-bottom: 12px;"
-              >
+              <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--color-fg-subtle); margin-bottom: 12px;">
                 {stack.heading}
               </div>
               <Chips items={stack.items} />
@@ -2533,6 +2594,7 @@ Kill dev server.
 ### Step 7.7: Commit
 
 - [ ] Run:
+
 ```bash
 git add src/components/sections/Services.astro src/components/sections/Work.astro src/components/sections/Process.astro src/components/sections/About.astro
 git commit -m "$(cat <<'EOF'
@@ -2556,6 +2618,7 @@ EOF
 ## Task 8: Ship ⌘K command palette
 
 **Files:**
+
 - Create: `src/components/react/CommandPalette.tsx`
 - Modify: `src/layouts/Layout.astro` (add items source + mount)
 
@@ -2693,11 +2756,7 @@ export default function CommandPalette({ items }: Props) {
   };
 
   return (
-    <div
-      className={`pk-cmd-overlay ${open ? "open" : ""}`}
-      onClick={close}
-      aria-hidden={!open}
-    >
+    <div className={`pk-cmd-overlay ${open ? "open" : ""}`} onClick={close} aria-hidden={!open}>
       <div
         className="pk-cmd"
         role="dialog"
@@ -2797,8 +2856,18 @@ const cmdItems: CmdItem[] = [
   { id: "nav-about", label: "Jump to — About", meta: "NAV", href: "/#about" },
   { id: "nav-contact", label: "Jump to — Contact", meta: "NAV", href: "/#contact" },
   { id: "copy-email", label: "Copy email address", meta: "ACTION", action: "copy-email" },
-  { id: "resume", label: "Download résumé (PDF)", meta: "ACTION", href: "/resume-joydip-dutta.pdf" },
-  { id: "github", label: "Open GitHub profile", meta: "EXT", href: "https://github.com/joydipdutta9943" },
+  {
+    id: "resume",
+    label: "Download résumé (PDF)",
+    meta: "ACTION",
+    href: "/resume-joydip-dutta.pdf",
+  },
+  {
+    id: "github",
+    label: "Open GitHub profile",
+    meta: "EXT",
+    href: "https://github.com/joydipdutta9943",
+  },
   {
     id: "linkedin",
     label: "Open LinkedIn profile",
@@ -2918,6 +2987,7 @@ Kill dev.
 ### Step 8.5: Commit
 
 - [ ] Run:
+
 ```bash
 git add src/components/react/CommandPalette.tsx src/layouts/Layout.astro
 git commit -m "$(cat <<'EOF'
@@ -2945,6 +3015,7 @@ EOF
 ## Task 9: Reskin `/projects` and `[slug]` pages
 
 **Files:**
+
 - Modify: `src/pages/projects/index.astro`
 - Modify: `src/pages/projects/[slug].astro`
 
@@ -3003,12 +3074,8 @@ const rest = sortedProjects.filter((p) => !p.data.image);
       {
         featured.length > 0 && (
           <div style="margin-bottom: 64px;">
-            <div
-              style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);"
-            >
-              <span
-                style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);"
-              >
+            <div style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+              <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);">
                 Featured
               </span>
             </div>
@@ -3033,12 +3100,8 @@ const rest = sortedProjects.filter((p) => !p.data.image);
       {
         rest.length > 0 && (
           <div>
-            <div
-              style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);"
-            >
-              <span
-                style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);"
-              >
+            <div style="margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--color-border);">
+              <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .14em; color: var(--color-fg-subtle);">
                 More projects
               </span>
             </div>
@@ -3046,7 +3109,9 @@ const rest = sortedProjects.filter((p) => !p.data.image);
               {rest.map((p) => (
                 <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
                   <div class="pk-proj__body">
-                    <h2 class="pk-proj__title" style="font-size: 16px;">{p.data.title}</h2>
+                    <h2 class="pk-proj__title" style="font-size: 16px;">
+                      {p.data.title}
+                    </h2>
                     <p class="pk-proj__desc">{p.data.description}</p>
                     <Chips items={p.data.techStack} max={3} />
                   </div>
@@ -3089,10 +3154,7 @@ const { Content } = await render(project);
   ogImage={project.data.image}
 >
   <section class="pk-section" style="padding-top: 140px;">
-    <div
-      class="pk-section__inner"
-      style="max-width: 1024px;"
-    >
+    <div class="pk-section__inner" style="max-width: 1024px;">
       <a
         href="/projects"
         class="pk-nav__link"
@@ -3141,7 +3203,8 @@ const { Content } = await render(project);
 
       <div
         style="margin: 48px 0; height: 1px; background: linear-gradient(to right, transparent, var(--color-border), transparent);"
-      ></div>
+      >
+      </div>
 
       <article class="prose-content" style="max-width: 72ch; margin: 0 auto;">
         <Content />
@@ -3170,6 +3233,7 @@ Kill dev.
 ### Step 9.5: Commit
 
 - [ ] Run:
+
 ```bash
 git add src/pages/projects/index.astro src/pages/projects/[slug].astro
 git commit -m "$(cat <<'EOF'
@@ -3196,12 +3260,14 @@ EOF
 ## Task 10: Cleanup — delete unused components
 
 **Files:**
+
 - Delete: `src/components/ui/GradientButton.astro`
 - Delete: `src/components/ui/Card.astro`
 
 ### Step 10.1: Confirm no remaining references
 
 - [ ] Run:
+
 ```bash
 grep -rn "GradientButton" src/ astro.config.mjs || true
 grep -rn "from \"../ui/Card" src/components/sections/ || true
@@ -3215,6 +3281,7 @@ If grep returns anything, fix that call-site first — something slipped through
 ### Step 10.2: Delete the files
 
 - [ ] Run:
+
 ```bash
 rm src/components/ui/GradientButton.astro
 rm src/components/ui/Card.astro
@@ -3229,6 +3296,7 @@ Expected: success. No broken imports.
 ### Step 10.4: Commit
 
 - [ ] Run:
+
 ```bash
 git add -u src/components/ui/
 git commit -m "$(cat <<'EOF'
@@ -3247,6 +3315,7 @@ EOF
 ## Task 11: Accessibility polish pass
 
 **Files:**
+
 - Modify: `src/components/react/CommandPalette.tsx` (focus trap refinement)
 - Modify: `src/components/react/Button.tsx` (focus-visible ring)
 - Verify: reduced-motion CSS guard already in `tokens.css`
@@ -3286,6 +3355,7 @@ The change: Tab now explicitly returns focus to the input instead of just cancel
 - [ ] Append to `src/styles/kit.css` (at end of the Buttons section):
 
 Find:
+
 ```css
 .pk-btn__arrow {
   width: 15px;
@@ -3326,12 +3396,14 @@ After that block, add:
 - [ ] In `CommandPalette.tsx`, just inside the `.pk-cmd__list` div, immediately before the filtered.map, add an `aria-live` region for screen readers:
 
 Locate:
+
 ```tsx
 <div className="pk-cmd__list" role="listbox">
   {filtered.length === 0 && (
 ```
 
 Replace with:
+
 ```tsx
 <div className="pk-cmd__list" role="listbox">
   <span className="sr-only" aria-live="polite">
@@ -3374,6 +3446,7 @@ Kill dev.
 ### Step 11.5: Commit
 
 - [ ] Run:
+
 ```bash
 git add src/components/react/CommandPalette.tsx src/styles/kit.css
 git commit -m "$(cat <<'EOF'
@@ -3400,6 +3473,7 @@ EOF
 ## Task 12: Résumé placeholder, CLAUDE.md refresh, merge
 
 **Files:**
+
 - Create: `public/resume-joydip-dutta.pdf` (placeholder)
 - Modify: `CLAUDE.md`
 
@@ -3408,6 +3482,7 @@ EOF
 - [ ] The file must exist so the palette action works without a 404. Create a tiny valid PDF:
 
 Run:
+
 ```bash
 cat > public/resume-joydip-dutta.pdf <<'EOF'
 %PDF-1.4
@@ -3455,6 +3530,7 @@ EOF
 ### Step 12.2: Verify PDF loads
 
 - [ ] Run:
+
 ```bash
 file public/resume-joydip-dutta.pdf
 ```
@@ -3462,6 +3538,7 @@ file public/resume-joydip-dutta.pdf
 Expected: `public/resume-joydip-dutta.pdf: PDF document, version 1.4`
 
 - [ ] Run `npm run dev &`, wait 4s, curl the PDF:
+
 ```bash
 curl -sI http://localhost:4321/resume-joydip-dutta.pdf | head -3
 ```
@@ -3538,6 +3615,7 @@ Kill dev.
 ### Step 12.6: Commit
 
 - [ ] Run:
+
 ```bash
 git add public/resume-joydip-dutta.pdf CLAUDE.md
 git add -A  # pick up any prettier formatting changes
@@ -3562,6 +3640,7 @@ EOF
 ### Step 12.7: Merge into master
 
 - [ ] Confirm branch commits:
+
 ```bash
 git log --oneline master..HEAD
 ```
@@ -3569,6 +3648,7 @@ git log --oneline master..HEAD
 Expected: 12 commits from Task 1 through Task 12.
 
 - [ ] Merge:
+
 ```bash
 git switch master
 git merge --no-ff feat/v2-design -m "Merge feat/v2-design: v2 design system port"
@@ -3577,6 +3657,7 @@ git merge --no-ff feat/v2-design -m "Merge feat/v2-design: v2 design system port
 Expected: merge succeeds (no conflicts since we branched from master and did all work here).
 
 - [ ] Optional: delete the branch locally:
+
 ```bash
 git branch -d feat/v2-design
 ```

@@ -256,7 +256,10 @@
   padding: 24px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.5s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  transition:
+    transform 0.5s var(--ease),
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 .pk-card--interactive {
   transform-style: preserve-3d;
@@ -411,7 +414,10 @@
   );
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-inset-hi);
-  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.5s var(--ease);
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease),
+    transform 0.5s var(--ease);
   cursor: pointer;
   transform-style: preserve-3d;
   will-change: transform;
@@ -483,7 +489,9 @@
 .pk-reveal {
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
 }
 .pk-reveal.in {
   opacity: 1;
@@ -493,7 +501,9 @@
   display: inline-block;
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transition:
+    opacity 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out);
 }
 .pk-reveal-word.in {
   opacity: 1;
@@ -593,7 +603,9 @@
   background: linear-gradient(180deg, var(--color-surface), var(--color-surface-deep));
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-lg);
-  box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
   overflow: hidden;
   transform: translateY(-6px) scale(0.98);
   transition: transform 0.24s var(--ease-out);

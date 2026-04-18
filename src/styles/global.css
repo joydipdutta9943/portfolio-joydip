@@ -42,7 +42,7 @@
   }
 
   body {
-    @apply bg-bg text-fg-muted font-sans antialiased min-h-screen;
+    @apply bg-bg text-fg-muted min-h-screen font-sans antialiased;
     font-feature-settings: "ss01", "ss02", "cv11";
   }
 
@@ -68,7 +68,7 @@
   }
 
   a {
-    @apply transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+    @apply focus-visible:ring-accent focus-visible:ring-offset-bg transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
   }
 
   /* Prose / MDX body — retuned to v2 tokens */
@@ -105,12 +105,12 @@
   }
 
   .prose-content pre {
-    @apply my-8 overflow-x-auto rounded-xl border border-border p-5 font-mono text-xs md:text-sm;
+    @apply border-border my-8 overflow-x-auto rounded-xl border p-5 font-mono text-xs md:text-sm;
     background: var(--color-surface-deep);
   }
 
   .prose-content code {
-    @apply border border-border text-fg rounded-md bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em];
+    @apply border-border text-fg rounded-md border bg-white/[0.02] px-1.5 py-0.5 font-mono text-[0.85em];
   }
 
   .prose-content pre code {
@@ -132,7 +132,7 @@
   }
 
   .prose-content thead {
-    @apply border-b border-border;
+    @apply border-border border-b;
     background: var(--color-surface);
   }
 
@@ -141,7 +141,7 @@
   }
 
   .prose-content td {
-    @apply border-b border-border text-fg-muted px-4 py-3;
+    @apply border-border text-fg-muted border-b px-4 py-3;
   }
 
   .prose-content tbody tr {

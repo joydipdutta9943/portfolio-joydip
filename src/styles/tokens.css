@@ -56,19 +56,16 @@
   --tint-white-02: rgba(255, 255, 255, 0.02);
   --tint-white-04: rgba(255, 255, 255, 0.04);
   --tint-accent-08: rgba(124, 92, 255, 0.08);
-  --tint-accent-30: rgba(124, 92, 255, 0.30);
+  --tint-accent-30: rgba(124, 92, 255, 0.3);
 
   /* Shadows / elevation */
   --shadow-inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --shadow-card-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 24px 60px -24px rgba(124, 92, 255, 0.28);
+    0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 60px -24px rgba(124, 92, 255, 0.28);
   --shadow-btn-primary:
-    0 0 0 1px rgba(255, 255, 255, 0.10),
-    0 14px 40px -12px rgba(124, 92, 255, 0.55);
+    0 0 0 1px rgba(255, 255, 255, 0.1), 0 14px 40px -12px rgba(124, 92, 255, 0.55);
   --shadow-btn-primary-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.16),
-    0 20px 48px -12px rgba(124, 92, 255, 0.75);
+    0 0 0 1px rgba(255, 255, 255, 0.16), 0 20px 48px -12px rgba(124, 92, 255, 0.75);
 
   /* Motion — Apple/Linear easing */
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
@@ -86,8 +83,16 @@
   --max-w-page: 1280px;
 
   /* Gradients (convenience) */
-  --gradient-accent: linear-gradient(100deg, var(--color-accent-from) 0%, var(--color-accent-to) 100%);
-  --gradient-accent-soft: linear-gradient(100deg, rgba(124, 92, 255, 0.15) 0%, rgba(34, 211, 238, 0.15) 100%);
+  --gradient-accent: linear-gradient(
+    100deg,
+    var(--color-accent-from) 0%,
+    var(--color-accent-to) 100%
+  );
+  --gradient-accent-soft: linear-gradient(
+    100deg,
+    rgba(124, 92, 255, 0.15) 0%,
+    rgba(34, 211, 238, 0.15) 100%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

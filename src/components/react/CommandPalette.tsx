@@ -128,11 +128,7 @@ export default function CommandPalette({ items }: Props) {
   };
 
   return (
-    <div
-      className={`pk-cmd-overlay ${open ? "open" : ""}`}
-      onClick={close}
-      aria-hidden={!open}
-    >
+    <div className={`pk-cmd-overlay ${open ? "open" : ""}`} onClick={close} aria-hidden={!open}>
       <div
         className="pk-cmd"
         role="dialog"

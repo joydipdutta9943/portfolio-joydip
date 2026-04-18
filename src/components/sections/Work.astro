@@ -36,7 +36,9 @@ const smaller = sorted.filter((p) => !p.data.image).slice(0, 3);
         smaller.map((p) => (
           <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
             <div class="pk-proj__body">
-              <h3 class="pk-proj__title" style="font-size: 16px;">{p.data.title}</h3>
+              <h3 class="pk-proj__title" style="font-size: 16px;">
+                {p.data.title}
+              </h3>
               <p class="pk-proj__desc">{p.data.description}</p>
               <Chips items={p.data.techStack} max={3} />
             </div>

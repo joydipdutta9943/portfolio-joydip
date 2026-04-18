@@ -67,7 +67,9 @@ const services = [
                 stroke-linejoin="round"
                 aria-hidden="true"
               >
-                {s.iconPaths.map((d) => <path d={d} />)}
+                {s.iconPaths.map((d) => (
+                  <path d={d} />
+                ))}
               </svg>
             </div>
             <h3 class="pk-card__title">{s.title}</h3>

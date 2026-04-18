@@ -7,22 +7,19 @@ const steps = [
     n: "01",
     dur: "1 week",
     title: "Discovery",
-    body:
-      "We pin down the product, the constraints, and the bar. I scope the build, flag the risky parts, and tell you what's hard. If it's not a fit, I'll say so.",
+    body: "We pin down the product, the constraints, and the bar. I scope the build, flag the risky parts, and tell you what's hard. If it's not a fit, I'll say so.",
   },
   {
     n: "02",
     dur: "1–2 weeks",
     title: "Architecture",
-    body:
-      "Data model, API contract, infra plan. You review and approve before a line of production code is written. Surprises get expensive later.",
+    body: "Data model, API contract, infra plan. You review and approve before a line of production code is written. Surprises get expensive later.",
   },
   {
     n: "03",
     dur: "4–12 weeks",
     title: "Build & ship",
-    body:
-      "Weekly demos, continuous deploys, your team owns the code from day one. I work in your repo, your branch conventions, your review process.",
+    body: "Weekly demos, continuous deploys, your team owns the code from day one. I work in your repo, your branch conventions, your review process.",
   },
 ];
 ---
@@ -40,8 +37,12 @@ const steps = [
               <span class="pk-step__n">{s.n}</span>
               <span class="pk-step__dur">{s.dur}</span>
             </div>
-            <h3 class="pk-card__title" style="font-size: 17px;">{s.title}</h3>
-            <p class="pk-card__body" style="margin: 0;">{s.body}</p>
+            <h3 class="pk-card__title" style="font-size: 17px;">
+              {s.title}
+            </h3>
+            <p class="pk-card__body" style="margin: 0;">
+              {s.body}
+            </p>
           </Card>
         ))
       }

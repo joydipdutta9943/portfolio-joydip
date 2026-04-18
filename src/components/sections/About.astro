@@ -6,11 +6,30 @@ import Eyebrow from "../ui/Eyebrow.astro";
 const stacks = [
   {
     heading: "Languages & Frameworks",
-    items: ["TypeScript", "Go (Fiber)", "Bun", "Python", "Node.js", "GraphQL", "React", "Next.js", "Astro"],
+    items: [
+      "TypeScript",
+      "Go (Fiber)",
+      "Bun",
+      "Python",
+      "Node.js",
+      "GraphQL",
+      "React",
+      "Next.js",
+      "Astro",
+    ],
   },
   {
     heading: "Databases & Storage",
-    items: ["PostgreSQL", "MongoDB", "ClickHouse", "Redis", "DynamoDB", "Prisma", "Drizzle", "AWS S3"],
+    items: [
+      "PostgreSQL",
+      "MongoDB",
+      "ClickHouse",
+      "Redis",
+      "DynamoDB",
+      "Prisma",
+      "Drizzle",
+      "AWS S3",
+    ],
   },
   {
     heading: "Infrastructure & Security",
@@ -53,7 +72,9 @@ const previouslyAt = [
       style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start;"
       class="pk-about-grid"
     >
-      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px; font-size: 17px; line-height: 1.6; color: var(--color-fg-muted);">
+      <div
+        style="display: flex; flex-direction: column; gap: 20px; max-width: 640px; font-size: 17px; line-height: 1.6; color: var(--color-fg-muted);"
+      >
         <p style="margin: 0;">
           I'm a senior engineer who takes on full-stack product builds for funded startups. My work
           sits at the boundary of backend systems and product — the parts that decide whether
@@ -76,24 +97,20 @@ const previouslyAt = [
           >
             Previously at
           </div>
-          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
+          <ul
+            style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;"
+          >
             {
               previouslyAt.map((r) => (
-                <li
-                  style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; font-size: 15px;"
-                >
+                <li style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; font-size: 15px;">
                   <div>
                     <span style="color: var(--color-fg);">{r.role}</span>
                     <span style="color: var(--color-fg-muted);"> · {r.company}</span>
-                    <span
-                      style="color: var(--color-fg-subtle); display: block; font-size: 12px; margin-top: 2px;"
-                    >
+                    <span style="color: var(--color-fg-subtle); display: block; font-size: 12px; margin-top: 2px;">
                       {r.location}
                     </span>
                   </div>
-                  <span
-                    style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px;"
-                  >
+                  <span style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px;">
                     {r.years}
                   </span>
                 </li>
@@ -107,9 +124,7 @@ const previouslyAt = [
         {
           stacks.map((stack) => (
             <Card client:visible>
-              <div
-                style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--color-fg-subtle); margin-bottom: 12px;"
-              >
+              <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--color-fg-subtle); margin-bottom: 12px;">
                 {stack.heading}
               </div>
               <Chips items={stack.items} />

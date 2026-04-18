@@ -18,15 +18,15 @@ Port the v2 design system into the live Astro portfolio. Replace the v1 Inter + 
 
 ## Decisions locked
 
-| # | Question | Decision |
-|---|---|---|
-| 1 | Scope | Full port — home, `/projects`, `[slug]`, plus MDX prose retune. |
-| 2 | Interactivity stack | React islands for Button/Card/RevealWords/CountUpStat/CommandPalette. Hydration: `client:load` above fold, `client:visible` below, `client:idle` for palette. |
-| 3 | Fonts | Swap to Geist Sans + Geist Mono via `@fontsource/geist-sans` (or `@fontsource-variable/geist` if the fixed-weight package is unavailable) + `@fontsource/geist-mono`. Drop Inter, Inter Tight, JetBrains Mono packages. |
-| 4 | Command palette | Nav jumps + email copy + GitHub + LinkedIn + résumé download + all 12 MDX case studies (sourced via `import.meta.glob`). Résumé PDF ships as a placeholder until the real file is provided. |
-| 5 | Brand / nav mark | Text wordmark only ("Joydip Dutta", Geist 600, tight tracking). No logo chip. |
-| 6 | Token strategy | Hybrid in a single `src/styles/tokens.css`. `@theme { ... }` block for Tailwind-mapped tokens (colors, fonts, radii, tracking). `:root { ... }` block for raw CSS vars used by `pk-*` rules (shadows, motion curves, durations, grid, tints). |
-| 7 | Migration path | Staged commits on `feat/v2-design` branch. Twelve-step sequence (see Commit plan). |
+| #   | Question            | Decision                                                                                                                                                                                                                                      |
+| --- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Scope               | Full port — home, `/projects`, `[slug]`, plus MDX prose retune.                                                                                                                                                                               |
+| 2   | Interactivity stack | React islands for Button/Card/RevealWords/CountUpStat/CommandPalette. Hydration: `client:load` above fold, `client:visible` below, `client:idle` for palette.                                                                                 |
+| 3   | Fonts               | Swap to Geist Sans + Geist Mono via `@fontsource/geist-sans` (or `@fontsource-variable/geist` if the fixed-weight package is unavailable) + `@fontsource/geist-mono`. Drop Inter, Inter Tight, JetBrains Mono packages.                       |
+| 4   | Command palette     | Nav jumps + email copy + GitHub + LinkedIn + résumé download + all 12 MDX case studies (sourced via `import.meta.glob`). Résumé PDF ships as a placeholder until the real file is provided.                                                   |
+| 5   | Brand / nav mark    | Text wordmark only ("Joydip Dutta", Geist 600, tight tracking). No logo chip.                                                                                                                                                                 |
+| 6   | Token strategy      | Hybrid in a single `src/styles/tokens.css`. `@theme { ... }` block for Tailwind-mapped tokens (colors, fonts, radii, tracking). `:root { ... }` block for raw CSS vars used by `pk-*` rules (shadows, motion curves, durations, grid, tints). |
+| 7   | Migration path      | Staged commits on `feat/v2-design` branch. Twelve-step sequence (see Commit plan).                                                                                                                                                            |
 
 ## Architecture
 
@@ -127,19 +127,16 @@ public/
   --tint-white-02: rgba(255, 255, 255, 0.02);
   --tint-white-04: rgba(255, 255, 255, 0.04);
   --tint-accent-08: rgba(124, 92, 255, 0.08);
-  --tint-accent-30: rgba(124, 92, 255, 0.30);
+  --tint-accent-30: rgba(124, 92, 255, 0.3);
 
   /* Shadows / elevation */
   --shadow-inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --shadow-card-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 24px 60px -24px rgba(124, 92, 255, 0.28);
+    0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 60px -24px rgba(124, 92, 255, 0.28);
   --shadow-btn-primary:
-    0 0 0 1px rgba(255, 255, 255, 0.10),
-    0 14px 40px -12px rgba(124, 92, 255, 0.55);
+    0 0 0 1px rgba(255, 255, 255, 0.1), 0 14px 40px -12px rgba(124, 92, 255, 0.55);
   --shadow-btn-primary-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.16),
-    0 20px 48px -12px rgba(124, 92, 255, 0.75);
+    0 0 0 1px rgba(255, 255, 255, 0.16), 0 20px 48px -12px rgba(124, 92, 255, 0.75);
 
   /* Motion */
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
@@ -157,16 +154,27 @@ public/
   --max-w-page: 1280px;
 
   /* Gradients (convenience) */
-  --gradient-accent: linear-gradient(100deg, var(--color-accent-from) 0%, var(--color-accent-to) 100%);
-  --gradient-accent-soft: linear-gradient(100deg, rgba(124,92,255,.15) 0%, rgba(34,211,238,.15) 100%);
+  --gradient-accent: linear-gradient(
+    100deg,
+    var(--color-accent-from) 0%,
+    var(--color-accent-to) 100%
+  );
+  --gradient-accent-soft: linear-gradient(
+    100deg,
+    rgba(124, 92, 255, 0.15) 0%,
+    rgba(34, 211, 238, 0.15) 100%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
-  .pk-reveal, .pk-reveal-word {
+  .pk-reveal,
+  .pk-reveal-word {
     opacity: 1 !important;
     transform: none !important;
   }
@@ -174,6 +182,7 @@ public/
 ```
 
 `global.css` keeps:
+
 - `@import "tailwindcss";`
 - `@import "./tokens.css";`
 - `@import "./kit.css";`
@@ -187,6 +196,7 @@ public/
 ### Build-time deploy stamp
 
 `astro.config.mjs`:
+
 ```js
 vite: {
   define: { __BUILD_TIME__: JSON.stringify(new Date().toISOString()) },
@@ -196,12 +206,14 @@ vite: {
 `src/env.d.ts`: `declare const __BUILD_TIME__: string;`
 
 `Footer.astro` reads `__BUILD_TIME__` and emits:
+
 - SSR fallback text "recently deployed"
 - Tiny inline script replaces it with "Nd ago" / "Nh ago" computed client-side from the embedded ISO string (avoids stale SSR text if build is old).
 
 ### Layout changes
 
 `src/layouts/Layout.astro`:
+
 - Frontmatter imports: `@fontsource/geist-sans/{400,500,600,700}.css`, `@fontsource/geist-mono/{400,500,600}.css`.
 - Reads `getCollection("projects")` to build the `CmdItem[]` array for the palette.
 - Body adds `class="pk-page"` wrapper for the dotted-grid fixed background.
@@ -213,6 +225,7 @@ vite: {
 ### React primitives (`src/components/react/`)
 
 **`Button.tsx`** — Magnetic button.
+
 - Props: `{ variant?: "primary" | "ghost"; size?: "sm"; href?: string; onClick?: (e: MouseEvent) => void; children: ReactNode; className?: string }`.
 - Mouse within 60px of center pulls element up to 4px toward cursor via `transform: translate(...)`. Resets on `mouseleave`.
 - Renders `<a>` if `href` provided, else `<button>`. Appends `ArrowRight` icon after children.
@@ -220,23 +233,27 @@ vite: {
 - Reduced-motion: skips the mousemove listener entirely.
 
 **`Card.tsx`** — Interactive card with optional tilt.
+
 - Props: `{ interactive?: boolean; tilt?: boolean; className?: string; children: ReactNode }`.
 - If `tilt`, mouse position drives `perspective(900px) rotateX/rotateY` up to ±3deg.
 - If not `tilt`, renders a plain div with `pk-card` class; no event listeners attached (no hydration cost beyond mount).
 - Disables tilt under `(hover: none)` and reduced-motion.
 
 **`RevealWords.tsx`** — Staggered word reveal.
+
 - Props: `{ children: string; className?: string; as?: keyof JSX.IntrinsicElements }`.
 - Splits `children` on spaces, wraps each word in `<span class="pk-reveal-word">`, toggles `.in` on intersect with 55ms stagger.
 - Reduced-motion: applies `.in` immediately on mount, skips observer.
 
 **`CountUpStat.tsx`** — Count-up number with suffix parsing.
+
 - Props: `{ value: string; label: string }` (e.g., `"30k+"`, `"99.9%"`, `"3+"`).
 - Parses leading number + suffix via regex `/([\d.]+)([a-z%+]*)/i`.
 - 1.2s ease-out animation triggered on `useInView`.
 - Reduced-motion: sets final value immediately on intersect.
 
 **`CommandPalette.tsx`** — ⌘K overlay.
+
 - Props: `{ items: CmdItem[] }` where `CmdItem = { id: string; label: string; meta: "NAV" | "ACTION" | "EXT" | "CASE STUDY"; href?: string; action?: "copy-email" }`.
 - Internal state: `open`, `query`, `activeIndex`.
 - Opens on ⌘K / Ctrl+K anywhere; closes on Esc or click-outside.
@@ -251,10 +268,12 @@ vite: {
 - A11y: `role="dialog"`, `aria-modal="true"`, `aria-label="Command palette"`; focus trap via react-focus-lock-lite pattern or manual tab loop (manual — zero deps); restores focus to opener on close.
 
 **`CopyEmailButton.tsx`** — Small wrapper around `Button` used by Contact section.
+
 - Manages `copied` state, flips children text for 1.6s.
 - Keeps `Button` itself stateless.
 
 **Hooks:**
+
 - `useInView({ threshold = 0.2, once = true })` — returns `[ref, inView]`.
 - `usePrefersReducedMotion()` — returns boolean, subscribes to `matchMedia` change.
 
@@ -273,6 +292,7 @@ vite: {
 ### Home page sections (`src/components/sections/`)
 
 **`Hero.astro`**
+
 - `<section id="top" class="pk-section pk-hero">` with `<div class="radial-glow-v2">`.
 - `<StatusPill>Available · Q2 2026 · 2 of 3 slots open</StatusPill>`.
 - `<h1 class="pk-hero__title">` containing three `<RevealWords client:load>` spans (plain text + gradient-text middle span).
@@ -280,34 +300,41 @@ vite: {
 - `<div class="pk-stats">` with four `<CountUpStat client:visible>`.
 
 **`Services.astro`**
+
 - `<Eyebrow n="01" label="What I build"/>`, `<h2 class="pk-h2">`, 2-col grid of four `<Card client:visible interactive tilt>`.
 - Service data stays hard-coded in the component (same 4 items from handoff).
 
 **`Work.astro`**
+
 - Reads projects via `await getCollection("projects")`, sorts by `order`, splits into `featured` (with `image`) and `rest`.
 - Top grid: 2-col `featured` as `<Card client:visible tilt>` with `pk-proj` inner markup.
 - Bottom grid: 3-col `rest` as plain `<Card client:visible>` without images.
 - All project cards navigate to `/projects/${slug}`.
 
 **`Process.astro`**
+
 - `<Eyebrow n="03" label="How I work"/>`, `<h2 class="pk-h2">`, 3 `<Card client:visible>` (no tilt).
 - Three steps hard-coded (Discovery, Architecture, Build & ship) per handoff.
 
 **`About.astro`**
+
 - Zero islands. `<Eyebrow n="04" label="About"/>`, `<h2 class="pk-h2">`, two paragraphs, max-width 640px.
 
 **`Contact.astro`**
+
 - Centered, `radial-glow-v2` behind. `<Eyebrow n="05" label="Start a project"/>`, `<h2 class="pk-h2">` with "hard to build?" gradient-text, paragraph, `<CopyEmailButton client:load>`.
 
 ### Projects pages
 
 **`src/pages/projects/index.astro`**
+
 - Wrap in `.pk-page`, use `.pk-section__inner` for max-width.
 - Header: v2 back-link (v2 token colors), `<Eyebrow n="—" label="Case studies"/>`, `<h1 class="pk-h2" style="max-width:100%">All projects.</h1>`, subtitle paragraph.
 - Featured section: `<Eyebrow n="01" label="Featured"/>` or small divider row with mono label, 2-col grid of `<Card client:visible tilt>` wrapping `pk-proj` markup — image (16:9), title, description, `<Chips items={techStack.slice(0,4)}/>`, plus `+N more` overflow chip.
 - Rest section: 3-col grid of `<Card client:visible>` with `pk-proj__body` only, `<Chips items={techStack.slice(0,3)}/>`.
 
 **`src/pages/projects/[slug].astro`**
+
 - Wrap in `.pk-page` + `.pk-section__inner` (max-width retuned from 5xl to a tighter 1024-1100px for reading comfort).
 - Back-link v2.
 - Header: `<h1 class="pk-h2">` with v2 tracking. Subtitle paragraph. `<Chips items={techStack}/>` (all tags — detail page).
@@ -318,17 +345,33 @@ vite: {
 ### Command palette items
 
 Assembled in `Layout.astro` frontmatter:
+
 ```ts
 const projects = await getCollection("projects");
 const cmdItems: CmdItem[] = [
-  { id: "nav-work",     label: "Jump to — Selected work",  meta: "NAV",   href: "#work" },
-  { id: "nav-services", label: "Jump to — Services",       meta: "NAV",   href: "#services" },
-  { id: "nav-about",    label: "Jump to — About",          meta: "NAV",   href: "#about" },
-  { id: "nav-contact",  label: "Jump to — Contact",        meta: "NAV",   href: "#contact" },
-  { id: "copy-email",   label: "Copy email address",       meta: "ACTION", action: "copy-email" },
-  { id: "resume",       label: "Download résumé (PDF)",    meta: "ACTION", href: "/resume-joydip-dutta.pdf" },
-  { id: "github",       label: "Open GitHub profile",      meta: "EXT",    href: "https://github.com/joydipdutta9943" },
-  { id: "linkedin",     label: "Open LinkedIn profile",    meta: "EXT",    href: "https://www.linkedin.com/in/joydip-dutta-569428141/" },
+  { id: "nav-work", label: "Jump to — Selected work", meta: "NAV", href: "#work" },
+  { id: "nav-services", label: "Jump to — Services", meta: "NAV", href: "#services" },
+  { id: "nav-about", label: "Jump to — About", meta: "NAV", href: "#about" },
+  { id: "nav-contact", label: "Jump to — Contact", meta: "NAV", href: "#contact" },
+  { id: "copy-email", label: "Copy email address", meta: "ACTION", action: "copy-email" },
+  {
+    id: "resume",
+    label: "Download résumé (PDF)",
+    meta: "ACTION",
+    href: "/resume-joydip-dutta.pdf",
+  },
+  {
+    id: "github",
+    label: "Open GitHub profile",
+    meta: "EXT",
+    href: "https://github.com/joydipdutta9943",
+  },
+  {
+    id: "linkedin",
+    label: "Open LinkedIn profile",
+    meta: "EXT",
+    href: "https://www.linkedin.com/in/joydip-dutta-569428141/",
+  },
   ...projects
     .sort((a, b) => (a.data.order || 99) - (b.data.order || 99))
     .map((p) => ({
@@ -361,6 +404,7 @@ Serialized as JSON into island props.
 ## Error handling
 
 Minimal by construction — this is a static site:
+
 - Missing résumé PDF: placeholder PDF ships, palette entry works. User replaces file later.
 - Clipboard API unavailable (old browsers): `navigator.clipboard?.writeText` with fallback "Copy failed" toast.
 - IntersectionObserver unavailable: guard with `if (!("IntersectionObserver" in window))` — set `inView = true` immediately so content is visible.
@@ -369,6 +413,7 @@ Minimal by construction — this is a static site:
 ## Testing
 
 No test framework in the project. Verification is manual:
+
 - `npm run dev` — smoke check each section.
 - Playwright is already a dependency — use it ad-hoc for keyboard-nav verification of the palette if desired (single script, not committed).
 - Visual check in Chrome + Safari (touch-capable) for reduced-motion and `(hover: none)` fallbacks.
@@ -376,20 +421,20 @@ No test framework in the project. Verification is manual:
 
 ## Commit plan
 
-| # | Commit | Notes |
-|---|---|---|
-| 1 | `chore(deps): swap Inter/JetBrains for Geist` | package.json only. Deleted: `@fontsource/inter`, `@fontsource/inter-tight`, `@fontsource/jetbrains-mono`. Added: `@fontsource/geist-sans` (or variable fallback) + `@fontsource/geist-mono`. |
-| 2 | `feat(tokens): introduce v2 token system + @theme hybrid` | `src/styles/tokens.css`, trim `global.css`, reduce `tailwind.config.mjs`. |
-| 3 | `feat(kit): port pk-* kit styles` | `src/styles/kit.css`; import from `global.css`. |
-| 4 | `feat(ui): add v2 React primitives` | Button, Card, RevealWords, CountUpStat, CopyEmailButton, hooks; StatusPill/Chip/Eyebrow as Astro. |
-| 5 | `feat(layout): update Layout + Nav shell + __BUILD_TIME__` | Layout imports Geist, dotted-page wrapper, palette mount, build stamp wiring. Nav to wordmark + ⌘K trigger. |
-| 6 | `feat(home): port Hero + Contact` | Above-fold sections first for preview. |
-| 7 | `feat(home): port Services, Work, Process, About` | Work reads from `getCollection`. |
-| 8 | `feat(palette): ship ⌘K command palette` | CommandPalette.tsx, item assembly in Layout, Nav event wiring. |
-| 9 | `feat(projects): reskin /projects and [slug] to v2` | Listing + slug chrome, prose-content token refresh. |
-| 10 | `chore: delete GradientButton, old Card, unused tokens` | Cleanup pass. |
-| 11 | `feat(a11y): reduced-motion guards + palette dialog semantics` | Final a11y polish. |
-| 12 | `chore: resume placeholder + CLAUDE.md stack notes` | Housekeeping + update CLAUDE.md to reflect v2 stack. |
+| #   | Commit                                                         | Notes                                                                                                                                                                                        |
+| --- | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | `chore(deps): swap Inter/JetBrains for Geist`                  | package.json only. Deleted: `@fontsource/inter`, `@fontsource/inter-tight`, `@fontsource/jetbrains-mono`. Added: `@fontsource/geist-sans` (or variable fallback) + `@fontsource/geist-mono`. |
+| 2   | `feat(tokens): introduce v2 token system + @theme hybrid`      | `src/styles/tokens.css`, trim `global.css`, reduce `tailwind.config.mjs`.                                                                                                                    |
+| 3   | `feat(kit): port pk-* kit styles`                              | `src/styles/kit.css`; import from `global.css`.                                                                                                                                              |
+| 4   | `feat(ui): add v2 React primitives`                            | Button, Card, RevealWords, CountUpStat, CopyEmailButton, hooks; StatusPill/Chip/Eyebrow as Astro.                                                                                            |
+| 5   | `feat(layout): update Layout + Nav shell + __BUILD_TIME__`     | Layout imports Geist, dotted-page wrapper, palette mount, build stamp wiring. Nav to wordmark + ⌘K trigger.                                                                                  |
+| 6   | `feat(home): port Hero + Contact`                              | Above-fold sections first for preview.                                                                                                                                                       |
+| 7   | `feat(home): port Services, Work, Process, About`              | Work reads from `getCollection`.                                                                                                                                                             |
+| 8   | `feat(palette): ship ⌘K command palette`                       | CommandPalette.tsx, item assembly in Layout, Nav event wiring.                                                                                                                               |
+| 9   | `feat(projects): reskin /projects and [slug] to v2`            | Listing + slug chrome, prose-content token refresh.                                                                                                                                          |
+| 10  | `chore: delete GradientButton, old Card, unused tokens`        | Cleanup pass.                                                                                                                                                                                |
+| 11  | `feat(a11y): reduced-motion guards + palette dialog semantics` | Final a11y polish.                                                                                                                                                                           |
+| 12  | `chore: resume placeholder + CLAUDE.md stack notes`            | Housekeeping + update CLAUDE.md to reflect v2 stack.                                                                                                                                         |
 
 After step 12, merge `feat/v2-design` → `master`.
 

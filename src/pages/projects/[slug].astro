@@ -21,10 +21,7 @@ const { Content } = await render(project);
   ogImage={project.data.image}
 >
   <section class="pk-section" style="padding-top: 140px;">
-    <div
-      class="pk-section__inner"
-      style="max-width: 1024px;"
-    >
+    <div class="pk-section__inner" style="max-width: 1024px;">
       <a
         href="/projects"
         class="pk-nav__link"
@@ -73,7 +70,8 @@ const { Content } = await render(project);
 
       <div
         style="margin: 48px 0; height: 1px; background: linear-gradient(to right, transparent, var(--color-border), transparent);"
-      ></div>
+      >
+      </div>
 
       <article class="prose-content" style="max-width: 72ch; margin: 0 auto;">
         <Content />
