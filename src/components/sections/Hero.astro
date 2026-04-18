@@ -1,5 +1,8 @@
 ---
-import GradientButton from "../ui/GradientButton.astro";
+import Button from "../react/Button";
+import RevealWords from "../react/RevealWords";
+import CountUpStat from "../react/CountUpStat";
+import StatusPill from "../ui/StatusPill.astro";
 
 const stats = [
   { value: "3+", label: "yrs shipping" },
@@ -9,58 +12,33 @@ const stats = [
 ];
 ---
 
-<section class="relative flex min-h-[85vh] items-center overflow-hidden px-6">
-  <div class="radial-glow absolute -top-40 left-1/2 -translate-x-1/2"></div>
+<section id="top" class="pk-section pk-hero" style="padding: 0 24px;">
+  <div class="radial-glow-v2" style="top: -220px; left: 50%; transform: translateX(-50%);"></div>
 
-  <div class="relative mx-auto w-full max-w-7xl">
-    <div
-      class="border-border text-muted mb-8 inline-flex items-center gap-2 rounded-full border bg-white/[0.02] px-3 py-1.5 text-xs backdrop-blur-sm"
-    >
-      <span class="relative flex h-1.5 w-1.5">
-        <span
-          class="gradient-fill absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
-        ></span>
-        <span class="gradient-fill relative inline-flex h-1.5 w-1.5 rounded-full"></span>
-      </span>
-      Available for new projects · Q2 2026
-    </div>
+  <div class="pk-section__inner" style="padding: 140px 0 96px;">
+    <StatusPill>Available · Q2 2026 · 2 of 3 slots open</StatusPill>
 
-    <h1
-      class="font-display text-foreground mb-6 max-w-4xl text-5xl leading-[1.02] font-semibold tracking-[-0.04em] md:text-6xl lg:text-7xl"
-    >
-      Senior engineer building
-      <span class="gradient-text">production systems</span>
-      for funded startups.
+    <h1 class="pk-hero__title">
+      <RevealWords client:load>Senior engineer shipping</RevealWords>{" "}
+      <span class="gradient-text">
+        <RevealWords client:load delayOffset={180}>production systems</RevealWords>
+      </span>{" "}
+      <RevealWords client:load delayOffset={360}>for funded startups.</RevealWords>
     </h1>
 
-    <p class="text-muted mb-10 max-w-2xl text-lg leading-relaxed md:text-xl">
-      I ship backends, SaaS platforms, and AI features that hold up in production. Previously built
-      a fintech wealth platform serving 30k users and a RAG system on unstructured data for
-      enterprise search.
+    <p class="pk-hero__sub">
+      I ship backends, SaaS platforms, and AI features that hold up in production. Previously built a
+      fintech wealth platform serving 30k users and a RAG system on unstructured data for enterprise
+      search.
     </p>
 
-    <div class="mb-16 flex flex-wrap items-center gap-3">
-      <GradientButton
-        href="mailto:joydip.dutta9943@gmail.com?subject=New%20project%20—%20%5Byour%20company%5D"
-      >
-        Start a project
-      </GradientButton>
-      <GradientButton href="#work" variant="ghost"> See case studies </GradientButton>
+    <div class="pk-hero__actions">
+      <Button client:load href="/#contact">Start a project</Button>
+      <Button client:load variant="ghost" href="/#work">See case studies</Button>
     </div>
 
-    <div
-      class="border-border bg-border grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-xl border md:grid-cols-4"
-    >
-      {
-        stats.map((stat) => (
-          <div class="bg-background px-5 py-5">
-            <div class="text-foreground font-mono text-2xl font-medium md:text-3xl">
-              {stat.value}
-            </div>
-            <div class="text-subtle mt-1 text-[11px] tracking-wider uppercase">{stat.label}</div>
-          </div>
-        ))
-      }
+    <div class="pk-stats">
+      {stats.map((s) => <CountUpStat client:visible value={s.value} label={s.label} />)}
     </div>
   </div>
 </section>

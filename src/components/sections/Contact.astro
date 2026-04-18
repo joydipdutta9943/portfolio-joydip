@@ -1,51 +1,51 @@
 ---
-import GradientButton from "../ui/GradientButton.astro";
+import Eyebrow from "../ui/Eyebrow.astro";
+import CopyEmailButton from "../react/CopyEmailButton";
 ---
 
-<section id="contact" class="relative scroll-mt-24 overflow-hidden px-6 py-20">
-  <div class="radial-glow absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+<section id="contact" class="pk-section" style="text-align: center;">
+  <div
+    class="radial-glow-v2"
+    style="top: 50%; left: 50%; transform: translate(-50%, -50%);"
+  ></div>
 
-  <div class="relative mx-auto max-w-3xl text-center">
-    <div class="mb-3 font-mono text-xs tracking-widest uppercase">
-      <span class="gradient-text">05</span>
-      <span class="text-subtle ml-2">— Start a project</span>
-    </div>
+  <div class="pk-section__inner" style="max-width: 720px;">
+    <Eyebrow n="05" label="Start a project" />
 
     <h2
-      class="font-display mb-6 text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-6xl"
+      class="pk-h2"
+      style="max-width: 100%; margin: 0 auto 24px; font-size: clamp(40px, 3vw + 20px, 64px);"
     >
       Have something <span class="gradient-text">hard to build?</span>
     </h2>
 
-    <p class="text-muted mx-auto mb-10 max-w-xl text-base leading-relaxed md:text-lg">
+    <p
+      style="color: var(--color-fg-muted); font-size: 18px; line-height: 1.55; max-width: 560px; margin: 0 auto 40px;"
+    >
       I take a small number of engagements at a time. Best fit: funded startup, real product in
-      production or about to be, four-plus weeks of work. Send me what you're building and I'll
-      reply within 24 hours.
+      production or about to be, four-plus weeks of work. Send me what you're building and I'll reply
+      within 24 hours.
     </p>
 
-    <div class="mb-8 flex justify-center">
-      <GradientButton
-        href="mailto:joydip.dutta9943@gmail.com?subject=New%20project%20—%20%5Byour%20company%5D"
-      >
-        joydip.dutta9943@gmail.com
-      </GradientButton>
-    </div>
+    <CopyEmailButton client:load />
 
-    <div class="text-muted flex items-center justify-center gap-6 text-xs">
+    <div
+      style="margin-top: 32px; display: flex; justify-content: center; gap: 24px; color: var(--color-fg-muted); font-size: 12px;"
+    >
       <a
         href="https://github.com/joydipdutta9943"
         target="_blank"
         rel="noopener noreferrer"
-        class="hover:text-foreground transition-colors"
+        style="transition: color .2s var(--ease);"
       >
         GitHub
       </a>
-      <span class="text-subtle">·</span>
+      <span style="color: var(--color-fg-subtle);">·</span>
       <a
         href="https://www.linkedin.com/in/joydip-dutta-569428141/"
         target="_blank"
         rel="noopener noreferrer"
-        class="hover:text-foreground transition-colors"
+        style="transition: color .2s var(--ease);"
       >
         LinkedIn
       </a>
