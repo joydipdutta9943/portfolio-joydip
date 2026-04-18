@@ -1,33 +1,16 @@
 ---
-import Card from "../ui/Card.astro";
+import Card from "../react/Card";
+import Chips from "../ui/Chips.astro";
+import Eyebrow from "../ui/Eyebrow.astro";
 
 const stacks = [
   {
     heading: "Languages & Frameworks",
-    items: [
-      "TypeScript",
-      "Go (Fiber)",
-      "Bun",
-      "Python",
-      "Node.js",
-      "GraphQL",
-      "React",
-      "Next.js",
-      "Astro",
-    ],
+    items: ["TypeScript", "Go (Fiber)", "Bun", "Python", "Node.js", "GraphQL", "React", "Next.js", "Astro"],
   },
   {
     heading: "Databases & Storage",
-    items: [
-      "PostgreSQL",
-      "MongoDB",
-      "ClickHouse",
-      "Redis",
-      "DynamoDB",
-      "Prisma",
-      "Drizzle",
-      "AWS S3",
-    ],
+    items: ["PostgreSQL", "MongoDB", "ClickHouse", "Redis", "DynamoDB", "Prisma", "Drizzle", "AWS S3"],
   },
   {
     heading: "Infrastructure & Security",
@@ -61,52 +44,58 @@ const previouslyAt = [
 ];
 ---
 
-<section id="about" class="scroll-mt-24 px-6 py-20">
-  <div class="mx-auto max-w-7xl">
-    <div class="mb-16">
-      <div class="mb-3 font-mono text-xs tracking-widest uppercase">
-        <span class="gradient-text">04</span>
-        <span class="text-subtle ml-2">— About</span>
-      </div>
-      <h2
-        class="font-display max-w-2xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-5xl"
-      >
-        Hi, I'm Joydip.
-      </h2>
-    </div>
+<section id="about" class="pk-section">
+  <div class="pk-section__inner">
+    <Eyebrow n="04" label="About" />
+    <h2 class="pk-h2">Hi, I'm Joydip.</h2>
 
-    <div class="grid gap-12 md:grid-cols-[1.2fr_1fr]">
-      <div class="text-muted space-y-5 text-base leading-relaxed">
-        <p>
+    <div
+      style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start;"
+      class="pk-about-grid"
+    >
+      <div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px; font-size: 17px; line-height: 1.6; color: var(--color-fg-muted);">
+        <p style="margin: 0;">
           I'm a senior engineer who takes on full-stack product builds for funded startups. My work
           sits at the boundary of backend systems and product — the parts that decide whether
           something actually ships and holds up in production.
         </p>
-        <p>
+        <p style="margin: 0;">
           Over the last three-plus years I've built a fintech wealth platform serving 30k users, a
           multi-modal RAG system doing natural-language search over unstructured enterprise data,
           and a handful of polyglot microservice backends. I write TypeScript and Go for most
           things, Python when the ML work demands it.
         </p>
-        <p>
+        <p style="margin: 0;">
           I work async, keep scope honest, and don't chase frameworks. If you're a funded startup
           with something real to build, the contact section is below.
         </p>
 
-        <div class="!mt-10">
-          <div class="text-subtle mb-4 font-mono text-[11px] tracking-widest uppercase">
+        <div style="margin-top: 24px;">
+          <div
+            style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--color-fg-subtle); margin-bottom: 16px;"
+          >
             Previously at
           </div>
-          <ul class="space-y-3">
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px;">
             {
               previouslyAt.map((r) => (
-                <li class="border-border flex flex-col gap-1 border-b pb-3 md:flex-row md:items-baseline md:justify-between md:gap-4">
+                <li
+                  style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; font-size: 15px;"
+                >
                   <div>
-                    <span class="text-foreground">{r.role}</span>
-                    <span class="text-muted"> · {r.company}</span>
-                    <span class="text-subtle block text-xs md:ml-2 md:inline">{r.location}</span>
+                    <span style="color: var(--color-fg);">{r.role}</span>
+                    <span style="color: var(--color-fg-muted);"> · {r.company}</span>
+                    <span
+                      style="color: var(--color-fg-subtle); display: block; font-size: 12px; margin-top: 2px;"
+                    >
+                      {r.location}
+                    </span>
                   </div>
-                  <span class="text-subtle font-mono text-[11px]">{r.years}</span>
+                  <span
+                    style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px;"
+                  >
+                    {r.years}
+                  </span>
                 </li>
               ))
             }
@@ -114,20 +103,16 @@ const previouslyAt = [
         </div>
       </div>
 
-      <div class="space-y-4">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
         {
           stacks.map((stack) => (
-            <Card class="!p-5">
-              <div class="text-subtle mb-3 font-mono text-[11px] tracking-widest uppercase">
+            <Card client:visible>
+              <div
+                style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--color-fg-subtle); margin-bottom: 12px;"
+              >
                 {stack.heading}
               </div>
-              <div class="flex flex-wrap gap-1.5">
-                {stack.items.map((item) => (
-                  <span class="border-border text-muted rounded-md border bg-white/[0.02] px-2 py-1 font-mono text-[11px]">
-                    {item}
-                  </span>
-                ))}
-              </div>
+              <Chips items={stack.items} />
             </Card>
           ))
         }
@@ -135,3 +120,11 @@ const previouslyAt = [
     </div>
   </div>
 </section>
+
+<style>
+  @media (max-width: 767px) {
+    .pk-about-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

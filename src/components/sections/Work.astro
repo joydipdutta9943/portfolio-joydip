@@ -1,130 +1,58 @@
 ---
-const featured = [
-  {
-    slug: "unified-ai-agent",
-    title: "Unified Multi-Modal AI Agent",
-    outcome:
-      "Shipped a production RAG system for complex natural-language queries over unstructured enterprise data.",
-    image: "/images/unified-ai-agent.png",
-    tags: ["LangChain", "Gemini", "Vector search"],
-  },
-  {
-    slug: "gunpowder-fintech-backend",
-    title: "Gunpowder Fintech Backend",
-    outcome:
-      "Built a wealth management platform serving 30k users with investment accounts, KYC, and direct debits.",
-    image: "/images/gunpowder-fintech-backend.png",
-    tags: ["TypeScript", "Prisma", "BullMQ"],
-  },
-];
+import { getCollection } from "astro:content";
+import Chips from "../ui/Chips.astro";
+import Eyebrow from "../ui/Eyebrow.astro";
 
-const smaller = [
-  {
-    slug: "dyrect-backend",
-    title: "Dyrect",
-    outcome: "Direct-to-customer platform backend with automated workflows.",
-    tags: ["Node.js", "MongoDB"],
-  },
-  {
-    slug: "levo-microservices",
-    title: "Levo",
-    outcome: "Polyglot microservices architecture for a production SaaS.",
-    tags: ["Go", "Fiber", "Postgres"],
-  },
-  {
-    slug: "crooze-gamified-fitness",
-    title: "Crooze",
-    outcome: "Gamified fitness backend with real-time events and leaderboards.",
-    tags: ["Node.js", "Redis"],
-  },
-];
+const allProjects = await getCollection("projects");
+const sorted = allProjects.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+const featured = sorted.filter((p) => p.data.image).slice(0, 2);
+const smaller = sorted.filter((p) => !p.data.image).slice(0, 3);
 ---
 
-<section id="work" class="scroll-mt-24 px-6 py-20">
-  <div class="mx-auto max-w-7xl">
-    <div class="mb-16">
-      <div class="mb-3 font-mono text-xs tracking-widest uppercase">
-        <span class="gradient-text">02</span>
-        <span class="text-subtle ml-2">— Selected work</span>
-      </div>
-      <h2
-        class="font-display max-w-2xl text-4xl leading-[1.05] font-semibold tracking-[-0.03em] md:text-5xl"
-      >
-        Production systems, not demos.
-      </h2>
-    </div>
+<section id="work" class="pk-section">
+  <div class="pk-section__inner">
+    <Eyebrow n="02" label="Selected work" />
+    <h2 class="pk-h2">Production systems, not demos.</h2>
 
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="pk-grid-2">
       {
         featured.map((p) => (
-          <a
-            href={`/projects/${p.slug}`}
-            class="card-surface group hover:border-border-strong relative block overflow-hidden rounded-xl transition-all duration-300"
-          >
-            <div class="border-border bg-surface-raised relative aspect-[16/9] w-full overflow-hidden border-b">
-              <img
-                src={p.image}
-                alt={p.title}
-                class="h-full w-full object-cover opacity-80 transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
-              />
-              <div class="from-background/60 absolute inset-0 bg-gradient-to-t to-transparent" />
+          <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
+            <div class="pk-proj__img">
+              <img src={p.data.image} alt={p.data.title} />
             </div>
-            <div class="p-6">
-              <h3 class="text-foreground mb-2 text-lg font-semibold">{p.title}</h3>
-              <p class="text-muted mb-5 text-sm leading-relaxed">{p.outcome}</p>
-              <div class="flex flex-wrap gap-1.5">
-                {p.tags.map((tag) => (
-                  <span class="border-border text-muted rounded-md border bg-white/[0.02] px-2 py-1 font-mono text-[11px]">
-                    {tag}
-                  </span>
-                ))}
-              </div>
+            <div class="pk-proj__body">
+              <h3 class="pk-proj__title">{p.data.title}</h3>
+              <p class="pk-proj__desc">{p.data.description}</p>
+              <Chips items={p.data.techStack} max={4} />
             </div>
           </a>
         ))
       }
     </div>
 
-    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
+    <div class="pk-grid-3" style="margin-top: 16px;">
       {
         smaller.map((p) => (
-          <a
-            href={`/projects/${p.slug}`}
-            class="card-surface group hover:border-border-strong block rounded-xl p-6 transition-all duration-300"
-          >
-            <h3 class="text-foreground mb-2 text-base font-semibold">{p.title}</h3>
-            <p class="text-muted mb-4 text-sm leading-relaxed">{p.outcome}</p>
-            <div class="flex flex-wrap gap-1.5">
-              {p.tags.map((tag) => (
-                <span class="border-border text-muted rounded-md border bg-white/[0.02] px-2 py-1 font-mono text-[11px]">
-                  {tag}
-                </span>
-              ))}
+          <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
+            <div class="pk-proj__body">
+              <h3 class="pk-proj__title" style="font-size: 16px;">{p.data.title}</h3>
+              <p class="pk-proj__desc">{p.data.description}</p>
+              <Chips items={p.data.techStack} max={3} />
             </div>
           </a>
         ))
       }
     </div>
 
-    <div class="mt-10 flex justify-end">
+    <div style="margin-top: 40px; display: flex; justify-content: flex-end;">
       <a
         href="/projects"
-        class="group text-muted hover:text-foreground inline-flex items-center gap-2 text-sm transition-colors"
+        class="pk-nav__link"
+        style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em;"
+        data-astro-prefetch
       >
-        View all 12 projects
-        <svg
-          class="h-4 w-4 transition-transform group-hover:translate-x-1"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M5 12h14"></path>
-          <path d="m12 5 7 7-7 7"></path>
-        </svg>
+        View all {sorted.length} projects →
       </a>
     </div>
   </div>
