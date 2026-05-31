@@ -207,5 +207,24 @@ const articleLd = article
     </main>
     <Footer />
     <CommandPalette client:idle items={cmdItems} />
+
+    <script is:inline>
+      (function () {
+        function initSpotlight() {
+          const cards = document.querySelectorAll(".pk-proj, .pk-card--interactive");
+          cards.forEach((card) => {
+            const onMove = (e) => {
+              const r = card.getBoundingClientRect();
+              card.style.setProperty("--mouse-x", `${e.clientX - r.left}px`);
+              card.style.setProperty("--mouse-y", `${e.clientY - r.top}px`);
+            };
+            card.removeEventListener("mousemove", onMove);
+            card.addEventListener("mousemove", onMove, { passive: true });
+          });
+        }
+        initSpotlight();
+        document.addEventListener("astro:page-load", initSpotlight);
+      })();
+    </script>
   </body>
 </html>

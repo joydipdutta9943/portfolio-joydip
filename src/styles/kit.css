@@ -883,3 +883,67 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* ---------- Premium Design Enhancements ---------- */
+
+/* Global Interactive Card Spotlight Hover Glow */
+.pk-card--interactive,
+.pk-proj {
+  position: relative;
+  isolation: isolate;
+}
+
+.pk-card--interactive::after,
+.pk-proj::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    600px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    rgba(124, 92, 255, 0.05),
+    transparent 50%
+  );
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.pk-card--interactive:hover::after,
+.pk-proj:hover::after {
+  opacity: 1;
+}
+
+/* Ensure card and project contents stay on top of the spotlight glow background */
+.pk-card > *,
+.pk-proj > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Process Section Horizontal Connecting Timeline (Desktop-only) */
+@media (min-width: 768px) {
+  .pk-process-grid {
+    position: relative;
+    gap: 28px; /* Extra breathing space */
+  }
+
+  .pk-process-grid::before {
+    content: "";
+    position: absolute;
+    top: 50px; /* Align horizontally with the step number row */
+    left: 80px;
+    right: 80px;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      rgba(124, 92, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(34, 211, 238, 0.25) 100%
+    );
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
