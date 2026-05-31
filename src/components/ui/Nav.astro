@@ -19,26 +19,103 @@ import Button from "../react/Button";
       </button>
       <Button client:load size="sm" href="/#contact">Start a project</Button>
     </div>
+
+    <button id="mobile-menu-btn" class="pk-mobile-toggle" type="button" aria-label="Toggle navigation menu">
+      <span class="pk-mobile-toggle__line"></span>
+      <span class="pk-mobile-toggle__line"></span>
+      <span class="pk-mobile-toggle__line"></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="pk-mobile-menu">
+    <div class="pk-mobile-menu__inner">
+      <div class="pk-mobile-menu__links">
+        <a href="/#work" class="pk-mobile-menu__link">Work</a>
+        <a href="/#services" class="pk-mobile-menu__link">Services</a>
+        <a href="/#about" class="pk-mobile-menu__link">About</a>
+        <a href="/#contact" class="pk-mobile-menu__link">Contact</a>
+      </div>
+
+      <div class="pk-mobile-menu__actions">
+        <button id="mobile-nav-cmdk" class="pk-mobile-cmdk" type="button" aria-label="Open command palette">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pk-mobile-search-icon" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          Search palette
+        </button>
+        <Button client:load href="/#contact" className="w-full justify-center">Start a project</Button>
+      </div>
+    </div>
   </div>
 </nav>
 
 <script is:inline>
   (function () {
-    const nav = document.getElementById("site-nav");
-    if (!nav) return;
-    const onScroll = () => {
-      if (window.scrollY > 24) nav.classList.add("scrolled");
-      else nav.classList.remove("scrolled");
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    document.addEventListener("astro:page-load", onScroll);
+    function initNav() {
+      const nav = document.getElementById("site-nav");
+      if (!nav) return;
 
-    const cmdBtn = document.getElementById("nav-cmdk");
-    if (cmdBtn) {
-      cmdBtn.addEventListener("click", () => {
-        window.dispatchEvent(new CustomEvent("pk:cmd-open"));
-      });
+      const onScroll = () => {
+        if (window.scrollY > 24) nav.classList.add("scrolled");
+        else nav.classList.remove("scrolled");
+      };
+      onScroll();
+      window.removeEventListener("scroll", onScroll);
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      const cmdBtn = document.getElementById("nav-cmdk");
+      if (cmdBtn) {
+        cmdBtn.addEventListener("click", () => {
+          window.dispatchEvent(new CustomEvent("pk:cmd-open"));
+        });
+      }
+
+      const toggleBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      if (toggleBtn && mobileMenu) {
+        const toggleMenu = () => {
+          const isOpen = nav.classList.contains("mobile-open");
+          if (isOpen) {
+            nav.classList.remove("mobile-open");
+            document.body.style.overflow = "";
+          } else {
+            nav.classList.add("mobile-open");
+            document.body.style.overflow = "hidden";
+          }
+        };
+
+        const closeMenu = () => {
+          nav.classList.remove("mobile-open");
+          document.body.style.overflow = "";
+        };
+
+        // Standard event registration without cloning to avoid reactivity issues on page transitions
+        toggleBtn.removeEventListener("click", toggleMenu);
+        toggleBtn.addEventListener("click", toggleMenu);
+
+        const links = mobileMenu.querySelectorAll(".pk-mobile-menu__link");
+        links.forEach((link) => {
+          link.removeEventListener("click", closeMenu);
+          link.addEventListener("click", closeMenu);
+        });
+
+        const mobileCmdBtn = document.getElementById("mobile-nav-cmdk");
+        if (mobileCmdBtn) {
+          mobileCmdBtn.removeEventListener("click", closeMenu);
+          mobileCmdBtn.addEventListener("click", closeMenu);
+
+          const openCmd = () => {
+            window.dispatchEvent(new CustomEvent("pk:cmd-open"));
+          };
+          mobileCmdBtn.removeEventListener("click", openCmd);
+          mobileCmdBtn.addEventListener("click", openCmd);
+        }
+      }
     }
+
+    initNav();
+    document.addEventListener("astro:page-load", initNav);
   })();
 </script>
