@@ -4,9 +4,12 @@ import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://sannin-coder.info",
+
   vite: {
     plugins: [tailwindcss()],
     server: {
@@ -16,14 +19,19 @@ export default defineConfig({
       __BUILD_TIME__: JSON.stringify(new Date().toISOString()),
     },
   },
+
   server: {
     host: true,
   },
+
   integrations: [mdx(), react(), sitemap()],
+
   markdown: {
     shikiConfig: {
       theme: "vitesse-dark",
       wrap: true,
     },
   },
+
+  adapter: cloudflare(),
 });
