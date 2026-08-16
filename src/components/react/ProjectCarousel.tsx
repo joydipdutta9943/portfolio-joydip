@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
 export type CarouselProject = {
@@ -20,19 +20,56 @@ const TABS = [
 
 type TabKey = (typeof TABS)[number]["key"];
 
+const AUTO_SLIDE_INTERVAL = 4500;
+
 export default function ProjectCarousel({ projects }: { projects: CarouselProject[] }) {
   const [tab, setTab] = useState<TabKey>("featured");
   const [index, setIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const reduced = usePrefersReducedMotion();
   const pointerStart = useRef<number | null>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+  const isInteracting = useRef(false);
 
   const visible = useMemo(
     () => projects.filter((p) => (tab === "featured" ? p.featured : p.category === tab)),
     [projects, tab]
   );
 
-  const clamp = (i: number) => Math.max(0, Math.min(visible.length - 1, i));
+  const nextSlide = useCallback(() => {
+    if (visible.length <= 1) return;
+    setIndex((i) => (i + 1) % visible.length);
+  }, [visible.length]);
+
+  const prevSlide = useCallback(() => {
+    if (visible.length <= 1) return;
+    setIndex((i) => (i === 0 ? visible.length - 1 : i - 1));
+  }, [visible.length]);
+
+  // Auto-slide effect
+  useEffect(() => {
+    if (isPaused || reduced || visible.length <= 1) return;
+
+    const timer = setInterval(() => {
+      nextSlide();
+    }, AUTO_SLIDE_INTERVAL);
+
+    return () => clearInterval(timer);
+  }, [isPaused, reduced, visible.length, nextSlide]);
+
+  // Synchronize mobile scroll position smoothly
+  useEffect(() => {
+    if (!scrollRef.current || isInteracting.current) return;
+    const cardEl = scrollRef.current.children[index] as HTMLElement | undefined;
+    if (cardEl) {
+      cardEl.scrollIntoView({
+        behavior: reduced ? "auto" : "smooth",
+        inline: "center",
+        block: "nearest",
+      });
+    }
+  }, [index, reduced]);
 
   const selectTab = (key: TabKey) => {
     setTab(key);
@@ -48,20 +85,41 @@ export default function ProjectCarousel({ projects }: { projects: CarouselProjec
   };
 
   const onPointerDown = (e: React.PointerEvent) => {
+    isInteracting.current = true;
+    setIsPaused(true);
     pointerStart.current = e.clientX;
   };
+
   const onPointerUp = (e: React.PointerEvent) => {
-    if (pointerStart.current === null) return;
-    const dx = e.clientX - pointerStart.current;
-    pointerStart.current = null;
-    if (Math.abs(dx) > 40) setIndex((i) => clamp(i + (dx < 0 ? 1 : -1)));
+    if (pointerStart.current !== null) {
+      const dx = e.clientX - pointerStart.current;
+      pointerStart.current = null;
+      if (Math.abs(dx) > 40) {
+        if (dx < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+    }
+    isInteracting.current = false;
+    setIsPaused(false);
   };
+
   const onPointerCancel = () => {
     pointerStart.current = null;
+    isInteracting.current = false;
+    setIsPaused(false);
   };
 
   return (
-    <div className="pk-carousel">
+    <div
+      className="pk-carousel"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocusCapture={() => setIsPaused(true)}
+      onBlurCapture={() => setIsPaused(false)}
+    >
       <div className="pk-carousel__tabs" role="tablist" aria-label="Filter projects">
         {TABS.map((t, i) => (
           <button
@@ -86,7 +144,12 @@ export default function ProjectCarousel({ projects }: { projects: CarouselProjec
 
       {/* Both layouts render; CSS media queries pick one, so SSR is correct at every width. */}
       <div id="pk-carousel-panel" role="tabpanel" aria-labelledby={`pk-carousel-tab-${tab}`}>
-        <div className="pk-carousel__scroll">
+        <div
+          ref={scrollRef}
+          className="pk-carousel__scroll"
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
+        >
           {visible.map((p) => (
             <a
               key={p.id}
@@ -114,11 +177,12 @@ export default function ProjectCarousel({ projects }: { projects: CarouselProjec
             const style: React.CSSProperties = {
               transform: reduced
                 ? undefined
-                : `translateX(${offset * 58}%) scale(${1 - Math.min(Math.abs(offset), 2) * 0.13})`,
-              opacity: offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.45 : 0,
+                : `translateX(${offset * 105}%) scale(${offset === 0 ? 1 : 0.92})`,
+              opacity: offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.38 : 0,
               visibility: Math.abs(offset) > 1 ? "hidden" : undefined,
               zIndex: 10 - Math.abs(offset),
-              pointerEvents: Math.abs(offset) > 1 ? "none" : undefined,
+              pointerEvents: offset === 0 ? "auto" : Math.abs(offset) === 1 ? "auto" : "none",
+              cursor: offset !== 0 ? "pointer" : undefined,
               display: reduced && offset !== 0 ? "none" : undefined,
             };
             return (
@@ -143,28 +207,14 @@ export default function ProjectCarousel({ projects }: { projects: CarouselProjec
           })}
 
           <div className="pk-carousel__ctrls">
-            <button
-              type="button"
-              aria-label="Previous project"
-              aria-disabled={index === 0}
-              onClick={() => {
-                if (index !== 0) setIndex((i) => clamp(i - 1));
-              }}
-            >
+            <button type="button" aria-label="Previous project" onClick={prevSlide}>
               ←
             </button>
             <span className="pk-carousel__count" aria-live="polite">
               {visible.length === 0 ? "0 / 0" : `${index + 1} / ${visible.length}`}
               <span className="sr-only">{visible[index] ? ` — ${visible[index].title}` : ""}</span>
             </span>
-            <button
-              type="button"
-              aria-label="Next project"
-              aria-disabled={index >= visible.length - 1}
-              onClick={() => {
-                if (index < visible.length - 1) setIndex((i) => clamp(i + 1));
-              }}
-            >
+            <button type="button" aria-label="Next project" onClick={nextSlide}>
               →
             </button>
           </div>
