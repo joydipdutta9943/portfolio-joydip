@@ -191,11 +191,7 @@ const articleLd = article
 
     <script type="application/ld+json" set:html={JSON.stringify(personLd)} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteLd)} />
-    {
-      breadcrumbLd && (
-        <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />
-      )
-    }
+    {breadcrumbLd && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />}
     {articleLd && <script type="application/ld+json" set:html={JSON.stringify(articleLd)} />}
 
     <ClientRouter />

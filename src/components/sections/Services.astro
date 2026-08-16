@@ -6,22 +6,19 @@ import Eyebrow from "../ui/Eyebrow.astro";
 const services = [
   {
     title: "Product Engineering",
-    pitch:
-      "Full SaaS builds from zero. Backend, API, database, auth, payments, integrations — the whole backend and as much frontend as you need. 4–12 week engagements.",
+    pitch: "Full SaaS builds from zero — backend, APIs, auth, payments. 4–12 week engagements.",
     tags: ["TypeScript / Go", "Postgres / Mongo", "AWS"],
     iconPaths: ["M12 2 4 6v6c0 5 4 9 8 10 4-1 8-5 8-10V6l-8-4z", "M9 12l2 2 4-4"],
   },
   {
     title: "Backend Architecture",
-    pitch:
-      "Microservices, event systems, scale-ready foundations. Reviews of what you have, or greenfield designs for what you're about to build.",
+    pitch: "Microservices, event systems, scale-ready foundations — greenfield or review.",
     tags: ["Fiber", "BullMQ", "ClickHouse"],
     iconPaths: ["M4 6h16", "M4 12h16", "M4 18h16", "M8 6v12", "M16 6v12"],
   },
   {
     title: "AI & RAG Systems",
-    pitch:
-      "LLM features that work on real data, not demos. Vector search, agentic workflows, retrieval pipelines wired into your existing product.",
+    pitch: "LLM features that work on real data — vector search, agents, retrieval pipelines.",
     tags: ["LangChain", "Gemini / OpenAI", "pgvector / Atlas"],
     iconPaths: [
       "M12 2v4",
@@ -36,8 +33,7 @@ const services = [
   },
   {
     title: "Technical Advisory",
-    pitch:
-      "Code review, architecture review, hire-a-senior-for-a-week. Async over calls, paid by the day, fixed scope.",
+    pitch: "Architecture reviews, hire-a-senior-for-a-week. Async, fixed scope.",
     tags: ["async", "paid", "fixed scope"],
     iconPaths: [
       "M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 8.5-8.5 8.5 8.5 0 0 1 8.5 8.5z",
@@ -48,10 +44,11 @@ const services = [
 
 <section id="services" class="pk-section">
   <div class="pk-section__inner">
-    <Eyebrow n="01" label="What I build" />
-    <h2 class="pk-h2">
-      Work I take on for <span class="gradient-text">funded teams</span>.
-    </h2>
+    <div class="pk-sechead">
+      <Eyebrow n="01" label="What I build" />
+      <span class="pk-h2-ghost" aria-hidden="true">Services</span>
+      <h2 class="pk-h2">What I build.</h2>
+    </div>
 
     <div class="pk-grid-2">
       {

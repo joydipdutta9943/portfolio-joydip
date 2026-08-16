@@ -1,70 +1,155 @@
 ---
+import Button from "../react/Button";
 import Eyebrow from "../ui/Eyebrow.astro";
-import SocialIcon from "../ui/SocialIcon.astro";
 import CopyEmailButton from "../react/CopyEmailButton";
 ---
 
 <section id="contact" class="pk-section" style="text-align: center;">
-  <div class="radial-glow-v2" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+  <div class="pk-scene-layer pk-scene-layer--contact" aria-hidden="true"></div>
 
-  <div class="pk-section__inner" style="max-width: 720px;">
-    <Eyebrow n="05" label="Start a project" />
-
-    <h2
-      class="pk-h2"
-      style="max-width: 100%; margin: 0 auto 24px; font-size: clamp(40px, 3vw + 20px, 64px);"
-    >
-      Have something <span class="gradient-text">hard to build?</span>
-    </h2>
-
-    <p
-      style="color: var(--color-fg-body); font-size: 18px; line-height: 1.6; max-width: 560px; margin: 0 auto 40px;"
-    >
-      I take a couple of side projects at a time outside of my day job. Best fit: funded startups,
-      real products shipping or close to it, scoped work under ~3 months, async-friendly. Send me
-      what you're building and I'll reply within 24 hours.
-    </p>
-
-    <CopyEmailButton client:load />
+  <div class="pk-section__inner" style="max-width: 980px;">
+    <div class="pk-sechead" style="margin-bottom: 40px;">
+      <Eyebrow n="05" label="Start a project" />
+      <span class="pk-h2-ghost" aria-hidden="true">Contact</span>
+      <h2 class="pk-h2" style="font-size: clamp(40px, 3vw + 20px, 64px);">
+        Have something <span class="gradient-text">hard to build?</span>
+      </h2>
+    </div>
 
     <div
-      class="pk-social-row"
-      style="margin-top: 36px; display: flex; justify-content: center; gap: 20px; color: var(--color-fg-muted); font-size: 13px;"
+      class="pk-card"
+      style="padding: 48px 32px; border-radius: var(--radius-2xl); text-align: center;"
     >
-      <a
-        href="https://github.com/joydipdutta9943"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="GitHub"
-        style="display: inline-flex; align-items: center; gap: 8px; transition: color .2s var(--ease);"
+      <p
+        style="color: var(--color-fg-body); font-size: 17px; line-height: 1.6; max-width: 560px; margin: 0 auto 40px;"
       >
-        <SocialIcon name="github" size={16} />
-        <span>GitHub</span>
-      </a>
-      <a
-        href="https://www.linkedin.com/in/joydip-dutta-569428141/"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="LinkedIn"
-        style="display: inline-flex; align-items: center; gap: 8px; transition: color .2s var(--ease);"
-      >
-        <SocialIcon name="linkedin" size={16} />
-        <span>LinkedIn</span>
-      </a>
-      <a
-        href="mailto:joydip.dutta9943@gmail.com"
-        aria-label="Email"
-        style="display: inline-flex; align-items: center; gap: 8px; transition: color .2s var(--ease);"
-      >
-        <SocialIcon name="mail" size={16} />
-        <span>Email</span>
-      </a>
+        I take a couple of side projects at a time. Funded startups, real products, scoped under ~3
+        months. I reply within 24 hours.
+      </p>
+
+      <div class="pk-tiles">
+        <div class="pk-tile">
+          <span class="pk-tile__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path>
+              <path d="m22 6-10 7L2 6"></path>
+            </svg>
+          </span>
+          <h3 class="pk-tile__title">Get in touch</h3>
+          <p class="pk-tile__body">joydip.dutta9943@gmail.com</p>
+          <CopyEmailButton client:visible label="Send email" />
+        </div>
+
+        <div class="pk-tile">
+          <span class="pk-tile__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 8.5-8.5 8.5 8.5 0 0 1 8.5 8.5z"
+              ></path>
+            </svg>
+          </span>
+          <h3 class="pk-tile__title">Project inquiry</h3>
+          <p class="pk-tile__body">Have a brief? Send scope and timeline.</p>
+          <Button
+            client:visible
+            href="mailto:joydip.dutta9943@gmail.com?subject=Project%20inquiry"
+            icon="mail"
+          >
+            Contact me
+          </Button>
+        </div>
+
+        <div class="pk-tile">
+          <span class="pk-tile__icon" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </span>
+          <h3 class="pk-tile__title">Availability</h3>
+          <p class="pk-tile__body">Async-friendly · IST · remote</p>
+          <Button
+            client:visible
+            href="https://www.linkedin.com/in/joydip-dutta-569428141/"
+            external
+          >
+            LinkedIn
+          </Button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .pk-social-row a:hover {
+  .pk-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .pk-tile {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .pk-tile__icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--color-fg);
+    margin-bottom: 6px;
+  }
+  .pk-tile__icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .pk-tile__title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-fg);
+    margin: 0;
+  }
+  .pk-tile__body {
+    font-size: 13.5px;
+    color: var(--color-fg-muted);
+    margin: 0 0 14px;
+  }
+  @media (max-width: 767px) {
+    .pk-tiles {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

@@ -1,69 +1,35 @@
 ---
 import { getCollection } from "astro:content";
-import Chips from "../ui/Chips.astro";
 import Eyebrow from "../ui/Eyebrow.astro";
+import ProjectCarousel from "../react/ProjectCarousel";
 
-const allProjects = await getCollection("projects");
-const sorted = allProjects.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
-const featured = sorted.filter((p) => p.data.image).slice(0, 2);
-const smaller = sorted.filter((p) => !p.data.image).slice(0, 3);
+const all = await getCollection("projects");
+const sorted = all.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+const projects = sorted.map((p, i) => ({
+  id: p.id,
+  title: p.data.title,
+  description: p.data.description,
+  techStack: p.data.techStack,
+  image: p.data.image,
+  category: p.data.category,
+  featured: i < 5,
+}));
 ---
 
 <section id="work" class="pk-section">
+  <div class="pk-scene-layer pk-scene-layer--glow" aria-hidden="true"></div>
   <div class="pk-section__inner">
-    <Eyebrow n="02" label="Selected work" />
-    <h2 class="pk-h2">Production systems, not demos.</h2>
-
-    <div class="pk-grid-2">
-      {
-        featured.map((p) => (
-          <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
-            <div class="pk-proj__img">
-              <img
-                src={p.data.image}
-                alt={`${p.data.title} — case study cover`}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-            <div class="pk-proj__body" style="padding: 26px 28px;">
-              <h3 class="pk-proj__title" style="font-size: 20px; margin-bottom: 10px;">
-                {p.data.title}
-              </h3>
-              <p class="pk-proj__desc" style="font-size: 15px; margin-bottom: 20px;">
-                {p.data.description}
-              </p>
-              <Chips items={p.data.techStack} max={4} chipClass="pk-chip--lg" />
-            </div>
-          </a>
-        ))
-      }
+    <div class="pk-sechead">
+      <Eyebrow n="02" label="Selected work" />
+      <span class="pk-h2-ghost" aria-hidden="true">Work</span>
+      <h2 class="pk-h2">Production systems, not demos.</h2>
     </div>
 
-    <div class="pk-grid-3" style="margin-top: 16px;">
-      {
-        smaller.map((p) => (
-          <a href={`/projects/${p.id}`} class="pk-proj" data-astro-prefetch>
-            <div class="pk-proj__body" style="padding: 22px 24px;">
-              <h3 class="pk-proj__title" style="font-size: 17px; margin-bottom: 8px;">
-                {p.data.title}
-              </h3>
-              <p class="pk-proj__desc">{p.data.description}</p>
-              <Chips items={p.data.techStack} max={3} chipClass="pk-chip--lg" />
-            </div>
-          </a>
-        ))
-      }
-    </div>
+    <ProjectCarousel client:visible projects={projects} />
 
-    <div style="margin-top: 40px; display: flex; justify-content: flex-end;">
-      <a
-        href="/projects"
-        class="pk-nav__link"
-        style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: .12em;"
-        data-astro-prefetch
-      >
-        View all {sorted.length} projects →
+    <div style="margin-top: 40px; display: flex; justify-content: center;">
+      <a href="/projects" class="pk-btn pk-btn--ghost" data-astro-prefetch>
+        See all {sorted.length} projects
       </a>
     </div>
   </div>

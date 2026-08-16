@@ -27,10 +27,10 @@
   --color-border: rgba(255, 255, 255, 0.06);
   --color-border-strong: rgba(255, 255, 255, 0.12);
 
-  /* Accent (duotone) */
+  /* Accent (violet + lavender; silver metal for CTAs) */
   --color-accent: #7c5cff;
-  --color-accent-from: #7c5cff;
-  --color-accent-to: #22d3ee;
+  --color-accent-from: #8b7cff;
+  --color-accent-to: #c4b5fd;
 
   /* Fonts */
   --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
@@ -41,8 +41,9 @@
   /* Radii */
   --radius-sm: 6px;
   --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
 
   /* Letter spacing (utilities: tracking-tightest/tighter/tight) */
   --tracking-tightest: -0.045em;
@@ -63,10 +64,12 @@
   --shadow-inset-hi: inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --shadow-card-hover:
     0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 60px -24px rgba(124, 92, 255, 0.28);
-  --shadow-btn-primary:
-    0 0 0 1px rgba(255, 255, 255, 0.1), 0 14px 40px -12px rgba(124, 92, 255, 0.55);
+  --shadow-btn-primary: 0 0 0 1px rgba(255, 255, 255, 0.14), 0 10px 30px -10px rgba(0, 0, 0, 0.6);
   --shadow-btn-primary-hover:
-    0 0 0 1px rgba(255, 255, 255, 0.16), 0 20px 48px -12px rgba(124, 92, 255, 0.75);
+    0 0 0 1px rgba(255, 255, 255, 0.22), 0 16px 40px -12px rgba(0, 0, 0, 0.7);
+
+  /* Metallic CTA ink */
+  --color-metal-ink: #17171c;
 
   /* Motion — Apple/Linear easing */
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
@@ -75,24 +78,31 @@
   --dur-base: 320ms;
   --dur-slow: 560ms;
 
-  /* Grid texture */
-  --grid-size: 24px;
-  --grid-dot: rgba(255, 255, 255, 0.05);
-
   /* Max widths */
   --max-w-prose: 72ch;
   --max-w-page: 1280px;
 
   /* Gradients (convenience) */
-  --gradient-accent: linear-gradient(
-    100deg,
-    var(--color-accent-from) 0%,
-    var(--color-accent-to) 100%
-  );
+  --gradient-accent: linear-gradient(100deg, #fafafa 0%, #c4b5fd 55%, #8b7cff 100%);
   --gradient-accent-soft: linear-gradient(
     100deg,
-    rgba(124, 92, 255, 0.15) 0%,
-    rgba(34, 211, 238, 0.15) 100%
+    rgba(139, 124, 255, 0.15) 0%,
+    rgba(196, 181, 253, 0.15) 100%
+  );
+  --gradient-metal: linear-gradient(180deg, #eceef2 0%, #c8ccd6 55%, #9ca0ab 100%);
+  --gradient-ghost-heading: linear-gradient(
+    180deg,
+    rgba(196, 181, 253, 0.34) 0%,
+    rgba(124, 92, 255, 0.08) 100%
+  );
+
+  /* Gradient scenes (section atmosphere) */
+  --scene-hero: radial-gradient(900px 600px at 50% -10%, rgba(76, 56, 180, 0.55), transparent 70%);
+  --scene-glow: radial-gradient(1200px 800px at 50% 50%, rgba(96, 66, 220, 0.38), transparent 75%);
+  --scene-contact: radial-gradient(
+    1100px 700px at 50% 55%,
+    rgba(96, 66, 220, 0.24),
+    transparent 75%
   );
 }
 

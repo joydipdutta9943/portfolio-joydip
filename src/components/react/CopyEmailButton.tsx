@@ -3,7 +3,7 @@ import Button from "./Button";
 
 const EMAIL = "joydip.dutta9943@gmail.com";
 
-export default function CopyEmailButton() {
+export default function CopyEmailButton({ label = EMAIL }: { label?: string }) {
   const [copied, setCopied] = useState(false);
 
   const onClick = () => {
@@ -20,5 +20,14 @@ export default function CopyEmailButton() {
       });
   };
 
-  return <Button onClick={onClick}>{copied ? "Copied to clipboard ✓" : EMAIL}</Button>;
+  return (
+    <>
+      <Button onClick={onClick} icon="mail">
+        {copied ? "Copied ✓" : label}
+      </Button>
+      <span className="sr-only" role="status">
+        {copied ? "Email copied to clipboard" : ""}
+      </span>
+    </>
+  );
 }

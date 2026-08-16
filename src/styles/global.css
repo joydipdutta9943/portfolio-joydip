@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./tokens.css";
 @import "./kit.css";
+@import "./carousel.css";
 
 @import "@fontsource/geist-sans/400.css";
 @import "@fontsource/geist-sans/500.css";
@@ -19,11 +20,6 @@
 
 @utility gradient-fill {
   background: var(--gradient-accent);
-}
-
-@utility dotted-bg {
-  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
-  background-size: var(--grid-size) var(--grid-size);
 }
 
 @utility card-surface {

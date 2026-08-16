@@ -1,0 +1,78 @@
+---
+const items = [
+  "Product Engineering",
+  "Backend Architecture",
+  "AI & RAG Systems",
+  "Fintech Platforms",
+  "Technical Advisory",
+];
+---
+
+<div class="pk-marquee" aria-hidden="true">
+  <div class="pk-marquee__track">
+    {
+      [0, 1].map(() => (
+        <div class="pk-marquee__group">
+          {items.map((t) => (
+            <span class="pk-marquee__item">
+              <span class="pk-marquee__star">✦</span>
+              {t}
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .pk-marquee {
+    position: relative;
+    overflow: hidden;
+    padding: 26px 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    background: linear-gradient(
+      90deg,
+      rgba(96, 66, 220, 0.16),
+      rgba(124, 92, 255, 0.26),
+      rgba(96, 66, 220, 0.16)
+    );
+  }
+  .pk-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: pk-marquee-scroll 36s linear infinite;
+  }
+  .pk-marquee__group {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+  .pk-marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 22px;
+    padding-right: 22px;
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.2vw, 30px);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: var(--gradient-ghost-heading);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .pk-marquee__star {
+    background: none;
+    -webkit-text-fill-color: rgba(196, 181, 253, 0.45);
+    font-size: 0.8em;
+  }
+  @keyframes pk-marquee-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

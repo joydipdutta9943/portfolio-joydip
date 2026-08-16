@@ -10,12 +10,7 @@ type Props = {
   delayOffset?: number;
 };
 
-export default function RevealWords({
-  text,
-  segments,
-  className = "",
-  delayOffset = 0,
-}: Props) {
+export default function RevealWords({ text, segments, className = "", delayOffset = 0 }: Props) {
   const [ref, inView] = useInView<HTMLSpanElement>({ threshold: 0.2, once: true });
   const reduced = usePrefersReducedMotion();
   const visible = reduced ? true : inView;
@@ -44,11 +39,7 @@ export default function RevealWords({
           .filter(Boolean)
           .join(" ");
         return (
-          <span
-            key={i}
-            className={cls}
-            style={{ transitionDelay: `${delayOffset + i * 55}ms` }}
-          >
+          <span key={i} className={cls} style={{ transitionDelay: `${delayOffset + i * 55}ms` }}>
             {entry.word}
             {entry.addSpace ? "\u00a0" : ""}
           </span>

@@ -20,7 +20,12 @@ import Button from "../react/Button";
       <Button client:load size="sm" href="/#contact">Start a project</Button>
     </div>
 
-    <button id="mobile-menu-btn" class="pk-mobile-toggle" type="button" aria-label="Toggle navigation menu">
+    <button
+      id="mobile-menu-btn"
+      class="pk-mobile-toggle"
+      type="button"
+      aria-label="Toggle navigation menu"
+    >
       <span class="pk-mobile-toggle__line"></span>
       <span class="pk-mobile-toggle__line"></span>
       <span class="pk-mobile-toggle__line"></span>
@@ -37,14 +42,30 @@ import Button from "../react/Button";
       </div>
 
       <div class="pk-mobile-menu__actions">
-        <button id="mobile-nav-cmdk" class="pk-mobile-cmdk" type="button" aria-label="Open command palette">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="pk-mobile-search-icon" aria-hidden="true">
+        <button
+          id="mobile-nav-cmdk"
+          class="pk-mobile-cmdk"
+          type="button"
+          aria-label="Open command palette"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="pk-mobile-search-icon"
+            aria-hidden="true"
+          >
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.3-4.3"></path>
           </svg>
           Search palette
         </button>
-        <Button client:load href="/#contact" className="w-full justify-center">Start a project</Button>
+        <Button client:load href="/#contact" className="w-full justify-center"
+          >Start a project</Button
+        >
       </div>
     </div>
   </div>

@@ -5,39 +5,49 @@ import CountUpStat from "../react/CountUpStat";
 import StatusPill from "../ui/StatusPill.astro";
 
 const stats = [
-  { value: "3+", label: "yrs shipping" },
+  { value: "3+", label: "years shipping" },
   { value: "30k+", label: "users served" },
-  { value: "99.9%", label: "uptime SLA" },
+  { value: "99.9%", label: "uptime in prod" },
   { value: "12+", label: "projects shipped" },
 ];
 
-const heroSegments = [
-  { text: "Senior engineer shipping" },
-  { text: "production systems", className: "gradient-text" },
-  { text: "for funded startups." },
-];
+const heroSegments = [{ text: "Hi, I'm" }, { text: "Joydip", className: "gradient-text" }];
 ---
 
 <section id="top" class="pk-section pk-hero" style="padding: 0 24px;">
-  <div class="radial-glow-v2" style="top: -220px; left: 50%; transform: translateX(-50%);"></div>
+  <div class="pk-scene-layer pk-scene-layer--hero" aria-hidden="true"></div>
 
-  <div class="pk-section__inner" style="padding: 140px 0 96px;">
-    <StatusPill>Currently employed · Taking select side projects</StatusPill>
+  <div class="pk-section__inner" style="padding: 150px 0 80px; width: 100%;">
+    <StatusPill>Open to select side projects</StatusPill>
 
     <h1 class="pk-hero__title">
       <RevealWords client:load segments={heroSegments} />
     </h1>
 
+    <p class="pk-hero__role">Product Engineer · Backend, AI &amp; Fintech</p>
+
     <p class="pk-hero__sub">
-      I ship backends, SaaS platforms, and AI features that hold up in production. Previously built
-      a fintech wealth platform serving 30k users and a RAG system on unstructured data for
-      enterprise search.
+      ~ I build backends, SaaS platforms &amp; AI systems that hold up in production ~
     </p>
 
     <div class="pk-hero__actions">
       <Button client:load href="/#contact">Start a project</Button>
-      <Button client:load variant="ghost" href="/#work">See case studies</Button>
+      <Button client:load variant="ghost" href="/#work">See my work</Button>
     </div>
+
+    <a href="/#work" class="pk-scrolldown" aria-label="Scroll to work section">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m6 9 6 6 6-6"></path>
+      </svg>
+    </a>
 
     <div class="pk-stats">
       {stats.map((s) => <CountUpStat client:visible value={s.value} label={s.label} />)}

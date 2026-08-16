@@ -7,27 +7,30 @@ const steps = [
     n: "01",
     dur: "1 week",
     title: "Discovery",
-    body: "We pin down the product, the constraints, and the bar. I scope the build, flag the risky parts, and tell you what's hard. If it's not a fit, I'll say so.",
+    body: "We pin down the product, the constraints, and the bar. If it's not a fit, I'll say so.",
   },
   {
     n: "02",
     dur: "1–2 weeks",
     title: "Architecture",
-    body: "Data model, API contract, infra plan. You review and approve before a line of production code is written. Surprises get expensive later.",
+    body: "Data model, API contract, infra plan — approved before any production code.",
   },
   {
     n: "03",
     dur: "4–12 weeks",
     title: "Build & ship",
-    body: "Weekly demos, continuous deploys, your team owns the code from day one. I work in your repo, your branch conventions, your review process.",
+    body: "Weekly demos, continuous deploys. Your repo, your conventions, your code.",
   },
 ];
 ---
 
 <section id="process" class="pk-section">
   <div class="pk-section__inner">
-    <Eyebrow n="03" label="How I work" />
-    <h2 class="pk-h2">Predictable process. No surprises.</h2>
+    <div class="pk-sechead">
+      <Eyebrow n="03" label="How I work" />
+      <span class="pk-h2-ghost" aria-hidden="true">Process</span>
+      <h2 class="pk-h2">Predictable. No surprises.</h2>
+    </div>
 
     <div class="pk-grid-3 pk-process-grid">
       {

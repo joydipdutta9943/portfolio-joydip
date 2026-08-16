@@ -1,0 +1,175 @@
+/* ProjectCarousel — tabs + center-focus stage (desktop), snap-scroll (mobile) */
+.pk-carousel__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto 44px;
+  overflow-x: auto;
+}
+.pk-carousel__tab {
+  border: none;
+  background: transparent;
+  color: var(--color-fg-muted);
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s var(--ease);
+}
+.pk-carousel__tab:hover {
+  color: var(--color-fg);
+}
+.pk-carousel__tab.is-active {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-fg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.pk-carousel__tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.pk-carousel__stage {
+  position: relative;
+  height: 520px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  touch-action: pan-y;
+  overflow-x: clip;
+}
+.pk-ccard {
+  position: absolute;
+  top: 0;
+  width: min(560px, 90%);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  transition:
+    transform 0.5s var(--ease),
+    opacity 0.5s var(--ease);
+}
+.pk-ccard:hover {
+  border-color: var(--color-border-strong);
+}
+.pk-ccard:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+.pk-ccard__img {
+  display: block;
+  aspect-ratio: 16 / 9;
+  background: var(--color-surface-raised);
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+}
+.pk-ccard__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pk-ccard__img--empty {
+  background:
+    radial-gradient(400px 200px at 50% 0%, rgba(124, 92, 255, 0.25), transparent 70%),
+    var(--color-surface-raised);
+}
+.pk-ccard__body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 26px;
+  text-align: left;
+}
+.pk-ccard__title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--color-fg);
+  letter-spacing: var(--tracking-tight);
+}
+.pk-ccard__desc {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--color-fg-body);
+}
+.pk-ccard__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.pk-carousel__ctrls {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 20;
+}
+.pk-carousel__ctrls button {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: rgba(13, 13, 17, 0.7);
+  color: var(--color-fg);
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s var(--ease);
+}
+.pk-carousel__ctrls button:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+  background: rgba(255, 255, 255, 0.06);
+}
+.pk-carousel__ctrls button[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: default;
+}
+.pk-carousel__count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-fg-muted);
+  letter-spacing: 0.1em;
+}
+
+/* Mobile: horizontal snap-scroll. Both layouts are in the DOM; media queries pick one,
+   so the server-rendered HTML is correct at every viewport width without JS. */
+.pk-carousel__scroll {
+  display: none;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+.pk-carousel__scroll .pk-ccard--flat {
+  position: static;
+  flex: 0 0 84%;
+  scroll-snap-align: center;
+}
+@media (max-width: 767px) {
+  .pk-carousel__scroll {
+    display: flex;
+  }
+  .pk-carousel__stage {
+    display: none;
+  }
+}

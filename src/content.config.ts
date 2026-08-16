@@ -7,6 +7,7 @@ const projects = defineCollection({
     title: z.string(),
     description: z.string(),
     techStack: z.array(z.string()),
+    category: z.enum(["fintech", "ai", "saas"]).optional(),
     order: z.number().optional(),
     image: z.string().optional(),
     publishedDate: z.coerce.date().optional(),

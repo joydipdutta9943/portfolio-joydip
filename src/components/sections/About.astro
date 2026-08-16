@@ -1,59 +1,11 @@
 ---
-import Card from "../react/Card";
-import Chips from "../ui/Chips.astro";
+import Button from "../react/Button";
 import Eyebrow from "../ui/Eyebrow.astro";
-
-type StackColor = "violet" | "cyan" | "amber" | "emerald";
-
-const stacks: { heading: string; items: string[]; color: StackColor; tone: string }[] = [
-  {
-    heading: "Languages & Frameworks",
-    color: "violet",
-    tone: "#a78bfa",
-    items: [
-      "TypeScript",
-      "Go (Fiber)",
-      "Bun",
-      "Python",
-      "Node.js",
-      "GraphQL",
-      "React",
-      "Next.js",
-      "Astro",
-    ],
-  },
-  {
-    heading: "Databases & Storage",
-    color: "cyan",
-    tone: "#22d3ee",
-    items: [
-      "PostgreSQL",
-      "MongoDB",
-      "ClickHouse",
-      "Redis",
-      "DynamoDB",
-      "Prisma",
-      "Drizzle",
-      "AWS S3",
-    ],
-  },
-  {
-    heading: "Infrastructure & Security",
-    color: "amber",
-    tone: "#fbbf24",
-    items: ["Docker", "Kubernetes", "BullMQ", "AWS (SQS, SES)", "AES-256-GCM", "HMAC"],
-  },
-  {
-    heading: "AI & Search",
-    color: "emerald",
-    tone: "#34d399",
-    items: ["LangChain", "Google Gemini", "OpenAI", "pgvector", "MongoDB Atlas Vector", "RAG"],
-  },
-];
+import TechIconGrid from "../ui/TechIconGrid.astro";
 
 const previouslyAt = [
   {
-    role: "Software Development Engineer",
+    role: "Senior Software Development Engineer",
     company: "Gunpowder Innovations",
     location: "London, UK · Remote",
     years: "Jan 2026 — Present",
@@ -74,118 +26,75 @@ const previouslyAt = [
 ---
 
 <section id="about" class="pk-section">
-  <div class="pk-section__inner">
-    <Eyebrow n="04" label="About" />
-    <h2 class="pk-h2">Hi, I'm Joydip.</h2>
+  <div class="pk-scene-layer pk-scene-layer--glow" aria-hidden="true"></div>
+  <div
+    class="pk-section__inner"
+    style="display: flex; flex-direction: column; align-items: center;"
+  >
+    <div class="pk-sechead">
+      <Eyebrow n="04" label="About" />
+      <span class="pk-h2-ghost" aria-hidden="true">About</span>
+      <h2 class="pk-h2">Hi, I'm Joydip.</h2>
+    </div>
 
     <div
-      style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start;"
-      class="pk-about-grid"
+      class="pk-card"
+      style="max-width: 720px; width: 100%; text-align: center; padding: 40px; border-radius: var(--radius-2xl);"
     >
-      {/* Left column — bio paragraphs + previously at */}
-      <div style="display: flex; flex-direction: column; gap: 24px;">
-        <div
-          style="max-width: 640px; display: flex; flex-direction: column; gap: 22px; font-size: 17px; line-height: 1.75; color: var(--color-fg-body); letter-spacing: -0.005em;"
-        >
-          <p style="margin: 0;">
-            I'm a senior engineer who takes on full-stack product builds for funded startups. My
-            work sits at the boundary of backend systems and product — the parts that decide
-            whether something actually ships and holds up in production.
-          </p>
-          <p style="margin: 0;">
-            Over the last three-plus years I've built a fintech wealth platform serving 30k users,
-            a multi-modal RAG system doing natural-language search over unstructured enterprise
-            data, and a handful of polyglot microservice backends. I write TypeScript and Go for
-            most things, Python when the ML work demands it.
-          </p>
-          <p style="margin: 0;">
-            I work async, keep scope honest, and don't chase frameworks. If you're a funded startup
-            with something real to build, the contact section is below.
-          </p>
-        </div>
-
-        <div style="margin-top: 28px; max-width: 640px;">
-          <div
-            style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-fg-subtle); margin-bottom: 14px;"
-          >
-            Previously at
-          </div>
-          <ul style="list-style: none; padding: 0; margin: 0;">
-            {
-              previouslyAt.map((r, i) => (
-                <li
-                  style={`display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; padding: 16px 0; ${i < previouslyAt.length - 1 ? "border-bottom: 1px solid var(--color-border);" : ""}`}
-                >
-                  <div>
-                    <div style="color: var(--color-fg); font-size: 16px; font-weight: 500; letter-spacing: var(--tracking-tight);">
-                      {r.role}
-                    </div>
-                    <div style="color: var(--color-fg-body); font-size: 14px; margin-top: 4px;">
-                      {r.company}
-                      <span style="color: var(--color-fg-subtle);"> · {r.location}</span>
-                    </div>
-                  </div>
-                  <span style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; white-space: nowrap; padding-top: 3px;">
-                    {r.years}
-                  </span>
-                </li>
-              ))
-            }
-          </ul>
-          <div style="margin-top: 24px;">
-            <a
-              href="/resume-joydip-dutta.pdf"
-              target="_blank"
-              class="pk-nav__link"
-              style="display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 500;"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                style="width: 14px; height: 14px;"
-                aria-hidden="true"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="7 10 12 15 17 10" />
-                <line x1="12" y1="15" x2="12" y2="3" />
-              </svg>
-              Download resume (PDF)
-            </a>
-          </div>
-        </div>
+      <div
+        style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-fg-subtle); margin-bottom: 16px;"
+      >
+        My introduction
       </div>
+      <p
+        style="margin: 0 0 16px; font-size: 17px; line-height: 1.7; color: var(--color-fg-body); letter-spacing: var(--tracking-tight);"
+      >
+        Product engineer with 3+ years shipping fintech, AI, and SaaS systems — currently building
+        WealthTech at Gunpowder Innovations. TypeScript and Go for most things, Python when the ML
+        demands it.
+      </p>
+      <p style="margin: 0 0 28px; font-size: 16px; color: var(--color-fg-muted);">
+        I work async, keep scope honest, and don't chase frameworks.
+      </p>
+      <div style="display: flex; justify-content: center;">
+        <Button client:visible href="/resume-joydip-dutta.pdf" external icon="download">
+          Download resume
+        </Button>
+      </div>
+    </div>
 
-      {/* Right column — 4 color-tinted skill cards */}
-      <div style="display: flex; flex-direction: column; gap: 16px;">
+    <div style="margin: 56px 0 0; display: flex; flex-direction: column; align-items: center;">
+      <TechIconGrid />
+    </div>
+
+    <div style="margin-top: 64px; max-width: 720px; width: 100%;">
+      <div
+        style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-fg-subtle); margin-bottom: 14px; text-align: center;"
+      >
+        Experience
+      </div>
+      <ul style="list-style: none; padding: 0; margin: 0;">
         {
-          stacks.map((stack) => (
-            <Card client:visible>
-              <div
-                style={`display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: ${stack.tone}; margin-bottom: 14px;`}
-              >
-                <span
-                  aria-hidden="true"
-                  style={`width: 6px; height: 6px; border-radius: 999px; background: ${stack.tone}; box-shadow: 0 0 10px ${stack.tone}66;`}
-                />
-                {stack.heading}
+          previouslyAt.map((r, i) => (
+            <li
+              style={`display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: start; padding: 16px 0; ${i < previouslyAt.length - 1 ? "border-bottom: 1px solid var(--color-border);" : ""}`}
+            >
+              <div>
+                <div style="color: var(--color-fg); font-size: 16px; font-weight: 500; letter-spacing: var(--tracking-tight);">
+                  {r.role}
+                </div>
+                <div style="color: var(--color-fg-body); font-size: 14px; margin-top: 4px;">
+                  {r.company}
+                  <span style="color: var(--color-fg-subtle);"> · {r.location}</span>
+                </div>
               </div>
-              <Chips items={stack.items} chipClass={`pk-chip--lg pk-chip--${stack.color}`} />
-            </Card>
+              <span style="color: var(--color-fg-subtle); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; white-space: nowrap; padding-top: 3px;">
+                {r.years}
+              </span>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </div>
 </section>
-
-<style>
-  @media (max-width: 767px) {
-    .pk-about-grid {
-      grid-template-columns: 1fr !important;
-    }
-  }
-</style>

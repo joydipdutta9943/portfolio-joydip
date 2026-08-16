@@ -7,11 +7,13 @@ const buildIso = __BUILD_TIME__;
 
 <footer class="pk-footer">
   <div class="pk-footer__inner">
-    <span class="pk-footer__copy">© {year} Joydip Dutta</span>
-
-    <span class="pk-footer__deploy" data-build-iso={buildIso}>
-      <span data-deploy-age>recently deployed</span>
-    </span>
+    <div class="pk-footer__brand">
+      <span class="pk-footer__logo">Joydip Dutta</span>
+      <span class="pk-footer__copy">© {year} · Product Engineer</span>
+      <span class="pk-footer__deploy" data-build-iso={buildIso}>
+        <span data-deploy-age>recently deployed</span>
+      </span>
+    </div>
 
     <div class="pk-footer__links">
       <a
@@ -35,6 +37,9 @@ const buildIso = __BUILD_TIME__;
       <a href="mailto:joydip.dutta9943@gmail.com" aria-label="Email">
         <SocialIcon name="mail" />
         <span>Email</span>
+      </a>
+      <a href="/resume-joydip-dutta.pdf" target="_blank">
+        <span>Resume (PDF)</span>
       </a>
     </div>
   </div>
