@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#08080B"/>
+  <rect x="32" y="32" width="1136" height="566" rx="26" fill="#101016" stroke="#312B47" stroke-width="2"/>
+  <path d="M32 478H1168" stroke="#272338" stroke-width="2"/>
+  <g opacity=".7" stroke="#2C273D" stroke-width="1"><path d="M672 89V540M758 89V540M844 89V540M930 89V540M1016 89V540M1102 89V540"/><path d="M620 126H1130M620 212H1130M620 298H1130M620 384H1130M620 470H1130"/></g>
+  <g transform="translate(86 82)">
+    <rect width="62" height="62" rx="17" fill="#0D0D14" stroke="#7568A7" stroke-width="2"/>
+    <path d="M18 16H27V39C27 45 29 48 34 48C39 48 41 45 41 40V34H50V41C50 51 44 56 34 56C24 56 18 50 18 39V16Z" fill="#C9C0FF"/>
+    <circle cx="45" cy="18" r="5" fill="#8B7CFF"/>
+  </g>
+  <text x="168" y="120" fill="#F8F7FF" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700">Joydip Dutta</text>
+  <text x="88" y="240" fill="#F8F7FF" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="700">Product Engineer</text>
+  <text x="88" y="302" fill="#C9C4D5" font-family="Arial, Helvetica, sans-serif" font-size="32">Backend, AI &amp; Fintech</text>
+  <text x="88" y="359" fill="#9590A7" font-family="Arial, Helvetica, sans-serif" font-size="20">Production systems for products that have to hold up.</text>
+  <g transform="translate(88 408)" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700"><rect width="142" height="40" rx="20" fill="#1D1A2C" stroke="#524878"/><text x="20" y="26" fill="#D4CCFF">WealthTech</text><rect x="156" width="104" height="40" rx="20" fill="#1D1A2C" stroke="#524878"/><text x="180" y="26" fill="#D4CCFF">AI / RAG</text><rect x="274" width="150" height="40" rx="20" fill="#1D1A2C" stroke="#524878"/><text x="294" y="26" fill="#D4CCFF">SaaS Systems</text></g>
+  <g transform="translate(650 135)">
+    <circle cx="249" cy="187" r="156" fill="#151225" stroke="#4E4670" stroke-width="2"/>
+    <circle cx="249" cy="187" r="104" fill="none" stroke="#39334F" stroke-width="2"/>
+    <circle cx="249" cy="187" r="52" fill="#211B43" stroke="#A899FF" stroke-width="2"/>
+    <path d="M226 187L243 204L275 170" fill="none" stroke="#E3DEFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M62 91L197 161M84 292L201 213M438 88L301 163M415 286L299 212" stroke="#5C5284" stroke-width="3"/>
+    <g fill="#B9ADFF"><circle cx="197" cy="161" r="7"/><circle cx="201" cy="213" r="7"/><circle cx="301" cy="163" r="7"/><circle cx="299" cy="212" r="7"/></g>
+    <g fill="#181625" stroke="#61588B" stroke-width="2"><rect x="0" y="42" width="126" height="97" rx="12"/><rect x="20" y="242" width="128" height="95" rx="12"/><rect x="371" y="39" width="126" height="98" rx="12"/><rect x="352" y="243" width="128" height="95" rx="12"/></g>
+    <g stroke="#B7ACF4" stroke-width="5" stroke-linecap="round"><path d="M20 110L48 86L72 102L103 66"/><path d="M40 286H111M40 309H91"/><path d="M392 101H471M392 122H444"/><path d="M372 303C401 275 421 324 451 275"/></g>
+  </g>
+  <path d="M88 531H482" stroke="#61588B" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="510" cy="531" r="5" fill="#8B7CFF"/>
+</svg>

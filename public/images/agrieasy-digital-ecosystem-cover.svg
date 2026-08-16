@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#090A0C"/>
+  <rect x="54" y="48" width="1492" height="804" rx="28" fill="#101218" stroke="#303848" stroke-width="2"/>
+  <g opacity=".62"><path d="M54 717C266 642 356 767 579 688C802 609 913 767 1134 692C1302 635 1393 680 1546 625" stroke="#373B4D" stroke-width="2"/><path d="M54 766C266 691 356 816 579 737C802 658 913 816 1134 741C1302 684 1393 729 1546 674" stroke="#373B4D" stroke-width="2"/></g>
+  <g transform="translate(159 151)"><path d="M0 350C128 231 260 220 389 319C521 421 637 372 760 269C906 146 1116 160 1282 277V475H0Z" fill="#171B20" stroke="#58606E" stroke-width="2"/><path d="M0 403C128 284 260 273 389 372C521 474 637 425 760 322C906 199 1116 213 1282 330" stroke="#4B5561" stroke-width="2"/><path d="M0 457C128 338 260 327 389 426C521 528 637 479 760 376C906 253 1116 267 1282 384" stroke="#414A56" stroke-width="2"/>
+    <path d="M96 375C250 307 338 418 479 368C626 316 718 201 865 239C1025 280 1098 225 1209 290" stroke="#A9B5A1" stroke-width="10" stroke-linecap="round"/>
+    <path d="M96 375C250 307 338 418 479 368C626 316 718 201 865 239C1025 280 1098 225 1209 290" stroke="#8B7CFF" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 22"/>
+    <g fill="#C7D0C0"><circle cx="96" cy="375" r="10"/><circle cx="479" cy="368" r="10"/><circle cx="865" cy="239" r="10"/><circle cx="1209" cy="290" r="10"/></g>
+  </g>
+  <g transform="translate(218 185)"><rect width="238" height="150" rx="16" fill="#192019" stroke="#5D705C" stroke-width="2"/><path d="M32 113C57 64 82 125 111 78C143 26 166 100 207 47" stroke="#B9C8B1" stroke-width="6" stroke-linecap="round"/><circle cx="196" cy="48" r="11" fill="#AAB9A4"/></g>
+  <g transform="translate(1115 182)"><rect width="238" height="150" rx="16" fill="#192019" stroke="#5D705C" stroke-width="2"/><path d="M34 44H202M34 75H159M34 106H184" stroke="#9CAB98" stroke-width="9" stroke-linecap="round"/><circle cx="35" cy="123" r="8" fill="#C4B5FD"/><path d="M56 123H124" stroke="#8B7CFF" stroke-width="7" stroke-linecap="round"/></g>
+  <g filter="url(#glow)"><path d="M798 592V735" stroke="#C8C1FF" stroke-width="8" stroke-linecap="round"/><path d="M767 705L798 735L829 705" stroke="#C8C1FF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <defs><filter id="glow" x="733" y="527" width="130" height="273" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="13" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+</svg>

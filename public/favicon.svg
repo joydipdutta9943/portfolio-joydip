@@ -1,19 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#7c5cff"/>
-      <stop offset="50%" stop-color="#3b82f6"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
-    </linearGradient>
-  </defs>
-  <rect width="128" height="128" rx="28" fill="url(#g)"/>
-  <text
-    x="64" y="86"
-    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif"
-    font-weight="800"
-    font-size="54"
-    fill="white"
-    text-anchor="middle"
-    letter-spacing="-2"
-  >JD</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#0D0D14"/>
+  <rect x="2" y="2" width="60" height="60" rx="14" stroke="#7568A7" stroke-width="3"/>
+  <path d="M20 16H29V39C29 45 31 48 36 48C41 48 43 45 43 40V34H52V41C52 51 46 56 36 56C26 56 20 50 20 39V16Z" fill="#C9C0FF"/>
+  <circle cx="47" cy="18" r="5" fill="#8B7CFF"/>
 </svg>
