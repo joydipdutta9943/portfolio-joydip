@@ -173,11 +173,18 @@
    so the server-rendered HTML is correct at every viewport width without JS. */
 .pk-carousel__scroll {
   display: none;
+  /* Positioned so card offsetLeft is measured against the scroller itself — the
+     JS index sync in ProjectCarousel.tsx depends on that coordinate space. */
+  position: relative;
   gap: 14px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 12px;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.pk-carousel__scroll::-webkit-scrollbar {
+  display: none;
 }
 .pk-carousel__scroll .pk-ccard--flat {
   position: static;
@@ -187,8 +194,44 @@
 @media (max-width: 767px) {
   .pk-carousel__scroll {
     display: flex;
+    /* Bleed past the 24px .pk-section padding so cards can sit centred with a
+       symmetric peek instead of being clipped against the section edge. */
+    margin-inline: -24px;
+    padding-inline: 24px;
+    scroll-padding-inline: 24px;
+    /* Same edge treatment as the desktop stage, so the peeking neighbour cards
+       read as "swipe me" rather than as clipped content. */
+    mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 24px,
+      black calc(100% - 24px),
+      transparent 100%
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 0,
+      black 24px,
+      black calc(100% - 24px),
+      transparent 100%
+    );
   }
   .pk-carousel__stage {
     display: none;
+  }
+  /* 4 filters never fit one row on a phone — wrap them instead of clipping the
+     last tabs off the right edge of the scrolling pill. */
+  .pk-carousel__tabs {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 20px;
+    overflow: visible;
+    margin-bottom: 32px;
+  }
+  .pk-carousel__tab {
+    font-size: 13px;
+    padding: 8px 14px;
   }
 }

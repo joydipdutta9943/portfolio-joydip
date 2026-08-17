@@ -25,6 +25,8 @@ import Button from "../react/Button";
       class="pk-mobile-toggle"
       type="button"
       aria-label="Toggle navigation menu"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
     >
       <span class="pk-mobile-toggle__line"></span>
       <span class="pk-mobile-toggle__line"></span>
@@ -73,6 +75,22 @@ import Button from "../react/Button";
 
 <script is:inline>
   (function () {
+    // initNav runs twice on a first load with <ClientRouter /> (inline + astro:page-load),
+    // and again after every view transition. Handlers must therefore bind exactly once per
+    // DOM node — removeEventListener() with a freshly-created closure removes nothing, which
+    // previously left two click handlers on the hamburger so it opened and closed in one tap.
+    let scrollHandler = null;
+
+    function bindOnce(el, type, fn, flag) {
+      if (!el || el.dataset[flag] === "1") return;
+      el.dataset[flag] = "1";
+      el.addEventListener(type, fn);
+    }
+
+    function openCmdPalette() {
+      window.dispatchEvent(new CustomEvent("pk:cmd-open"));
+    }
+
     function initNav() {
       const nav = document.getElementById("site-nav");
       if (!nav) return;
@@ -82,57 +100,61 @@ import Button from "../react/Button";
         else nav.classList.remove("scrolled");
       };
       onScroll();
-      window.removeEventListener("scroll", onScroll);
-      window.addEventListener("scroll", onScroll, { passive: true });
+      // The listener closes over `nav`, which is a new node after each swap — drop the
+      // previous one rather than stacking handlers pointed at a detached element.
+      if (scrollHandler) window.removeEventListener("scroll", scrollHandler);
+      scrollHandler = onScroll;
+      window.addEventListener("scroll", scrollHandler, { passive: true });
 
-      const cmdBtn = document.getElementById("nav-cmdk");
-      if (cmdBtn) {
-        cmdBtn.addEventListener("click", () => {
-          window.dispatchEvent(new CustomEvent("pk:cmd-open"));
-        });
-      }
+      bindOnce(document.getElementById("nav-cmdk"), "click", openCmdPalette, "pkCmdBound");
 
       const toggleBtn = document.getElementById("mobile-menu-btn");
       const mobileMenu = document.getElementById("mobile-menu");
+      if (!toggleBtn || !mobileMenu) return;
 
-      if (toggleBtn && mobileMenu) {
-        const toggleMenu = () => {
-          const isOpen = nav.classList.contains("mobile-open");
-          if (isOpen) {
-            nav.classList.remove("mobile-open");
-            document.body.style.overflow = "";
-          } else {
-            nav.classList.add("mobile-open");
-            document.body.style.overflow = "hidden";
+      const setMenu = (open) => {
+        nav.classList.toggle("mobile-open", open);
+        toggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        document.body.style.overflow = open ? "hidden" : "";
+      };
+
+      // A swap can land mid-open; start every page closed and never leave body scroll locked.
+      setMenu(false);
+
+      bindOnce(
+        toggleBtn,
+        "click",
+        () => setMenu(!nav.classList.contains("mobile-open")),
+        "pkToggleBound"
+      );
+
+      mobileMenu.querySelectorAll(".pk-mobile-menu__link").forEach((link) => {
+        bindOnce(link, "click", () => setMenu(false), "pkCloseBound");
+      });
+
+      bindOnce(
+        document.getElementById("mobile-nav-cmdk"),
+        "click",
+        () => {
+          setMenu(false);
+          openCmdPalette();
+        },
+        "pkMobileCmdBound"
+      );
+
+      if (!document.documentElement.dataset.pkNavKeys) {
+        document.documentElement.dataset.pkNavKeys = "1";
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            const current = document.getElementById("site-nav");
+            const btn = document.getElementById("mobile-menu-btn");
+            if (current && current.classList.contains("mobile-open")) {
+              current.classList.remove("mobile-open");
+              if (btn) btn.setAttribute("aria-expanded", "false");
+              document.body.style.overflow = "";
+            }
           }
-        };
-
-        const closeMenu = () => {
-          nav.classList.remove("mobile-open");
-          document.body.style.overflow = "";
-        };
-
-        // Standard event registration without cloning to avoid reactivity issues on page transitions
-        toggleBtn.removeEventListener("click", toggleMenu);
-        toggleBtn.addEventListener("click", toggleMenu);
-
-        const links = mobileMenu.querySelectorAll(".pk-mobile-menu__link");
-        links.forEach((link) => {
-          link.removeEventListener("click", closeMenu);
-          link.addEventListener("click", closeMenu);
         });
-
-        const mobileCmdBtn = document.getElementById("mobile-nav-cmdk");
-        if (mobileCmdBtn) {
-          mobileCmdBtn.removeEventListener("click", closeMenu);
-          mobileCmdBtn.addEventListener("click", closeMenu);
-
-          const openCmd = () => {
-            window.dispatchEvent(new CustomEvent("pk:cmd-open"));
-          };
-          mobileCmdBtn.removeEventListener("click", openCmd);
-          mobileCmdBtn.addEventListener("click", openCmd);
-        }
       }
     }
 

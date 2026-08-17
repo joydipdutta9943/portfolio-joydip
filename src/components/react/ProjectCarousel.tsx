@@ -26,11 +26,17 @@ export default function ProjectCarousel({ projects }: { projects: CarouselProjec
   const [tab, setTab] = useState<TabKey>("featured");
   const [index, setIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [inView, setInView] = useState(true);
   const reduced = usePrefersReducedMotion();
   const pointerStart = useRef<number | null>(null);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const isInteracting = useRef(false);
+  // Guards the scroll listener from reacting to our own programmatic scrolling.
+  const programmatic = useRef(false);
+  const programmaticTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   const visible = useMemo(
     () => projects.filter((p) => (tab === "featured" ? p.featured : p.category === tab)),
@@ -47,29 +53,81 @@ export default function ProjectCarousel({ projects }: { projects: CarouselProjec
     setIndex((i) => (i === 0 ? visible.length - 1 : i - 1));
   }, [visible.length]);
 
+  // Only auto-slide while the carousel is actually on screen — otherwise the
+  // section keeps advancing (and re-rendering) behind the reader's back.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver((entries) => setInView(entries[0].isIntersecting), {
+      threshold: 0.3,
+    });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   // Auto-slide effect
   useEffect(() => {
-    if (isPaused || reduced || visible.length <= 1) return;
+    if (isPaused || reduced || !inView || visible.length <= 1) return;
 
     const timer = setInterval(() => {
       nextSlide();
     }, AUTO_SLIDE_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [isPaused, reduced, visible.length, nextSlide]);
+  }, [isPaused, reduced, inView, visible.length, nextSlide]);
 
-  // Synchronize mobile scroll position smoothly
+  // Synchronize the mobile scroller to `index`. Scroll the container itself rather
+  // than calling scrollIntoView() — that walks every scrollable ancestor including
+  // the document, so each auto-slide tick yanked the page vertically to the carousel.
   useEffect(() => {
-    if (!scrollRef.current || isInteracting.current) return;
-    const cardEl = scrollRef.current.children[index] as HTMLElement | undefined;
-    if (cardEl) {
-      cardEl.scrollIntoView({
-        behavior: reduced ? "auto" : "smooth",
-        inline: "center",
-        block: "nearest",
-      });
-    }
-  }, [index, reduced]);
+    const el = scrollRef.current;
+    // offsetParent is null while the mobile layout is display:none (desktop widths).
+    if (!el || el.offsetParent === null || isInteracting.current) return;
+    const cardEl = el.children[index] as HTMLElement | undefined;
+    if (!cardEl) return;
+
+    const target = cardEl.offsetLeft + cardEl.offsetWidth / 2 - el.clientWidth / 2;
+    if (Math.abs(el.scrollLeft - target) < 2) return;
+
+    programmatic.current = true;
+    if (programmaticTimer.current) clearTimeout(programmaticTimer.current);
+    programmaticTimer.current = setTimeout(() => {
+      programmatic.current = false;
+    }, 700);
+
+    el.scrollTo({ left: target, behavior: reduced ? "auto" : "smooth" });
+  }, [index, reduced, visible.length]);
+
+  useEffect(
+    () => () => {
+      if (programmaticTimer.current) clearTimeout(programmaticTimer.current);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    },
+    []
+  );
+
+  // Keep `index` in step with manual swipes so the next auto-slide continues from
+  // where the reader left off instead of snapping back.
+  const onScrollSync = useCallback(() => {
+    if (programmatic.current || rafRef.current !== null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      const el = scrollRef.current;
+      if (!el || el.offsetParent === null) return;
+      const center = el.scrollLeft + el.clientWidth / 2;
+      let nearest = 0;
+      let best = Infinity;
+      for (let i = 0; i < el.children.length; i++) {
+        const card = el.children[i] as HTMLElement;
+        const dist = Math.abs(card.offsetLeft + card.offsetWidth / 2 - center);
+        if (dist < best) {
+          best = dist;
+          nearest = i;
+        }
+      }
+      setIndex((prev) => (prev === nearest ? prev : nearest));
+    });
+  }, []);
 
   const selectTab = (key: TabKey) => {
     setTab(key);
@@ -114,6 +172,7 @@ export default function ProjectCarousel({ projects }: { projects: CarouselProjec
 
   return (
     <div
+      ref={rootRef}
       className="pk-carousel"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -147,7 +206,13 @@ export default function ProjectCarousel({ projects }: { projects: CarouselProjec
         <div
           ref={scrollRef}
           className="pk-carousel__scroll"
-          onTouchStart={() => setIsPaused(true)}
+          onScroll={onScrollSync}
+          onTouchStart={() => {
+            // A finger beats an in-flight programmatic scroll.
+            programmatic.current = false;
+            if (programmaticTimer.current) clearTimeout(programmaticTimer.current);
+            setIsPaused(true);
+          }}
           onTouchEnd={() => setIsPaused(false)}
         >
           {visible.map((p) => (
